@@ -2,6 +2,47 @@ import { register } from "node:module";
 import { pathToFileURL } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
+import http from "node:http";
+
+// Intercept static assets so CSS, JS, and font bundles are ALWAYS served directly with 200 OK
+const originalCreateServer = http.createServer;
+http.createServer = function (...args) {
+  const server = originalCreateServer.apply(this, args);
+  server.prependListener("request", (req, res) => {
+    if (req.url && req.url.startsWith("/assets/")) {
+      const cleanPath = req.url.split("?")[0].replace(/^\/assets\//, "");
+      const candidatePaths = [
+        path.resolve(process.cwd(), "dist", "client", "assets", cleanPath),
+        path.resolve(process.cwd(), "dist", "assets", cleanPath),
+        path.resolve(process.cwd(), "assets", cleanPath),
+        path.resolve(process.cwd(), "public", "assets", cleanPath),
+      ];
+      for (const filePath of candidatePaths) {
+        if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+          const ext = path.extname(filePath).toLowerCase();
+          const mimeTypes = {
+            ".css": "text/css; charset=utf-8",
+            ".js": "application/javascript; charset=utf-8",
+            ".mjs": "application/javascript; charset=utf-8",
+            ".svg": "image/svg+xml",
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".woff2": "font/woff2",
+            ".woff": "font/woff",
+            ".map": "application/json",
+          };
+          res.writeHead(200, {
+            "Content-Type": mimeTypes[ext] || "application/octet-stream",
+            "Cache-Control": "public, max-age=31536000, immutable",
+          });
+          fs.createReadStream(filePath).pipe(res);
+          return;
+        }
+      }
+    }
+  });
+  return server;
+};
 
 // 1. Register ESM loader so `cloudflare:workers` resolves cleanly in pure Node.js
 register("./server/cloudflare-loader.mjs", pathToFileURL("./"));
