@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>راهنمای توسعه داشبورد بازاریابی مستقیماً با ChatGPT</title>
+  <title>راهنمای توسعه داشبورد بازاریابی با ChatGPT و انتشار خودکار</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,8 +14,8 @@
       --card-border: #1f2937;
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
@@ -49,9 +49,9 @@
     .badge {
       display: inline-block;
       padding: 6px 16px;
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      color: #60a5fa;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
       border-radius: 9999px;
       font-size: 13px;
       font-weight: 700;
@@ -63,21 +63,38 @@
       margin-bottom: 10px;
       color: #fff;
     }
-    .repo-link {
+    .links-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .site-link, .repo-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #1e293b;
-      border: 1px solid #475569;
+      padding: 10px 18px;
       border-radius: 12px;
-      color: #38bdf8;
       text-decoration: none;
       font-weight: 600;
-      direction: ltr;
-      font-size: 14px;
+      font-size: 13.5px;
       transition: all 0.2s;
+    }
+    .site-link {
+      background: #065f46;
+      border: 1px solid #10b981;
+      color: #a7f3d0;
+    }
+    .site-link:hover {
+      background: #047857;
+      transform: translateY(-2px);
+    }
+    .repo-link {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #38bdf8;
+      direction: ltr;
     }
     .repo-link:hover {
       background: #334155;
@@ -171,17 +188,27 @@
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 12px;
-      padding: 14px 18px;
+      padding: 15px 18px;
     }
     .flow-step .step-badge {
       background: #0284c7;
       color: white;
       font-size: 12px;
       font-weight: 700;
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 6px;
       white-space: nowrap;
       margin-top: 2px;
+    }
+    .highlight-box {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+      color: #6ee7b7;
+      font-size: 14px;
+      line-height: 1.8;
     }
     .red-lines {
       background: rgba(239, 68, 68, 0.08);
@@ -205,35 +232,65 @@
   <div class="container">
 
     <header>
-      <span class="badge">جریان کار ۱۰۰٪ خودکار با ChatGPT</span>
+      <span class="badge">🚀 سیستم انتشار خودکار (CI/CD) فعال است</span>
       <h1>راهنمای ساده توسعه داشبورد برای همکار</h1>
-      <p>بدون نیاز به نصب نرم‌افزار، بدون کدنویسی و بدون دستورات پیچیده — فقط با چت کردن!</p>
-      <div>
+      <p>توسعه ۱۰۰٪ از طریق گفتگو با ChatGPT و انتشار زنده روی سرور در کمتر از ۲۰ ثانیه!</p>
+      
+      <div class="links-row">
+        <a href="https://dash.donyagardi.com" target="_blank" class="site-link">
+          <span>🌐 مشاهده سایت لایو: dash.donyagardi.com</span>
+        </a>
         <a href="https://github.com/thinktank021-ai/Marketin-Dash" target="_blank" class="repo-link">
-          <span>📦 ریپازیتوری رسمی: thinktank021-ai/Marketin-Dash</span>
+          <span>📦 گیت‌هاب: thinktank021-ai/Marketin-Dash</span>
         </a>
       </div>
     </header>
 
-    <!-- کارت ۱: قانون چت نو -->
+    <!-- کارت ۱: فرآیند خودکار -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">⚡</span>
+        <span>تغییرات شما چگونه خودکار روی سایت می‌نشیند؟</span>
+      </div>
+      <p>هیچ نیازی به ورود به سی‌پنل، نوشتن دستور، آپلود فایل یا کپی‌پیست ندارید! چرخه به این شکل کار می‌کند:</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="step-badge">مرحله ۱</span>
+          <div>در چت‌جی‌پی‌تی کار را می‌گویید و او کد را اصلاح می‌کند.</div>
+        </div>
+        <div class="flow-step">
+          <span class="step-badge">مرحله ۲</span>
+          <div>به چت‌جی‌پی‌تی می‌گویید تغییرات را روی گیت‌هاب کامیت کند و <strong>Pull Request (PR)</strong> بسازد.</div>
+        </div>
+        <div class="flow-step">
+          <span class="step-badge">مرحله ۳</span>
+          <div>در گیت‌هاب دکمه سبز رنگ <strong>Merge</strong> را می‌زنید. تمام! 🎯</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        💡 <strong>پشت صحنه چه می‌شود؟</strong> به محض اینکه دکمه Merge را در گیت‌هاب بزنید، سیستم خودکار گیت‌هاب ظرف ۱۸ ثانیه به سرور سی‌پنل وصل می‌شود، کدها را بیلد می‌کند و تغییرات فوراً روی <strong>dash.donyagardi.com</strong> لایو می‌شود!
+      </div>
+    </div>
+
+    <!-- کارت ۲: قانون چت نو -->
     <div class="card">
       <div class="card-title">
         <span class="number">۱</span>
         <span>قانون طلایی: «هر کار جدید = یک چت کاملاً نو»</span>
       </div>
-      <p><strong>علت اینکه چت‌جی‌پی‌تی قبلاً بعد از چند روز قاطی می‌کرد چیست؟</strong></p>
-      <p>هوش مصنوعی در چت‌های خیلی طولانی حافظه‌اش پر می‌شود، حرف‌های روز شنبه را با پنج‌شنبه قاطی می‌کند و کدهای خیالی می‌سازد (توهم).</p>
+      <p><strong>چرا چت‌های قبلی بعد از چند روز قاطی می‌کردند؟</strong></p>
+      <p>هوش مصنوعی در چت‌های طولانی دچار سرریز حافظه می‌شود و حرف‌های روزهای قبل را فراموش می‌کند یا اشتباه می‌فهمد.</p>
       <ul>
-        <li>برای هر کار جدید (مثلاً: تغییر ظاهر یک جدول، افزودن فیلتر، اصلاح یک کانال)، <strong>حتماً یک چت کاملاً جدید باز کن</strong>.</li>
-        <li>وقتی کار تمام شد و ثبت گردید، آن چت را ببند و برای تسک بعدی دوباره چت جدید باز کن.</li>
+        <li>برای هر کار جدید (مثلاً: اصلاح کانال آژانسی، تغییر استایل یک جدول، افزودن فیلتر)، <strong>حتماً یک چت کاملاً جدید باز کن</strong>.</li>
+        <li>وقتی کار تمام شد و ثبت گردید، آن چت را ببند و برای تسک بعدی دوباره چت نو باز کن.</li>
       </ul>
     </div>
 
-    <!-- کارت ۲: پرامپت شروع -->
+    <!-- کارت ۳: پیام شروع -->
     <div class="card">
       <div class="card-title">
         <span class="number">۲</span>
-        <span>گام اول: پیام شروع در چت جدید</span>
+        <span>پیام شروع در هر چت جدید (Starter Prompt)</span>
       </div>
       <p>در چت جدید، اولین پیامت به چت‌جی‌پی‌تی این باشد (فقط بخش داخل براکت را متناسب با کار روز بنویس):</p>
 
@@ -249,56 +306,34 @@
       </div>
     </div>
 
-    <!-- کارت ۳: ارسال مستقیم به گیت‌هاب توسط خود چت‌جی‌پی‌تی -->
+    <!-- کارت ۴: پیام ساخت PR -->
     <div class="card">
       <div class="card-title">
         <span class="number">۳</span>
-        <span>گام دوم: ثبت خودکار روی گیت‌هاب بدون هیچ نرم‌افزاری!</span>
+        <span>پیام ثبت و انتشار لایو (وقتی کار چت‌جی‌پی‌تی تمام شد)</span>
       </div>
-      <p>چون اکانت گیت‌هاب شما به چت‌جی‌پی‌تی متصل است، <strong>نیازی به دانلود فایل یا کپی کردن کدها نداری</strong>. وقتی چت‌جی‌پی‌تی تغییرات را نشان داد و راضی بودی، فقط همین یک دستور را به او بده:</p>
+      <p>وقتی چت‌جی‌پی‌تی تغییرات را نشان داد و راضی بودی، فقط همین یک جمله را به او بگو:</p>
 
       <div class="prompt-box">
         <button class="copy-btn" onclick="copyPrompt('p2', this)">کپی پیام</button>
-        <div id="p2" class="prompt-text">عالیه! لطفاً این تغییرات را مستقیماً روی یک برنچ جدید در ریپازیتوری thinktank021-ai/Marketin-Dash ذخیره (Commit) کن و یک Pull Request برای ادغام به شاخه main ایجاد کن.</div>
+        <div id="p2" class="prompt-text">عالیه! لطفاً این تغییرات را مستقیماً روی یک برنچ جدید در ریپازیتوری thinktank021-ai/Marketin-Dash ذخیره (Commit) کن و یک Pull Request برای شاخه main ایجاد کن.</div>
       </div>
 
-      <p style="margin-top: 10px; color: #38bdf8;">
-        ✨ با همین یک جمله، خود چت‌جی‌پی‌تی کارها را وارد گیت‌هاب می‌کند و لینک Pull Request را به تو تحویل می‌دهد!
+      <p style="margin-top: 10px;">
+        سپس به لینک Pull Request که چت‌جی‌پی‌تی به تو می‌دهد برو و دکمه سبز رنگ <strong>Merge pull request</strong> را بزن. ظرف ۲۰ ثانیه تغییرات روی سایت اصلی لایو خواهد شد.
       </p>
-    </div>
-
-    <!-- کارت ۴: خلاصه فرآیند کار -->
-    <div class="card">
-      <div class="card-title">
-        <span class="number">۴</span>
-        <span>جریان کار ساده در ۳ مرحله</span>
-      </div>
-      <div class="flow-steps">
-        <div class="flow-step">
-          <span class="step-badge">مرحله ۱</span>
-          <div><strong>چت نو باز کن:</strong> پرامپت شروع را بفرست و بگو چه تغییری می‌خواهی.</div>
-        </div>
-        <div class="flow-step">
-          <span class="step-badge">مرحله ۲</span>
-          <div><strong>بررسی کن:</strong> اگر سوالی داشت جواب بده و مطمئن شو نتیجه درست است.</div>
-        </div>
-        <div class="flow-step">
-          <span class="step-badge">مرحله ۳</span>
-          <div><strong>دستور ثبت بده:</strong> بگو تغییرات را روی گیت‌هاب Commit کند و PR بسازد. تمام!</div>
-        </div>
-      </div>
     </div>
 
     <!-- کارت ۵: خط قرمزها -->
     <div class="card">
       <div class="card-title">
-        <span class="number">۵</span>
+        <span class="number">۴</span>
         <span>خط قرمزهایی که اگر ChatGPT پیشنهاد داد، بگو «نه!»</span>
       </div>
       <div class="red-lines">
         <ul>
-          <li>⛔ <strong>دست زدن به دیتابیس:</strong> نباید هیچ فایل دیتابیس یا جدول‌های قبلی را پاک کند.</li>
-          <li>⛔ <strong>انحصاری کردن به کلودفلر:</strong> پروژه ما یک محصول مستقل (Product) است و همیشه باید روی cPanel و هاست‌های دیگر هم کار کند.</li>
+          <li>⛔ <strong>دست زدن به دیتابیس:</strong> نباید هیچ فایل دیتابیس لوکال یا جدول‌های قبلی را پاک کند.</li>
+          <li>⛔ <strong>انحصاری کردن به سرویس خاص:</strong> پروژه یک محصول مستقل است و همیشه باید کدهایش برای cPanel و هاست‌های دیگر سالم بماند.</li>
           <li>⛔ <strong>مخلوط کردن دفاتر:</strong> اطلاعات دفتر «دنیاگردی» و «نوآوران» همیشه باید جدا بمانند.</li>
           <li>⛔ <strong>صفر ساختگی:</strong> در صورت قطع اینترنت یا شیت، نباید اعداد صفر شوند؛ آخرین آمار معتبر نمایش می‌یابد.</li>
         </ul>
