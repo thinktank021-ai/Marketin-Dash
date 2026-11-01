@@ -33,9 +33,11 @@ jobs:
             echo "📦 [Deploy] Building project..."
             ./node_modules/.bin/vinext build || npx vite build
             
-            echo "🎨 [Deploy] Syncing static assets to public/..."
-            mkdir -p public/assets
-            cp -r dist/client/assets/* public/assets/ 2>/dev/null || cp -r dist/assets/* public/assets/ 2>/dev/null || true
+            echo "🎨 [Deploy] Linking static assets to root and public for LiteSpeed webserver..."
+            mkdir -p public
+            rm -rf assets public/assets
+            cp -r dist/client/assets ./assets 2>/dev/null || cp -r dist/assets ./assets 2>/dev/null || true
+            cp -r ./assets ./public/assets 2>/dev/null || true
             
             echo "🔄 [Deploy] Reloading Node.js application (Phusion Passenger)..."
             mkdir -p tmp
