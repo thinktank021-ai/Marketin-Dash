@@ -1,0 +1,23 @@
+---
+# cPanel Git Versioning Deployment Configuration
+# This file is automatically executed by cPanel when changes are pushed or webhooks are triggered.
+# Learn more: https://docs.cpanel.net/knowledge-base/general-knowledge-base/guide-to-git-deployment/
+
+deployment:
+  tasks:
+    # 1. Define deployment target directory (change to your cPanel app directory if different)
+    - export DEPLOYPATH=${DEPLOYPATH:-$PWD}
+    
+    # 2. Install dependencies (production mode)
+    - echo "[cPanel Deploy] Installing dependencies..."
+    - npm install --prefer-offline || npm install
+    
+    # 3. Build project assets and SSR bundles
+    - echo "[cPanel Deploy] Building project..."
+    - npm run build
+    
+    # 4. Trigger Phusion Passenger / cPanel restart
+    - echo "[cPanel Deploy] Restarting application..."
+    - mkdir -p tmp
+    - touch tmp/restart.txt
+    - echo "[cPanel Deploy] Deployment complete!"

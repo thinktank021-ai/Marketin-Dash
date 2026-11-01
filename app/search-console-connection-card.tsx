@@ -1,0 +1,25 @@
+import type { ReactNode } from "react";
+
+type Settings = { propertyUrl: string; hasServiceAccount: boolean; serviceAccountEmail?: string; serviceAccountProjectId?: string };
+function External({ href, children }: { href: string; children: ReactNode }) { return <a href={href} target="_blank" rel="noopener noreferrer">{children} ↗</a>; }
+function FieldError({ field, active, detail }: { field: string; active?: string; detail?: string }) { return active === field ? <small className="adsFieldError" role="alert">{detail}</small> : null; }
+function Step({ number, title, result, children }: { number: string; title: string; result: string; children: ReactNode }) {
+  return <section className="serviceSetupStep"><header><i>{number}</i><div><strong>{title}</strong></div></header><p><b>نتیجه مورد انتظار:</b> {result}</p><div>{children}</div></section>;
+}
+
+export function SearchConsoleConnectionCard({ brandName, settings, propertyUrl, serviceAccountJson, busy, errorField, errorDetail, onPropertyUrl, onServiceAccountJson, onConnect }: {
+  brandName: string; settings: Settings; propertyUrl: string; serviceAccountJson: string; busy: boolean; errorField?: string; errorDetail?: string;
+  onPropertyUrl: (value: string) => void; onServiceAccountJson: (value: string) => void; onConnect: () => void;
+}) {
+  return <article id="search-console-connection" className={`settingsCard adsConnectionCard searchConsoleConnectionCard ${settings.hasServiceAccount && settings.propertyUrl ? "connected" : "pending"}`}>
+    <div className="settingsCardTitle"><i>S</i><div><strong>اتصال Google Search Console</strong><small>اختیاری · تنظیمات کاملاً مستقل برای {brandName || "همین دفتر"}</small></div></div>
+    <div className="settingsHint success"><b>روش اتصال</b><span>این اتصال فقط گزارش‌های سایت همین دفتر را می‌خواند و هیچ اطلاعاتی بین دفترها مشترک نیست.</span></div>
+    <div className="adsSetupPreparation critical"><strong>راه‌اندازی مرحله‌به‌مرحله</strong><p>چهار مرحله زیر را به‌ترتیب انجام دهید؛ اتصال Search Console برای فعال‌بودن دفتر الزامی نیست.</p><div className="serviceSetupSteps">
+      <Step number="۱" title="انتخاب Property سایت" result="آدرس دقیق سایت یا عبارت sc-domain در کادر ثبت شود."><><External href="https://search.google.com/search-console">بازکردن Search Console</External><label className={errorField === "property" ? "hasAdsFieldError" : ""}><span>Property همین دفتر</span><input dir="ltr" value={propertyUrl} onChange={event => onPropertyUrl(event.target.value)} placeholder="https://example.com/ یا sc-domain:example.com"/><FieldError field="property" active={errorField} detail={errorDetail}/><small className="adsFieldHelp">همان Property انتخاب‌شده در بالای Search Console را دقیق وارد کنید؛ آدرس دفتر دیگر قابل استفاده نیست.</small></label></></Step>
+      <Step number="۲" title="فعال‌کردن API و ساخت حساب سرویس" result="یک فایل JSON مخصوص همین دفتر دانلود شود."><><External href="https://console.cloud.google.com/apis/library/searchconsole.googleapis.com">فعال‌کردن Search Console API</External><External href="https://console.cloud.google.com/iam-admin/serviceaccounts">ساخت Service Account و کلید JSON</External><small className="adsFieldHelp">در Service Accounts یک حساب بسازید و از بخش Keys، کلید جدید با نوع JSON دانلود کنید.</small></></Step>
+      <Step number="۳" title="دادن دسترسی در Search Console" result="ایمیل سرویس با سطح Full در فهرست کاربران دیده شود."><><External href="https://search.google.com/search-console/users">کاربران و سطح دسترسی Search Console</External><div className="adsSetupClarification"><b>ایمیل صحیح</b><span>ایمیل داخل فایل JSON را اضافه کنید؛ انتهای آن باید <span dir="ltr">iam.gserviceaccount.com</span> باشد.</span></div><div className="adsSetupClarification warning"><b>نوع دسترسی</b><span><strong>Full</strong> را انتخاب کنید؛ Owner لازم نیست. خود داشبورد فقط دسترسی خواندنی دارد و تغییری در سایت ایجاد نمی‌کند.</span></div></></Step>
+      <Step number="۴" title="ثبت فایل و آزمایش واقعی" result="نام Property و پیام اتصال موفق نمایش داده شود."><label className={errorField === "serviceAccount" || errorField === "access" ? "hasAdsFieldError" : ""}><span>محتوای فایل JSON {settings.hasServiceAccount ? `· ذخیره شده${settings.serviceAccountEmail ? ` (${settings.serviceAccountEmail})` : ""}` : ""}</span><textarea dir="ltr" rows={5} value={serviceAccountJson} onChange={event => onServiceAccountJson(event.target.value)} placeholder={settings.hasServiceAccount ? "برای حفظ فایل قبلی خالی بگذارید" : "محتوای کامل فایل JSON را اینجا وارد کنید"}/><FieldError field="serviceAccount" active={errorField} detail={errorDetail}/><FieldError field="access" active={errorField} detail={errorDetail}/><small className="adsFieldHelp">فایل فقط برای همین دفتر ذخیره می‌شود و پس از ذخیره دوباره نمایش داده نخواهد شد.</small></label><button type="button" className="secondarySetupAction" onClick={onConnect} disabled={busy}>{busy ? "در حال ذخیره و آزمایش…" : "ذخیره و آزمایش اتصال"}</button></Step>
+    </div></div>
+    {errorField === "connection" && <div className="settingsHint error" role="alert"><span>{errorDetail}</span></div>}
+  </article>;
+}

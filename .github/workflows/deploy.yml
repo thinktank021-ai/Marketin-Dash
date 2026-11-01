@@ -1,0 +1,62 @@
+name: CI / CD Production Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Build production bundle
+        run: npx vinext build
+
+  deploy-to-server:
+    name: Deploy to Production Host / Server
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Webhook Deployment (cPanel or Custom Webhook)
+        if: env.DEPLOY_WEBHOOK_URL != ''
+        env:
+          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+        run: |
+          echo "Triggering deployment webhook..."
+          curl -s -X POST "${DEPLOY_WEBHOOK_URL}"
+          echo "Webhook triggered successfully."
+
+      - name: SSH Deployment (Linux Server / VPS)
+        if: env.SSH_HOST != ''
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            cd ${{ secrets.APP_PATH || '~/marketing-dashboard' }}
+            git pull origin main
+            npm install --prefer-offline || npm install
+            npm run build
+            if command -v pm2 &> /dev/null; then
+              pm2 reload marketing-dashboard || pm2 start server.js --name "marketing-dashboard"
+            fi
+            mkdir -p tmp && touch tmp/restart.txt
+            echo "Production server updated successfully!"

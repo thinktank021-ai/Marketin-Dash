@@ -1,0 +1,1515 @@
+گزارش جامع پروژه
+Marketing Manager Dashboard – دفتر دنیاگردی
+======================================================================
+
+تاریخ تهیه گزارش: 2026-09-20
+زبان گزارش: فارسی
+نوع خروجی: متن ساده (TXT)
+
+----------------------------------------------------------------------
+فهرست مطالب
+----------------------------------------------------------------------
+1. خلاصه مدیریتی
+2. هویت و وضعیت فعلی پروژه
+3. هدف محصول و دامنه قابلیت‌ها
+4. تصمیم‌ها و الزامات ثبت‌شده در Personal Context
+5. معماری کلان سیستم
+6. ساختار فایل‌ها و مسیرهای مهم
+7. شرح بخش‌های اصلی داشبورد
+8. جریان داده Google Sheets
+9. Google Ads و منطق هزینه/لید
+10. Search Console و تحلیل SEO
+11. Telegram Bot و ارسال گزارش
+12. احراز هویت و امنیت
+13. APIهای داخلی و روش دسترسی
+14. پایگاه داده D1 و Drizzle
+15. Cloudflare و Sites Hosting
+16. PWA و حالت آفلاین
+17. روش اجرای محلی
+18. روش build و اعتبارسنجی
+19. روش استقرار روی Cloudflare/Sites
+20. روش نگهداری و مدیریت نسخه‌ها
+21. تست‌ها و پوشش فعلی
+22. وضعیت تغییرات فعلی و ریسک‌های باز
+23. Master Plan پیشنهادی ادامه توسعه
+24. چک‌لیست عملیاتی انتشار
+25. جمع‌بندی
+
+
+======================================================================
+1. خلاصه مدیریتی
+======================================================================
+
+این پروژه یک داشبورد مدیریتی بازاریابی برای «دفتر دنیاگردی» است که اطلاعات
+بازاریابی، لیدها، قراردادها، مسیرها، هزینه‌ها، Google Ads، Search Console و
+گزارش Telegram را در یک محیط فارسی، راست‌چین، واکنش‌گرا و داده‌محور جمع می‌کند.
+
+پروژه با React 19، Vinext/Next App Router، Vite، Cloudflare Workers، Cloudflare
+D1، Drizzle ORM و Cloudflare Sites ساخته شده است. Google Sheets منبع اصلی داده‌های
+ورودی و تماس است. Google Ads و Search Console به‌صورت اختیاری و مستقل برای هر
+برند/دفتر متصل می‌شوند. اعتبارنامه‌ها در D1 ذخیره می‌شوند اما قبل از ذخیره‌سازی
+با AES-GCM رمزنگاری می‌شوند.
+
+اصل مهم محصول این است که داشبورد نباید با داده ناقص یا اتصال قطع‌شده، عدد صفر
+ساختگی نشان دهد. در صورت قطع منبع، آخرین داده معتبر حفظ می‌شود و وضعیت اتصال
+واقعی و هشدار آن به مدیر نمایش داده می‌شود.
+
+قابلیت‌های اصلی فعلی:
+
+- داشبورد اصلی تماس‌ها، لیدها، قراردادها، مسیرها، کانال‌ها و کارشناسان.
+- گزارش بازه زمانی با تقویم شمسی و انتخاب بازه شروع/پایان.
+- تنظیمات چند دفتر/برند با جداسازی داده و منابع.
+- Google Sheets با کش، کشف ماه‌ها و کنترل سلامت داده.
+- Google Ads با گزارش کمپین، هزینه، کلیک، لید، CPL، CAC و هشدارها.
+- Search Console با KPI، نمودار، جدول، مقایسه، سورت، فیلتر، صفحه‌بندی و CSV.
+- مرکز اقدام SEO، صف اقدام، Opportunity Radar و دسته‌بندی محتوا/لینک‌سازی.
+- استخراج شماره تماس با فیلترهای مدیریتی و خروجی CSV.
+- مدیریت قراردادهای ردیفی و قراردادهای تجمیعی قبلی.
+- Telegram Bot با کاربران مجاز، گزارش دستی، خودکار، پایان روز و هشدار تغییر.
+- PWA، Service Worker، کش آخرین داده و وضعیت آفلاین.
+- ورود مدیریتی با نشست ۲۰ دقیقه‌ای، scrypt، کوکی امن و محدودیت تلاش.
+- مرکز سلامت داده و ابزار backup/diagnostic امن بدون افشای PII و Secret.
+
+
+======================================================================
+2. هویت و وضعیت فعلی پروژه
+======================================================================
+
+عنوان محصول:
+Marketing Manager Dashboard
+
+نام نمایشی:
+داشبورد مارکتینگ دفتر دنیاگردی
+
+برند اصلی:
+دفتر دنیاگردی
+
+URL زنده فعلی:
+https://marketing-dashboard-mordad.amirzhdbw69.chatgpt.site
+
+Project ID در Sites:
+appgprj_6a802a45982881919128e4df874dc3d5
+
+مسیر checkout محلی فعلی:
+/workspace/scratch/fe5f1a538829/site-clone.3SaGHC
+
+شاخه Git:
+main
+
+آخرین نسخه منتشرشده ثبت‌شده:
+Version 234
+
+آخرین commit منتشرشده:
+86b4ad65d14ed0d6a5c51103102947065ab2081d
+
+شرح commit منتشرشده:
+Balance SEO opportunity qualification thresholds
+
+وضعیت checkout در زمان تهیه این گزارش:
+
+- HEAD فعلی همان commit 86b4ad6 است.
+- دو فایل محلی تغییرات منتشرنشده دارند:
+  - app/search-console-page.tsx
+  - app/enhancements.css
+- این تغییرات مربوط به موتور داینامیک فرصت‌های SEO هستند.
+- این تغییرات هنوز build/lint/test نهایی و deploy نشده‌اند.
+- بنابراین Version 234 قابلیت داینامیک جدید را در production ندارد؛ آن قابلیت
+  هنوز در مرحله توسعه محلی است.
+
+تعداد تقریبی اجزای پروژه در زمان تهیه گزارش:
+
+- فایل‌های app با پسوند ts/tsx: حدود 65 فایل
+- API routeها: 25 فایل
+- فایل‌های تست: 28 فایل
+- تعداد test caseهای کشف‌شده با الگوی test: حدود 98 مورد
+- migrationهای Drizzle: 21 فایل SQL از 0000 تا 0020
+
+نکته مهم:
+نسخه‌های قبلی در سابقه پروژه شامل نسخه‌های پایدار قدیمی‌تر مانند 181 و نسخه‌های
+تحلیلی Search Console مانند 163 بوده‌اند. ادامه توسعه باید از شاخه و کد فعلی
+انجام شود و این شماره‌ها فقط برای سابقه تصمیم‌ها هستند، نه مبنای بازنویسی.
+
+
+======================================================================
+3. هدف محصول و دامنه قابلیت‌ها
+======================================================================
+
+هدف تجاری:
+
+مدیر بتواند بدون جابه‌جایی میان چند فایل و سرویس، وضعیت ورودی‌های بازاریابی،
+هزینه، قرارداد، عملکرد کانال‌ها و فرصت‌های رشد SEO را در یک داشبورد ببیند و
+بر اساس آن اقدام کند.
+
+کاربران اصلی:
+
+- مدیر بازاریابی
+- مدیر دفتر/برند
+- کارشناس تحلیل و SEO
+- مسئول ثبت قراردادها
+- مسئول تنظیم Google Ads و Search Console
+- مسئول گزارش Telegram
+
+اصل طراحی:
+
+- رابط فارسی و کامل RTL
+- فونت Vazirmatn
+- اعداد نمایشی انگلیسی
+- دارک/لایت مود
+- طراحی Glass و کامپکت
+- مناسب دسکتاپ و موبایل
+- تمرکز بر عدد، مقایسه، هشدار و اقدام
+- حذف فضای خالی غیرضروری
+- حفظ آخرین داده معتبر در خطا
+
+قابلیت‌هایی که خارج از دامنه هستند:
+
+- سیستم تبلیغات مستقل یا پنل اجرای کمپین
+- مدیریت بک‌لینک خارجی واقعی بدون اتصال به ابزار لینک
+- تبدیل Search Console به منبع قرارداد یا هزینه
+- ثبت اطلاعات حساس مسافر در گزارش‌های تشخیصی
+
+
+======================================================================
+4. تصمیم‌ها و الزامات ثبت‌شده در Personal Context
+======================================================================
+
+این بخش خلاصه‌ای از تصمیم‌ها و ترجیحات پروژه است که در گفتگوهای قبلی ثبت شده
+و باید در تغییرات بعدی رعایت شود.
+
+4.1. صحت داده و شمارش
+
+- تنها وقتی یک ردیف لید واقعی شمرده می‌شود که ستون «منبع فایل» پر باشد.
+- ناقص بودن سایر فیلدها مانع شمارش ردیف معتبر نمی‌شود.
+- ردیف دارای منبع اما فاقد مسیر باید با عنوان «مسیر ثبت نشده» نشان داده شود.
+- ردیف دارای منبع اما فاقد کارشناس باید «کارشناس ثبت نشده» باشد.
+- دسته مبهم «سایر» نباید بدون تصمیم مدیریتی ساخته شود.
+- مسیرهای تفلیس، باتومی و گرجستان در داشبورد با عنوان گرجستان ادغام می‌شوند.
+- تبلیغات گوگل با عنوان گوگل ادز نمایش داده می‌شود.
+- آژانسی مستقل است.
+- اختلاف کل با تفکیک کانال/مسیر/کارشناس باید در مرکز سلامت داده دیده شود.
+
+4.2. تاریخ و بازه
+
+- تقویم شمسی باید کامل و ۷ ستونه باشد.
+- روزهای ماه نباید حذف شوند.
+- انتخاب بازه با شروع و سپس پایان انجام می‌شود.
+- روز آینده قابل انتخاب نیست.
+- بازه می‌تواند چند شیت ماهانه را پوشش دهد.
+- بازه پیش‌فرض گزارش از ابتدای ماه تا آخرین روز کامل موجود است.
+- روز جاری Search Console به‌دلیل نهایی نبودن داده گزارش نمی‌شود.
+
+4.3. منابع و اتصال
+
+- Google Sheets برای هر برند مستقل است.
+- Google Ads برای هر برند Service Account مستقل دارد.
+- Search Console اختیاری و برای هر دفتر مستقل است.
+- قطع اتصال نباید باعث صفر شدن داشبورد شود.
+- آخرین داده معتبر باید با هشدار stale نگه داشته شود.
+- بروزرسانی دستی باید منابع قابل مشاهده را دوباره درخواست کند.
+
+4.4. مالی
+
+- CPL = هزینه کانال تقسیم بر لید معتبر همان کانال.
+- CAC = هزینه کانال تقسیم بر قرارداد قابل انتساب همان کانال.
+- مقدار ناشناخته نباید به‌صورت صفر نمایش داده شود.
+- صفر صریح با «هزینه ثبت نشده» متفاوت است.
+- Google Ads از API خوانده می‌شود و با نرخ TRY به تومان تبدیل می‌شود.
+- کانال‌های بدون هزینه وارد محاسبه CPL/CAC نمی‌شوند.
+- هزینه Google Ads/واتساپ/فرم سایت از نظر مالی یک گروه انتسابی دارند اما
+  تعداد خام آن‌ها در کارت‌های جدا قابل نمایش است.
+
+4.5. امنیت
+
+- اعتبارنامه‌های Service Account نباید در UI عمومی برگردند.
+- Private Key و Developer Token باید رمزنگاری‌شده ذخیره شوند.
+- گزارش تشخیصی نباید PII، Secret یا Credential خام داشته باشد.
+- ورود مدیریتی نشست ۲۰ دقیقه‌ای دارد.
+- فعالیت واقعی کاربر نشست را تمدید می‌کند.
+- APIهای اصلی بدون نشست معتبر پاسخ مدیریتی نمی‌دهند.
+
+4.6. SEO و Search Console
+
+- Search Console فقط خواندنی است.
+- کاربر می‌تواند تا چهار KPI اصلی را انتخاب/مقایسه کند.
+- نمودارها روی hover مقدار هر نقطه را نشان می‌دهند.
+- جدول Search Console ستون‌های قابل سورت دارد.
+- Opportunity Radar باید قابل کلیک و فیلتر باشد.
+- کارت‌های KPI باید با کلیک جدول پایین را فیلتر کنند.
+- فرصت‌ها باید به «بهینه‌سازی محتوا» یا «محتوا + لینک‌سازی داخلی» وصل شوند.
+- منطق فرصت‌یابی باید نسبت به حجم داده هر Search Console پویا باشد.
+
+
+======================================================================
+5. معماری کلان سیستم
+======================================================================
+
+جریان کلی درخواست:
+
+مرورگر
+  -> صفحه React/Vinext
+  -> Cloudflare Worker
+  -> guardAppRequest و بررسی نشست
+  -> Next/Vinext App Router
+  -> API route داخلی
+  -> D1/Drizzle و Cache
+  -> سرویس بیرونی مثل Google Sheets، Google Ads، Search Console یا Telegram
+  -> پاسخ JSON/CSV
+  -> state محلی و کامپوننت‌های dashboard
+
+اجزای اجرایی:
+
+1. Browser UI
+   - React Client Components
+   - fetchهای brand-scoped
+   - localStorage برای برخی صف‌ها و cache آخرین داده
+   - PWA Service Worker
+
+2. Vinext/Next App Router
+   - صفحه‌ها و API routeها
+   - SSR/Client rendering
+   - routeهای dynamic برای API
+
+3. Cloudflare Worker
+   - نقطه ورود نهایی production
+   - محافظت مسیرها
+   - image optimization
+   - dispatch زمان‌بندی‌شده Telegram
+   - forwarding به Vinext handler
+
+4. Cloudflare D1
+   - داده‌های برند
+   - cache گزارش‌ها
+   - تنظیمات مالی
+   - sessionها
+   - تنظیمات Telegram
+   - rule versionها و eventهای سلامت
+
+5. Cloudflare R2
+   - logoها و assetهای قابل حذف/ذخیره
+   - با binding منطقی BUCKET
+
+6. Cloudflare Images
+   - image optimization از مسیر /_vinext/image
+   - binding منطقی IMAGES در Worker runtime
+
+
+======================================================================
+6. ساختار فایل‌ها و مسیرهای مهم
+======================================================================
+
+6.1. ریشه پروژه
+
+package.json
+  اسکریپت‌ها، dependencyها و نسخه‌های React/Vinext/Cloudflare/Drizzle.
+
+package-lock.json
+  قفل dependencyها و integrity packageها.
+
+PROJECT_RULES.md
+  منبع اصلی قوانین پایدار محصول. قبل از تغییر کد باید بررسی شود.
+
+README.md
+  راهنمای starter، اجرای محلی، Sites lifecycle و ابزارهای تشخیصی.
+
+.openai/hosting.json
+  اتصال پروژه به Sites و bindingهای منطقی:
+  - d1: DB
+  - r2: BUCKET
+  - project_id: شناسه پروژه Sites
+
+vite.config.ts
+  تنظیم Vinext، Cloudflare Vite plugin، local D1/R2 binding و محیط توسعه.
+
+next.config.ts
+  تنظیمات Next/Vinext موجود پروژه.
+
+tsconfig.json
+  پیکربندی TypeScript.
+
+drizzle.config.ts
+  پیکربندی تولید migrationهای Drizzle.
+
+eslint.config.mjs
+  قوانین lint پروژه.
+
+6.2. app/
+
+app/page.tsx
+  صفحه ورودی سرور؛ وضعیت اولیه نمایش Telegram را از D1 می‌خواند و
+  DashboardClient را render می‌کند.
+
+app/dashboard-client.tsx
+  هسته اصلی رابط داشبورد، انتخاب برند، انتخاب ماه/بازه، خواندن داده‌ها، KPIها،
+  نمودارها، تب‌ها، تنظیمات، سلامت داده، Google Ads، Search Console، Telegram و
+  استخراج شماره.
+
+app/search-console-page.tsx
+  صفحه کامل Search Console، نمودار، KPI، جدول، date picker، Opportunity Radar،
+  صف اقدام SEO و منطق فعلی/در حال توسعه فرصت‌یابی.
+
+app/search-console-connection-card.tsx
+  فرم اتصال Search Console برای یک برند.
+
+app/search-console-setup.ts
+  normalize و اعتبارسنجی Property Search Console.
+
+app/google-ads-connection-card.tsx
+  فرم اتصال Google Ads و Service Account/Developer Token.
+
+app/google-ads-campaigns.ts
+  مرتب‌سازی کمپین‌ها و انتساب عملکرد مسیرمحور.
+
+app/google-ads-leads.ts
+  تعریف کانال‌های Google Ads و حل درخواست ماه‌های Sheet.
+
+app/google-ads-alerts.ts
+  تولید هشدار حساب، کمپین محدود و policy.
+
+app/marketing-metrics.ts
+  شاخص‌های بازه، هزینه کلی، قرارداد مسیرها و رتبه‌بندی.
+
+app/channel-financials.ts
+  ساخت کارت‌های مالی کانال و پیدا کردن هزینه‌های ناقص.
+
+app/financial-diagnostics.ts
+  بررسی تخصیص هزینه بین کارشناسان و کنترل اختلاف.
+
+app/financial-source-loader.ts
+  خواندن source مالی و نگه‌داشتن آخرین داده معتبر.
+
+app/funnel-metrics.ts
+  محاسبه نرخ‌های فانل و برآورد پیامک/تعامل اولیه.
+
+app/phone-extraction.ts
+  نرمال‌سازی، استخراج و فیلتر شماره‌های ایران/خارجی و تولید CSV.
+
+app/contract-table-state.ts
+  state جدول قراردادهای ردیفی و deltaهای ثبت قرارداد.
+
+app/dashboard-rules.ts
+  مدل ruleهای هر برند، کانال‌ها، ستون‌های شیت، مسیرها، کارشناسان و فرمول‌ها.
+
+app/route-normalization.ts
+  استانداردسازی و ادغام مسیرها بر اساس ruleهای تأییدشده.
+
+app/sheet-channel-discovery.ts
+  کشف کانال‌های واقعی از header/source شیت.
+
+app/manual-refresh.ts
+  کنترل بروزرسانی دستی، abort signal، timeout و هشدار منبع.
+
+app/dashboard-format.ts
+  فرمت اعداد و تومان.
+
+app/table-sort.ts
+  primitive مشترک سورت جدول‌ها.
+
+app/chatgpt-auth.ts
+  خواندن هدرهای هویت ChatGPT و ساخت مسیر Sign in/Sign out امن.
+
+app/pwa-register.tsx
+  ثبت Service Worker و نمایش وضعیت آفلاین.
+
+app/telegram-report.ts
+  منطق ساخت گزارش Telegram، وضعیت برندها، delta و scheduler.
+
+app/telegram-bot-settings-card.tsx
+  رابط تنظیمات Telegram Bot.
+
+app/support-tools.ts
+  backup، restore و diagnostic-safe.
+
+app/globals.css
+  استایل پایه، theme، layout و کامپوننت‌های اصلی.
+
+app/enhancements.css
+  overrideهای تکمیلی، SEO، radar، charts، date picker و responsive polish.
+
+app/login/
+  صفحه ورود و CSS مربوط به Liquid Glass login.
+
+6.3. app/api/
+
+API routeها در بخش 13 این گزارش به‌صورت جدولی آمده‌اند.
+
+6.4. worker/
+
+worker/index.ts
+  Worker entrypoint نهایی با export پیش‌فرض دارای fetch و scheduled.
+
+worker/app-auth.ts
+  ورود، hash/scrypt، session، cookie، rate limit، same-origin و guard عمومی.
+
+6.5. db/
+
+db/schema.ts
+  schema Drizzle برای D1.
+
+db/index.ts
+  getDb و getD1 با binding DB.
+
+6.6. drizzle/
+
+فایل‌های SQL migration از 0000 تا 0020 و snapshotهای metadata.
+
+6.7. public/
+
+public/assets/donyagardi-logo-transparent.png
+  لوگوی دنیاگردی.
+
+public/manifest.webmanifest
+  metadata و installability PWA.
+
+public/sw.js
+  cache shell، asset و API با fallback آفلاین.
+
+public/favicon.svg
+  favicon اختصاصی.
+
+6.8. scripts/
+
+scripts/sites-env.sh
+  محیط writable پروژه برای HOME، npm cache، XDG، temp و Wrangler.
+
+scripts/build-verified.sh
+  build محدودشده با timeout و سپس validate artifact.
+
+scripts/validate-artifact.sh
+  کنترل وجود Worker، manifest و default.fetch.
+
+scripts/install-ci.sh
+  نصب قفل‌شده و کنترل‌شده dependencyها.
+
+scripts/cloudflare-workers-loader.mjs
+  loader تستی برای شبیه‌سازی cloudflare:workers در Node.
+
+6.9. tests/
+
+تست‌ها در بخش 21 دسته‌بندی شده‌اند.
+
+
+======================================================================
+7. شرح بخش‌های اصلی داشبورد
+======================================================================
+
+7.1. داشبورد اصلی
+
+- انتخاب برند/دفتر
+- انتخاب ماه و بازه شمسی
+- کل تماس‌ها و لیدها
+- میانگین تماس روزانه
+- قراردادها و نرخ تبدیل
+- مسیرهای برتر قرارداد
+- تفکیک کانال‌ها
+- عملکرد کارشناسان
+- هزینه، CPL و CAC
+- فانل بازاریابی
+- مرکز سلامت داده
+- نمودارهای روزانه و مقایسه‌ای
+
+7.2. تنظیمات برند
+
+- افزودن/ویرایش دفتر
+- Google Sheets source URL
+- URL فهرست ماه‌ها
+- Google Ads customer ID
+- MCC/login customer ID در صورت نیاز
+- لوگو
+- ruleهای ستون‌ها، کانال‌ها، مسیرها و کارشناسان
+- فعال‌سازی فقط پس از تست موفق source
+
+7.3. استخراج شماره
+
+- فیلتر بازه زمانی
+- فیلتر مسیر
+- فیلتر کانال
+- فیلتر وضعیت قرارداد
+- پشتیبانی از چند شماره در یک سلول
+- نمایش شماره، مسیر، کانال و نتیجه
+- خروجی CSV
+
+7.4. Google Ads
+
+- خلاصه Impression، Click، Cost
+- گزارش روزانه
+- گزارش کمپین
+- روشن/خاموش بودن کمپین
+- انتساب لید مسیرمحور در صورت تطبیق یکتا
+- CPL و هزینه
+- هشدار campaign limited و policy
+- کنترل نبود هزینه/لید
+
+7.5. Search Console
+
+- اتصال مستقل برای هر دفتر
+- Property URL یا sc-domain
+- Service Account JSON
+- status اتصال
+- بازه حداکثر یک سال
+- مقایسه با بازه هم‌طول قبل
+- dimensionهای query، page، country، device
+- typeهای web، image، video، news، discover و googleNews
+- KPIهای Click، Impression، CTR و Position
+- نمودار روزانه جاری/قبلی
+- hover روی نقاط
+- جدول searchable/sortable/paginated
+- CSV
+- Opportunity Radar
+- صف اقدام SEO
+
+7.6. Telegram
+
+- ثبت token و تست getMe
+- شناسایی کاربران بات
+- pending/approved/rejected user
+- فعال‌سازی جداگانه برندها
+- گزارش لحظه‌ای
+- گزارش پایان روز
+- گزارش دستی
+- گزارش تغییرات
+- هشدار stale/failed
+- زمان تهران
+- holiday calendar
+- قفل جلوگیری از اجرای هم‌زمان scheduler
+
+
+======================================================================
+8. جریان داده Google Sheets
+======================================================================
+
+1. مدیر URL منتشرشده Google Sheets را برای برند ثبت می‌کند.
+2. /api/brands/route.ts URL را normalize و در dashboard_brands ذخیره می‌کند.
+3. /api/brands/test-sheet/route.ts source، header و ruleهای اولیه را بررسی می‌کند.
+4. /api/sheet-months ماه‌ها و gidهای شیت را از workbook منتشرشده کشف می‌کند.
+5. /api/sheet-data با brand id و ماه/selector، CSV را می‌خواند.
+6. منبع، cache و source fingerprint بررسی می‌شوند.
+7. در دریافت موفق، CSV در sheet_csv_cache ذخیره می‌شود.
+8. در خطای دریافت، آخرین cache معتبر برگردانده می‌شود و x-sheet-stale=true است.
+9. dashboard-client داده را parse و با dashboard-rules نرمال می‌کند.
+10. کانال، مسیر، کارشناس، تاریخ و نتیجه aggregate می‌شوند.
+11. data health اختلاف‌ها، source ناشناخته و ردیف‌های ناقص را گزارش می‌کند.
+
+اصل عدم صفرسازی:
+
+اگر منبع تازه در دسترس نباشد اما cache معتبر وجود داشته باشد، داده صفر نمی‌شود.
+داده قبلی برگردانده می‌شود و UI باید اتصال warning/stale را نشان دهد.
+
+پارامترها و headerهای مهم:
+
+- x-dashboard-brand: شناسه برند
+- x-dashboard-refresh: 1 برای عبور از cache تازه در refresh دستی
+- sheet: نام ماه/تب
+- gid: شناسه تب
+- cache-control: no-store برای پاسخ‌های تحلیلی
+
+
+======================================================================
+9. Google Ads و منطق هزینه/لید
+======================================================================
+
+Google Ads با Service Account و Developer Token کار می‌کند.
+
+فرآیند:
+
+1. Service Account JSON و Developer Token در تنظیمات برند وارد می‌شوند.
+2. کلید خصوصی و Developer Token با کلید رمزنگاری runtime رمز می‌شوند.
+3. برای هر درخواست، JWT با scope adwords ساخته می‌شود.
+4. access token از oauth2.googleapis.com/token دریافت می‌شود.
+5. query به Google Ads API v25 ارسال می‌شود.
+6. campaign، daily و account metrics تجمیع می‌شوند.
+7. نتیجه در google_ads_report_cache ذخیره می‌شود.
+8. در خطای live، آخرین cache معتبر حفظ می‌شود.
+
+Google Ads API endpoint منطقی:
+
+https://googleads.googleapis.com/v25/customers/{customerId}/googleAds:searchStream
+
+headerهای مورد نیاز:
+
+- Authorization: Bearer access token
+- developer-token: Developer Token
+- login-customer-id: فقط در صورت وجود MCC/login customer
+- content-type: application/json
+
+منطق مالی:
+
+- هزینه API از micros به واحد مالی تبدیل می‌شود.
+- نرخ TRY به تومان برای هر ماه قابل ثبت است.
+- هزینه پیمانکار Instagram و Google Ads جدا ذخیره می‌شود.
+- CPL و CAC فقط برای کانال‌های دارای منبع هزینه محاسبه می‌شوند.
+- هزینه نامشخص صفر نیست.
+- کانال‌های بدون هزینه وارد مخرج مالی نمی‌شوند.
+- Google Ads، WhatsApp و Site Form در گروه مالی Google Ads قرار می‌گیرند.
+
+
+======================================================================
+10. Search Console و تحلیل SEO
+======================================================================
+
+اتصال Search Console:
+
+1. مدیر Property URL دقیق یا sc-domain را وارد می‌کند.
+2. JSON حساب سرویس وارد می‌شود.
+3. type، email، project_id و private_key اعتبارسنجی می‌شوند.
+4. private_key با AES-GCM رمز و در D1 ذخیره می‌شود.
+5. برای status، property endpoint آزمایش می‌شود.
+6. برای report، access token JWT ساخته می‌شود.
+7. همزمان current total، previous total، daily و dimension rows خوانده می‌شوند.
+
+محدودیت‌های گزارش:
+
+- بازه باید ISO date معتبر باشد.
+- بازه بیشتر از 365 روز قبول نمی‌شود.
+- روز جاری تهران گزارش نمی‌شود.
+- dimensionهای مجاز: query، page، country، device
+- typeهای مجاز: web، image، video، news، discover، googleNews
+- row limit فعلی گزارش: 25000
+
+Cache:
+
+- TTL live report فعلی: حدود 60 ثانیه
+- کلید cache شامل brand، from، to، dimension و type است.
+- refresh دستی با x-dashboard-refresh از cache تازه عبور می‌کند.
+
+تحلیل SEO فعلی منتشرشده:
+
+نسخه 234 از منطق متعادل ثابت/نسبی استفاده می‌کند:
+
+- آستانه نمایش بر پایه حداقل عدد، درصد بیشترین نمایش و درصد کل نمایش.
+- CTR مورد انتظار بر پایه position bucket ثابت.
+- امتیاز بر اساس کلیک بالقوه، CTR gap، رتبه و تغییر عملکرد.
+- Opportunity Radar چهار ربع دارد:
+  اثرگذاری زیاد/کم × اجرای آسان/سخت.
+- کارت‌های KPI و خانه‌های Radar قابل کلیک هستند.
+- جدول بر اساس امتیاز، اولویت، کلیک، نمایش، CTR، رتبه و کلیک بالقوه sortable است.
+
+توسعه داینامیک در حال انجام در workspace:
+
+- پروفایل داده کم/متوسط/زیاد بر اساس تعداد ردیف‌ها.
+- threshold نمایشی بر پایه percentile و سهم total impressions.
+- CTR baseline جداگانه برای رتبه‌های 1–3، 4–10، 11–20 و 21–50.
+- ترکیب baseline پیش‌فرض با داده واقعی همان گزارش در صورت نمونه کافی.
+- حداقل score و drop threshold بر اساس حجم داده.
+- confidence برای هر فرصت: پایین، متوسط یا بالا.
+- نمایش profile، threshold و توضیح محاسبه در UI.
+
+این بخش در زمان تهیه گزارش هنوز منتشر نشده و باید پس از تکمیل تست‌ها به version
+جدید deploy شود.
+
+
+======================================================================
+11. Telegram Bot و ارسال گزارش
+======================================================================
+
+معماری:
+
+داشبورد = مغز گزارش و محاسبات
+Google Apps Script یا Cloudflare scheduled trigger = زمان‌بندی
+Telegram Bot API = ارسال پیام
+
+route اصلی:
+
+/api/telegram-bot
+
+عملیات:
+
+- GET: خواندن metadata امن تنظیمات و کاربران
+- PUT: ذخیره token، تنظیمات و فعال‌سازی
+- POST: دریافت update، شناسایی user، گزارش دستی یا scheduler dispatch
+
+امنیت scheduler:
+
+- scheduler بدون session معمولی کار می‌کند.
+- header اختصاصی x-telegram-scheduler-secret یا Authorization بررسی می‌شود.
+- secret در D1 به‌صورت رمز‌شده نگه‌داری می‌شود.
+- کاربر Telegram تا زمان approve دسترسی گزارش ندارد.
+
+منطق گزارش:
+
+- فقط برندهای opt-in وارد گزارش می‌شوند.
+- کانال‌های صفر نمایش داده نمی‌شوند.
+- مجموع لید/خط هر دفتر برجسته می‌شود.
+- delta نسبت به گزارش قبل نشان داده می‌شود.
+- هشدار تأخیر داده و خطای source وجود دارد.
+- گزارش پایان روز و گزارش زمان عادی تنظیم‌پذیر هستند.
+- قفل D1 از اجرای موازی و ارسال دوباره جلوگیری می‌کند.
+
+Cloudflare Worker scheduled:
+
+worker/index.ts در scheduled()، dispatchTelegramReports() را با waitUntil اجرا
+می‌کند. ماژول گزارش تنظیمات ساعت، روز و interval را دوباره کنترل می‌کند.
+
+
+======================================================================
+12. احراز هویت و امنیت
+======================================================================
+
+لایه اول:
+
+Cloudflare/Sites access policy و وضعیت public/custom سایت.
+
+لایه دوم:
+
+worker/app-auth.ts برای application login.
+
+ورود:
+
+- مسیر POST: /api/auth/login
+- نام کاربری از DASHBOARD_ADMIN_USER
+- رمز به‌صورت scrypt-v1:salt:hash
+- حداکثر 10 تلاش در پنجره 15 دقیقه‌ای
+- نشست با token تصادفی 32 بایت
+- token فقط hash‌شده در D1 ذخیره می‌شود
+- cookie: __Host-dashboard_session
+- HttpOnly، Secure، SameSite=Lax
+- TTL نشست: 20 دقیقه
+- فقط activity واقعی نشست را renew می‌کند
+
+مسیرهای عمومی محدود:
+
+- /login
+- /assets/*
+- /favicon.ico
+- مسیرهای auth login/logout/activity/session
+- scheduler Telegram با secret معتبر
+
+محافظت درخواست:
+
+- درخواست‌های API بدون نشست 401 و x-dashboard-auth-required دریافت می‌کنند.
+- درخواست page بدون نشست به /login redirect می‌شود.
+- mutationهای cross-origin رد می‌شوند.
+- خطاها fail closed هستند.
+- credential، token و DB contents در error log قرار نمی‌گیرند.
+
+رمزنگاری credentialهای بیرونی:
+
+- AES-GCM با runtime secret به نام منطقی GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY
+- Search Console و Google Ads از همین مسیر رمزنگاری استفاده می‌کنند.
+- فایل JSON خام نباید در Git، گزارش یا UI ذخیره شود.
+
+
+======================================================================
+13. APIهای داخلی و روش دسترسی
+======================================================================
+
+قاعده عمومی:
+
+در UI، درخواست‌های brand-scoped باید header زیر را داشته باشند:
+
+x-dashboard-brand: {brandId}
+
+dashboard-client.tsx این header را با fetchForBrand به‌صورت مرکزی اضافه می‌کند.
+برای خواندن cache تازه و refresh واقعی، در صورت نیاز header زیر نیز ارسال می‌شود:
+
+x-dashboard-refresh: 1
+
+پاسخ‌های تحلیلی معمولاً cache-control: no-store دارند.
+
+فهرست routeها:
+
+1) Brands
+
+/api/brands
+- GET: فهرست برندها
+- POST: ایجاد یا به‌روزرسانی برند و source URL
+- PATCH: فعال‌سازی برند پس از تست موفق Sheet
+- DELETE: حذف برند و پاک‌سازی cache/credentialهای مرتبط
+
+/api/brands/active
+- POST: ثبت برند فعال
+
+/api/brands/logo
+- GET: دریافت لوگوی brand از R2
+- POST: آپلود/ثبت لوگو
+
+/api/brands/test-sheet
+- POST: آزمایش URL، خواندن header، تشخیص ماه و اعتبار ruleها
+
+2) Data sources
+
+/api/sheet-months
+- GET: کشف ماه‌ها و gidهای workbook
+
+/api/sheet-data
+- GET: دریافت CSV ماه/selector با cache و fallback
+
+/api/dashboard-rules
+- GET: خواندن ruleهای برند، health، version و eventها
+- PUT: ذخیره ruleهای جدید
+- POST: backup/restore/diagnostic actions بر اساس action payload
+
+3) Finance
+
+/api/budgets
+- GET: هزینه روزانه، ماهانه و contractor fee
+- POST: ثبت یا اصلاح بودجه و هزینه
+
+/api/exchange-rate
+- GET: نرخ ماهانه TRY به تومان
+- POST: ثبت نرخ مدیر
+
+/api/expert-contracts
+- GET: قراردادهای ماهانه کارشناسان
+- POST: ذخیره override ماهانه
+
+/api/expert-contract-records
+- GET: قراردادهای ردیفی
+- POST: ثبت قرارداد با leadRef یکتا
+- DELETE: حذف رکورد قرارداد مجاز
+
+4) Google Ads
+
+/api/google-ads/settings
+- GET: metadata امن تنظیمات
+- POST: ذخیره Service Account و Developer Token
+
+/api/google-ads/status
+- GET: بررسی اتصال حساب
+
+/api/google-ads/report
+- GET با from و to: گزارش حساب، کمپین، روز و هشدار
+
+5) Search Console
+
+/api/search-console/settings
+- GET با id: تنظیمات امن برند
+- POST: ذخیره property و Service Account JSON
+
+/api/search-console/status
+- GET: بررسی property و permission
+
+/api/search-console/report
+- GET با queryهای from، to، dimension، type
+- current/previous، total/daily/rows را برمی‌گرداند
+
+6) Telegram
+
+/api/telegram-bot
+- GET: تنظیمات و وضعیت امن
+- PUT: تنظیمات اتصال و زمان‌بندی
+- POST: update، discovery، test، manual report و scheduler dispatch
+
+7) Auth
+
+/api/auth/login
+/api/auth/logout
+/api/auth/activity
+/api/auth/session
+
+این چهار مسیر در Worker guard می‌شوند و در app/api route directory نیستند؛
+ورود آن‌ها در worker/app-auth.ts کنترل می‌شود.
+
+نمونه الگوی دسترسی از مرورگر:
+
+fetch('/api/search-console/report?from=2026-09-01&to=2026-09-19&dimension=query&type=web', {
+  headers: {
+    'x-dashboard-brand': 'donyagardi'
+  }
+})
+
+هیچ consumer خارجی نباید credential خام را مستقیم به API تحلیل بفرستد. تنظیمات
+credential از مسیر پنل ثبت می‌شود و backend مسئول رمزنگاری و token exchange است.
+
+
+======================================================================
+14. پایگاه داده D1 و Drizzle
+======================================================================
+
+binding اصلی:
+
+DB
+
+فایل اصلی schema:
+
+db/schema.ts
+
+فایل client:
+
+db/index.ts
+
+جدول‌های مهم:
+
+- dashboard_login_sessions
+- dashboard_login_attempts
+- dashboard_brands
+- brand_search_console_service_accounts
+- search_console_report_cache
+- brand_google_ads_service_accounts
+- google_ads_report_cache
+- weekly_ad_budgets
+- monthly_channel_contractor_fees
+- monthly_currency_rates
+- brand_weekly_ad_budgets
+- brand_monthly_channel_contractor_fees
+- brand_monthly_currency_rates
+- brand_channel_daily_costs
+- brand_channel_monthly_costs
+- brand_monthly_sms_prices
+- monthly_expert_contracts
+- expert_contract_records
+- brand_monthly_expert_contracts
+- brand_expert_contract_records
+- brand_dashboard_rules
+- brand_dashboard_rule_versions
+- brand_system_events
+- telegram_bot_settings
+- telegram_bot_users
+- telegram_brand_settings
+- telegram_report_brand_state
+- telegram_report_dispatch_lock
+- telegram_official_holidays
+- sheet_month_registry_cache
+- sheet_csv_cache
+
+الگوی brand isolation:
+
+هر داده‌ای که ممکن است بین دفاتر متفاوت باشد، brand_id دارد یا به جدول برند
+متصل است. API با getRequestBrandId برند را از header/درخواست استخراج و scope
+می‌کند. نباید fallback بی‌قاعده به برند دیگر انجام شود.
+
+cache keyها:
+
+- Search Console: brand + from + to + dimension + type
+- Google Ads: brand + from + to
+- Sheet: brand + source fingerprint + selector
+
+Migration:
+
+- migrationها در drizzle/ نگه‌داری می‌شوند.
+- بعد از تغییر schema، npm run db:generate باید اجرا شود.
+- migration باید بررسی و سپس در محیط D1 اعمال شود.
+- نباید فقط به تغییر دستی جدول production تکیه کرد.
+
+
+======================================================================
+15. Cloudflare و Sites Hosting
+======================================================================
+
+این پروژه از Cloudflare Worker-compatible Vinext build استفاده می‌کند.
+
+فایل hosting:
+
+.openai/hosting.json
+
+مقادیر منطقی:
+
+{
+  "d1": "DB",
+  "r2": "BUCKET",
+  "project_id": "..."
+}
+
+در production، Sites کنترل واقعی database/bucket و publication را در اختیار
+دارد. در local، vite.config.ts برای bindingها مقدار placeholder می‌سازد.
+
+Worker entrypoint:
+
+worker/index.ts
+
+خروجی build مورد انتظار:
+
+dist/server/index.js
+dist/.openai/hosting.json
+
+برای اعتبار artifact باید Worker دارای export پیش‌فرض و تابع زیر باشد:
+
+default.fetch(request, env, ctx)
+
+bindingهای Worker:
+
+- ASSETS: static asset fetcher
+- DB: Cloudflare D1
+- BUCKET: در مسیرهای R2 با runtime دسترسی می‌گیرد
+- IMAGES: Cloudflare Images transform
+- DASHBOARD_ADMIN_USER
+- DASHBOARD_ADMIN_PASSWORD_HASH
+- GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY
+
+scheduled trigger:
+
+Worker متد scheduled دارد و dispatch Telegram را خارج از مسیر request اجرا می‌کند.
+این بخش باید در تنظیمات Cloudflare/Sites با trigger زمانی متصل باشد.
+
+
+======================================================================
+16. PWA و حالت آفلاین
+======================================================================
+
+public/manifest.webmanifest:
+
+- lang: fa
+- dir: rtl
+- display: standalone
+- start_url: /
+- theme/background رنگ داشبورد
+- آیکن لوگوی دنیاگردی
+
+public/sw.js:
+
+- shell cache برای /، /login و manifest
+- static cache برای assetهای js/css/font/image
+- data cache برای GETهای /api
+- network-first برای داده و fallback به cache
+- network-first برای navigation و fallback به shell
+- پاک‌سازی cacheهای قدیمی در activate
+
+app/pwa-register.tsx:
+
+- ثبت service worker با scope /
+- شنیدن online/offline
+- نمایش بنر «حالت آفلاین فعال است»
+
+نکته عملیاتی:
+
+APIهای mutation عمداً در Service Worker cache نمی‌شوند. داده‌های cache‌شده ممکن
+است stale باشند و UI باید این وضعیت را پنهان نکند.
+
+
+======================================================================
+17. روش اجرای محلی
+======================================================================
+
+پیش‌نیازها:
+
+- Node.js حداقل 22.13.0
+- Linux یا محیطی که flock، curl و GNU timeout داشته باشد
+- dependencyهای package-lock
+- دسترسی به D1/Cloudflare runtime در صورت تست مسیرهای واقعی
+
+ورود به پروژه:
+
+cd /workspace/scratch/fe5f1a538829/site-clone.3SaGHC
+
+نصب قفل‌شده:
+
+npm run install:ci
+
+این اسکریپت:
+
+- HOME و cache پروژه‌ای می‌سازد.
+- نصب موازی را با flock منع می‌کند.
+- integrity مربوط به vinext را کنترل می‌کند.
+- npm ci را محدود و زمان‌دار اجرا می‌کند.
+
+اجرای توسعه:
+
+npm run dev
+
+اسکریپت dev از vite و Wrangler/Miniflare استفاده می‌کند و لاگ‌ها را داخل
+checkout نگه می‌دارد.
+
+اجرای build محلی:
+
+npm run build
+
+اجرای نسخه buildشده:
+
+npm run start
+
+پروفایل execution محیط پروژه:
+
+node /root/.codex/plugins/cache/openai-curated-remote/sites/0.1.65/scripts/configure-execution-profile.mjs
+
+این مرحله برای پروژه موجود باید قبل از build/setup بررسی شود.
+
+نکته:
+
+اگر D1 واقعی یا credentialهای خارجی در محیط محلی موجود نباشند، صفحه ممکن است
+با داده demo/default یا وضعیت pending اجرا شود. این موضوع به معنی خطای build نیست.
+
+
+======================================================================
+18. روش build و اعتبارسنجی
+======================================================================
+
+lint:
+
+npm run lint
+
+این دستور eslint را روی پروژه اجرا می‌کند و dist/.next را کنار می‌گذارد.
+
+build:
+
+npm run build
+
+این دستور scripts/build-verified.sh را اجرا می‌کند و:
+
+1. محیط Sites را تنظیم می‌کند.
+2. vinext build را با timeout bounded اجرا می‌کند.
+3. artifact را validate می‌کند.
+
+اعتبارسنجی مستقیم:
+
+npm run validate:artifact
+
+این دستور وجود dist/server/index.js و dist/.openai/hosting.json را کنترل و
+export پیش‌فرض Worker و default.fetch را import می‌کند.
+
+تست کامل:
+
+npm test
+
+این دستور build، validate و همه tests/*.test.mjs را اجرا می‌کند.
+
+تست Search Console هدفمند:
+
+NODE_OPTIONS='--experimental-loader=./scripts/cloudflare-workers-loader.mjs' node --test tests/search-console.test.mjs
+
+نکته مهم:
+
+build موفق به‌تنهایی تضمین‌کننده اتصال واقعی Google یا Telegram نیست. برای
+اتصال واقعی باید status endpoint، permission و داده live جداگانه بررسی شود.
+
+
+======================================================================
+19. روش استقرار روی Cloudflare/Sites
+======================================================================
+
+چرخه انتشار استاندارد:
+
+1. وضعیت workspace را بررسی کنید:
+   git status --short
+
+2. PROJECT_RULES.md و فایل‌های مرتبط را بررسی کنید.
+
+3. تغییر scoped را با apply_patch انجام دهید.
+
+4. تست‌های مرتبط و سپس build/lint را اجرا کنید.
+
+5. تغییر را commit کنید:
+   git add <files>
+   git commit -m "<message>"
+
+6. full SHA را بگیرید:
+   git rev-parse --verify HEAD
+
+7. از Sites برای source repository یک write credential کوتاه‌عمر بگیرید.
+   توکن نباید در فایل، log یا گزارش ذخیره شود.
+
+8. commit دقیق را به branch main push کنید:
+   git -c http.extraHeader="Authorization: Bearer <SHORT_LIVED_TOKEN>" push origin HEAD:main
+
+9. build خروجی را package کنید:
+   /root/.codex/plugins/cache/openai-curated-remote/sites/0.1.65/skills/sites-hosting/scripts/package-site.sh <PROJECT_DIR> <ARCHIVE_PATH>
+
+10. archive را validate و با tar -tzf بررسی کنید.
+
+11. با Sites save version، project_id، archive و full commit SHA را ثبت کنید.
+
+12. با Sites deploy version، فقط version_id ذخیره‌شده را deploy کنید.
+
+13. status باید succeeded شود و URL production بررسی شود.
+
+14. پس از انتشار git status و version source را دوباره بررسی کنید.
+
+قواعد حیاتی:
+
+- commit_sha باید دقیقاً همان HEAD pushشده باشد.
+- archive باید از همان source state ساخته شده باشد.
+- version ذخیره‌نشده deploy نمی‌شود.
+- project_id و version_id نباید دستی حدس زده شوند.
+- برای سایت public از deploy عمومی استفاده می‌شود؛ audience موجود حفظ می‌شود.
+- credentialهای push نباید در command history یا فایل persist شوند.
+
+
+======================================================================
+20. روش نگهداری و مدیریت نسخه‌ها
+======================================================================
+
+قبل از هر تغییر:
+
+- git status
+- آخرین commit
+- version منتشرشده
+- PROJECT_RULES.md
+- بخش و فایل‌های مرتبط
+
+برای تغییرات UI:
+
+- منطق داده، فرمول و API نباید بی‌دلیل تغییر کند.
+- CSS scoped باشد و overrideهای قدیمی بررسی شوند.
+- موبایل و دسکتاپ هر دو کنترل شوند.
+
+برای تغییرات داده:
+
+- rule و fallback باید explicit باشند.
+- صفر، null، missing و stale از هم جدا بمانند.
+- brand scope در همه requestها حفظ شود.
+
+برای تغییرات API:
+
+- validation ورودی
+- status code
+- no-store
+- safe error
+- auth/brand scope
+- cache/fallback
+
+برای تغییرات schema:
+
+- schema.ts
+- migration جدید
+- routeهای استفاده‌کننده
+- backup/restore
+- test
+
+برای rollback:
+
+- version قبلی Sites را شناسایی کنید.
+- فقط version_id دقیق همان نسخه را deploy کنید.
+- مشکل و علت rollback را در event/گزارش ثبت کنید.
+- از git reset --hard یا checkout تخریبی بدون مجوز استفاده نشود.
+
+
+======================================================================
+21. تست‌ها و پوشش فعلی
+======================================================================
+
+گروه احراز هویت:
+
+- tests/app-auth.test.mjs
+- tests/auth-support.mjs
+
+گروه داشبورد و فرمت:
+
+- dashboard-format.test.mjs
+- dashboard-reliability.test.mjs
+- rendered-html.test.mjs
+- ssr-dashboard-smoke.test.mjs
+- typography.test.mjs
+- range-summary-layout.test.mjs
+
+گروه مالی و فانل:
+
+- channel-financials.test.mjs
+- financial-diagnostics.test.mjs
+- financial-source-loader.test.mjs
+- funnel-metrics.test.mjs
+- marketing-metrics.test.mjs
+- dynamic-channel-budgets.test.mjs
+
+گروه Google Ads:
+
+- google-ads-alerts.test.mjs
+- google-ads-campaigns.test.mjs
+- google-ads-leads.test.mjs
+- google-ads-setup.test.mjs
+- google-ads-visual-structure.test.mjs
+
+گروه Search Console:
+
+- search-console.test.mjs
+- تست property identifier
+- optional/brand-scoped بودن اتصال
+- read-only scope
+- previous/current comparison
+- chart/table/filter/sort/paging/CSV markers
+- جلوگیری از crash والد در SEO action controls
+
+گروه Sheet و source:
+
+- sheet-channel-discovery.test.mjs
+- source-recovery.test.mjs
+
+گروه قرارداد/جدول:
+
+- contract-records.test.mjs
+- contract-table-state.test.mjs
+- table-sort.test.mjs
+
+گروه عملیات:
+
+- manual-refresh.test.mjs
+- phone-extraction.test.mjs
+- support-tools.test.ts
+
+تست‌های ضروری برای موتور داینامیک SEO که باید اضافه/تکمیل شوند:
+
+1. داده کم: کمتر از 30 ردیف، profile = small، بدون حذف همه فرصت‌های معتبر.
+2. داده متوسط: 30 تا 300 ردیف، profile = medium و threshold صدکی.
+3. داده زیاد: بیشتر از 300 ردیف، profile = large و confidence بالاتر.
+4. نبود داده در یک rank bucket و استفاده از fallback CTR.
+5. baseline واقعی با نمونه کافی و عدم افت غیرمنطقی نسبت به baseline پیش‌فرض.
+6. داده previous صفر و جلوگیری از NaN/Infinity.
+7. impressions صفر و جلوگیری از فرصت جعلی.
+8. duplicate impressions و محاسبه درست volume factor.
+9. فیلتر کارت KPI و Radar پس از dynamic analyzer.
+10. sort، show all، CSV و action status پس از اضافه‌شدن confidence.
+11. stale report و حفظ فرصت‌های آخرین داده معتبر.
+12. brand isolation و عدم مخلوط شدن گزارش دو دفتر.
+
+
+======================================================================
+22. وضعیت تغییرات فعلی و ریسک‌های باز
+======================================================================
+
+تغییرات local منتشرنشده:
+
+- app/search-console-page.tsx
+  موتور dynamic SEO در حال اضافه‌شدن است.
+
+- app/enhancements.css
+  استایل confidence و متن توضیح dynamic analyzer در حال اضافه‌شدن است.
+
+ریسک‌های فعلی قبل از publish:
+
+1. helperهای dynamic analyzer باید از نظر TypeScript و lint نهایی بررسی شوند.
+2. volume percentile باید روی داده‌های با مقدار برابر و duplicate پایدار باشد.
+3. baseline CTR باید در bucketهای کم‌نمونه fallback مطمئن داشته باشد.
+4. confidence باید در export CSV نیز در صورت نیاز اضافه شود.
+5. تعداد ستون‌های جدول و colSpan باید با همه حالت‌های empty و mobile هماهنگ بماند.
+6. تست مستقل برای analyzer لازم است؛ تست marker به‌تنهایی کافی نیست.
+7. پس از build باید با داده واقعی یا fixture نماینده، تعداد فرصت‌ها مقایسه شود.
+8. نسخه dynamic تا زمان save/deploy، بخشی از production نیست.
+
+ریسک عمومی پروژه:
+
+- APIهای بیرونی محدودیت quota و تأخیر دارند.
+- Search Console در روز جاری داده نهایی ندارد.
+- Google Ads ممکن است campaign attribution یکتا نداشته باشد.
+- D1 migration باید قبل از استفاده از جدول جدید اعمال شود.
+- service worker ممکن است داده قدیمی نمایش دهد؛ stale باید آشکار بماند.
+
+
+======================================================================
+23. Master Plan پیشنهادی ادامه توسعه
+======================================================================
+
+فاز صفر: تثبیت و baseline
+
+- ثبت version production فعلی.
+- پاک بودن یا مستندسازی working tree.
+- اجرای تست کامل baseline.
+- snapshot از خروجی Search Console برای مقایسه.
+
+فاز یک: استخراج موتور تحلیل SEO
+
+- انتقال منطق dynamic analyzer به یک ماژول pure جداگانه، مانند:
+  app/seo-opportunity-engine.ts
+- تعریف typeهای ورودی/خروجی مستقل از React.
+- تعریف percentile، rank bucket، profile و confidence.
+- حذف کد legacy ثابت پس از موفقیت تست‌ها.
+
+فاز دو: تست آماری و fixture
+
+- fixture کم‌داده، متوسط و پر‌داده.
+- fixture bucket ناقص.
+- fixture CTR واقعی بالا/پایین.
+- fixture افت عملکرد.
+- assertion برای count، score، confidence و reason.
+
+فاز سه: اتصال UI
+
+- نمایش profile و threshold.
+- نمایش confidence در جدول.
+- حفظ KPI card filter.
+- حفظ Radar و دسته‌بندی رنگی.
+- افزودن توضیح کوتاه و قابل فهم زیر هر تحلیل.
+
+فاز چهار: تست داده واقعی
+
+- مقایسه خروجی analyzer با نسخه 234.
+- بررسی اینکه فرصت‌های معتبر حذف نشده‌اند.
+- بررسی اینکه low-volume noise وارد صف نشده است.
+- بررسی یک query/page در هر bucket رتبه.
+- بررسی دو دفتر با حجم متفاوت.
+
+فاز پنج: hardening
+
+- کنترل null، NaN، Infinity، position صفر و CTR بیش از یک.
+- کنترل ردیف‌های با impressions صفر.
+- کنترل اعداد منفی یا malformed از API.
+- کنترل locale و اعداد انگلیسی.
+- بررسی performance با 25000 row.
+
+فاز شش: انتشار
+
+- npm run lint
+- npm test
+- npm run build
+- npm run validate:artifact
+- commit
+- push دقیق
+- package
+- save version
+- deploy
+- بررسی succeeded
+- smoke test production
+
+فاز هفت: پایش پس از انتشار
+
+- بررسی worker logs برای خطای 5xx.
+- بررسی status Search Console.
+- بررسی وضعیت stale/cache.
+- بررسی رضایت کاربر از count فرصت‌ها.
+- ثبت آستانه‌ها و تغییرات در changelog پروژه.
+
+
+======================================================================
+24. چک‌لیست عملیاتی انتشار
+======================================================================
+
+کد:
+
+[ ] PROJECT_RULES.md بررسی شد.
+[ ] تغییر فقط در scope درخواست انجام شد.
+[ ] credential یا token در کد نیست.
+[ ] brand scope تمام APIها حفظ شد.
+[ ] null/zero/stale تفکیک شده‌اند.
+[ ] mobile و desktop selectorها بررسی شدند.
+
+تست:
+
+[ ] npm run lint
+[ ] npm test
+[ ] تست هدفمند بخش تغییرکرده
+[ ] npm run build
+[ ] npm run validate:artifact
+[ ] git diff --check
+
+Git/Sites:
+
+[ ] git status بررسی شد.
+[ ] commit با full SHA ثبت شد.
+[ ] full SHA به remote push شد.
+[ ] archive از همان commit ساخته شد.
+[ ] archive با tar validate شد.
+[ ] version ذخیره شد.
+[ ] version_id دقیق deploy شد.
+[ ] deployment status = succeeded
+[ ] URL production بررسی شد.
+
+پس از انتشار:
+
+[ ] ورود و logout
+[ ] انتخاب برند
+[ ] بازه زمانی
+[ ] refresh دستی
+[ ] یک API اصلی
+[ ] یک گزارش بیرونی
+[ ] Search Console status/report
+[ ] PWA/offline banner
+[ ] عدم صفرسازی در خطای منبع
+
+
+======================================================================
+25. جمع‌بندی
+======================================================================
+
+این پروژه در حال حاضر یک داشبورد چندمنبعی و brand-scoped است که بخش مهمی از
+نیازهای عملیاتی دفتر دنیاگردی را پوشش می‌دهد. پایه فنی آن بر Worker-compatible
+Vinext، D1، R2، Drizzle و APIهای بیرونی بنا شده است.
+
+سه اصل نباید در توسعه آینده شکسته شوند:
+
+1. عدد بدون منبع معتبر یا بدون پوشش کافی نباید به‌عنوان واقعیت نمایش داده شود.
+2. خطای منبع نباید داده معتبر قبلی را صفر کند.
+3. تغییر یک دفتر/برند نباید روی داده دفتر دیگر اثر بگذارد.
+
+مهم‌ترین کار بعدی پروژه، نهایی‌کردن موتور داینامیک فرصت‌یابی SEO و تست آن با
+fixtureهای کم، متوسط و زیاد است. پس از آن باید نسخه منتشرشده از 234 به version
+جدید منتقل شود. تا قبل از آن، Version 234 مبنای production است و تغییرات dynamic
+در workspace به‌عنوان توسعه منتشرنشده شناخته می‌شوند.
+
+پایان گزارش
+

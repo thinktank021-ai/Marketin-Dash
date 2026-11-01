@@ -1,0 +1,11 @@
+# Dashboard Environment Variables
+# Copy this file to .dev.vars for local development or set these in your server / Cloudflare secrets
+
+DASHBOARD_ADMIN_USER="Admin"
+
+# scrypt password hash format: scrypt-v1:salt(32 hex):hash(64 hex)
+# Default dev password is: admin123
+DASHBOARD_ADMIN_PASSWORD_HASH="scrypt-v1:0123456789abcdef0123456789abcdef:abc39f2504bda4a10a18e0d9b0ecb0f739e2f04fa0057d5d1d465e2d3b5928bf"
+
+# 64-hex AES-GCM encryption key for storing sensitive Google Ads & Search Console Service Accounts
+GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"

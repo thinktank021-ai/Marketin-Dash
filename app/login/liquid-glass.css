@@ -1,0 +1,324 @@
+/* Login-only optical material. Authentication and dashboard styles are untouched. */
+@property --login-rim-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 25deg;
+}
+
+.loginScene {
+  background: #020b18;
+  padding: 96px 28px 72px;
+}
+
+/* Center the complete brand lockup, including the M mark, at every breakpoint. */
+.loginScene .loginBrand {
+  right: 0;
+  left: 0;
+  width: max-content;
+  max-width: calc(100% - 48px);
+  margin-inline: auto;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Wide, abstract light bands remain visible through the transparent panel. */
+.loginAmbient {
+  background:
+    radial-gradient(ellipse at 24% 68%, #04bed145, transparent 36%),
+    radial-gradient(ellipse at 77% 42%, #ddb3552b, transparent 34%),
+    radial-gradient(ellipse at 50% 100%, #0d718128, transparent 50%),
+    linear-gradient(130deg, #010916, #041a2c 52%, #020b17);
+}
+.loginAmbient i {
+  width: 140vw;
+  height: 190px;
+  min-height: 0;
+  left: -24%;
+  top: 25%;
+  border: 1px solid #8beeff80;
+  border-radius: 48%;
+  background: linear-gradient(180deg, #94f5ff12, transparent 8%, transparent 93%, #51c8dd14);
+  box-shadow: inset 0 1px 3px #a3faff99, 0 0 16px #20bfd24d, 0 22px 64px #020c1655;
+  transform: rotate(-32deg);
+  animation: loginAmbientDrift 26s ease-in-out infinite alternate;
+}
+.loginAmbient i:nth-child(2) {
+  left: -5%;
+  top: 59%;
+  height: 140px;
+  background: linear-gradient(180deg, #d1b87a0e, transparent 30%, #94d5d111);
+  border-color: #e9c26b40;
+  box-shadow: inset 0 1px 3px #ffe6a835, 0 0 18px #ddae4d1c;
+  animation-delay: -13s;
+  animation-duration: 32s;
+}
+.loginAmbient i:nth-child(3) {
+  width: 64vw;
+  height: 64vh;
+  left: 21%;
+  top: 12%;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #6bbfa321, transparent 65%);
+  filter: none;
+  box-shadow: none;
+}
+
+/* A masked gradient lights only the perimeter, never the text or controls. */
+.loginEdgeFrame {
+  position: absolute;
+  inset: 16px;
+  border: 1px solid #b8dfdd14;
+  border-radius: 18px;
+  pointer-events: none;
+}
+.loginEdgeFrame::before,
+.liquidLogin::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1.5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(from var(--login-rim-angle),
+    #bad7de0c 0deg, #bad7de0c 42deg, #77dfca75 75deg,
+    #effff5ed 92deg, #83e5d654 112deg, #bad7de0c 145deg,
+    #bad7de0c 230deg, #d5b76b65 265deg, #fff5d6c2 279deg,
+    #bad7de0c 310deg, #bad7de0c 360deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: loginRimTravel 22s linear infinite;
+}
+.loginEdgeFrame::before {
+  opacity: .48;
+  animation-duration: 36s;
+  animation-delay: -11s;
+}
+
+.liquidLogin {
+  position: relative;
+  isolation: isolate;
+  width: 480px;
+  padding: 40px 48px 24px;
+  border-radius: 34px 30px 34px 30px;
+  border: 1px solid #dcf7fb32;
+  background:
+    radial-gradient(ellipse at 100% 0%, #ffe8ac33, transparent 42%),
+    radial-gradient(ellipse at 0% 100%, #12dce338, transparent 42%),
+    linear-gradient(135deg, #d5f6ff0d, transparent 32%, #cff8fa04 62%, #e8fff50d),
+    linear-gradient(165deg, #08233438, #03152570);
+  -webkit-backdrop-filter: blur(9px) saturate(180%) contrast(108%);
+  backdrop-filter: blur(9px) saturate(180%) contrast(108%);
+  box-shadow:
+    inset 2px 2px 2px #e5ffffb3,
+    inset -2px -2px 2px #f7e8b59c,
+    inset 8px 0 14px #65dbea45,
+    inset -8px 0 14px #ffdd9838,
+    inset 0 0 22px #e6ffff12,
+    -4px 0 24px #16dfe52e,
+    4px 0 24px #ffcb7024,
+    0 24px 80px #02091066,
+    0 3px 8px #010a1533;
+}
+.liquidLogin::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  z-index: -1;
+  border-radius: 29px 25px 29px 25px;
+  border-left: 1px solid #c8faff94;
+  border-right: 1px solid #fae9bf80;
+  border-top: 1px solid #e5fffc24;
+  border-bottom: 1px solid #d7fff035;
+  background: linear-gradient(118deg, #efffff06, transparent 32%, transparent 66%, #ffffff04);
+  pointer-events: none;
+}
+.liquidLogin::before {
+  z-index: 2;
+  padding: 7px;
+  animation: none;
+  background: linear-gradient(125deg, #e9ffffc4, #61d8ea66 12%, #09223712 27%, #ffe6a4a6 49%, #09223712 64%, #73ffffad 83%, #ffffff99);
+}
+
+/* Moving specular highlights use transform animation, independent of @property support.
+   The mask is stationary: only light moves, never the glass outline or form. */
+.loginRimTrack {
+  position: absolute;
+  inset: -2px;
+  z-index: 3;
+  padding: 3px;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 5px #b6fbffb3);
+}
+.loginRimTrack::before {
+  content: "";
+  position: absolute;
+  inset: -65%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, #27e8f240 18deg, #5cecfeb3 45deg,
+    #c6ffff 65deg, #fff 72deg, transparent 77deg,
+    transparent 180deg, #e3a53940 198deg, #ffcf6dbf 225deg,
+    #fff1bf 245deg, #fff 252deg, transparent 257deg);
+  animation: loginSpecularOrbit 8s linear infinite;
+  will-change: transform;
+}
+.loginGlassReflection {
+  position: absolute;
+  inset: 10px;
+  z-index: -1;
+  border-radius: 25px;
+  pointer-events: none;
+  background: linear-gradient(112deg, transparent 25%, #cbfaff08 38%, #efffff18 43%, transparent 50%);
+  background-size: 240% 100%;
+  animation: loginSurfaceShine 12s ease-in-out infinite alternate;
+}
+@keyframes loginSpecularOrbit { to { transform: rotate(360deg); } }
+@keyframes loginSurfaceShine { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+.loginSymbol {
+  width: 84px;
+  height: 80px;
+  margin-bottom: 22px;
+  border-radius: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: #9cebd8;
+}
+.loginSymbol svg { width: 84px; height: 80px; }
+.loginHeading h1 { font-size: 33px; letter-spacing: -.5px; text-shadow: 0 2px 12px #00142144; }
+.loginAccessWarning { margin: 20px 0 0; padding: 14px 12px; text-align: center; border: 1px solid #ef777a38; border-radius: 12px; background: linear-gradient(135deg, #9d344319, #54243813); }
+.loginAccessWarning h2 { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 0 9px; color: #ffaaa9; font-size: 14px; font-weight: 750; line-height: 1.8; }
+.loginHeading .loginAccessWarning p { margin: 0; color: #e5d5d9; font-size: 12px; line-height: 2; text-align: center; overflow-wrap: anywhere; }
+.loginWarningPulse { position: relative; display: inline-grid; place-items: center; flex: 0 0 24px; height: 24px; font-size: 19px; line-height: 1; }
+.loginWarningPulse::after { content: ""; position: absolute; inset: 2px; border: 1px solid #ff5c68; border-radius: 50%; animation: loginWarningPulse 2.4s ease-out infinite; pointer-events: none; }
+@keyframes loginWarningPulse { 0% { transform: scale(.85); opacity: .8; } 80%, 100% { transform: scale(1.65); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .loginWarningPulse::after { animation: none; opacity: .4; } }
+.loginGoldDivider { position: relative; width: 136px; height: 1px; margin: 26px auto 0; background: linear-gradient(90deg, transparent, #ebbd55, transparent); }
+.loginGoldDivider::after { content: ""; position: absolute; width: 5px; height: 5px; top: -2px; left: calc(50% - 2px); border-radius: 50%; background: #fff3ba; box-shadow: 0 0 9px #f4c055, 0 0 20px #efc26165; }
+.loginForm { margin-top: 26px; }
+.loginForm > label { font-size: 14px; color: #e0e8ec; }
+.loginUsername { position: relative; }
+.loginFieldIcon, .loginPassword button svg { width: 21px; height: 21px; fill: none; stroke: #bdcdd6; stroke-width: 1.5; }
+.loginFieldIcon { position: absolute; left: 14px; top: 18px; pointer-events: none; }
+.loginPassword button { top: 7px; display: grid; place-items: center; }
+.loginUsername input { padding-left: 48px; }
+.loginPassword input { padding-left: 48px; padding-right: 55px; }
+.loginHeading p, .loginSessionNote { color: #b2cbd1; }
+.loginHeading > span { color: #c3d5dc; }
+.loginForm input {
+  height: 56px;
+  background: linear-gradient(115deg, #47697c24, #76818c18);
+  border-color: #cae8eb66;
+  box-shadow: inset 0 1px 4px #00101d35, 0 1px 0 #ebffff0b;
+  border-radius: 9px;
+}
+.loginForm input::placeholder { color: #a9bfc8; }
+.loginForm input:focus {
+  border-color: #b0f0deaa;
+  box-shadow: 0 0 0 3px #78d9c315, inset 0 1px 4px #00101d35;
+}
+.loginPassword button { color: #c2dedf; }
+.loginSubmit {
+  height: 56px;
+  justify-content: center;
+  border-radius: 12px;
+  color: #002a31;
+  font-size: 17px!important;
+  border-color: #75f9f4b3;
+  background: linear-gradient(155deg, #19caca, #04a5ac);
+  box-shadow: inset 0 1px 0 #effffb6b, inset 0 -1px 0 #b3ffe730, 0 6px 24px #07cacc16;
+  text-shadow: none;
+  transition: background-color .2s, box-shadow .2s;
+}
+.loginSubmit:hover:not(:disabled) {
+  background-color: #60c7ac26;
+  box-shadow: inset 0 1px 0 #effffb8c, 0 6px 26px #35d2a321;
+}
+.loginRecovery { color: #40e4df; font-size: 13px!important; }
+.liquidLogin footer { color: #aac1c9; border-color: #ceeae41c; }
+.loginBottom { color: #9bb3c0; }
+
+@keyframes loginRimTravel { to { --login-rim-angle: 385deg; } }
+@keyframes loginAmbientDrift {
+  from { transform: translate3d(0, 0, 0) rotate(-32deg); opacity: .66; }
+  to { transform: translate3d(12px, -8px, 0) rotate(-31deg); opacity: .84; }
+}
+
+@media (max-width: 520px) {
+  .loginScene { padding: 88px 22px 66px; }
+  .loginEdgeFrame { inset: 8px; border-radius: 13px; }
+  .liquidLogin {
+    padding: 28px 24px 22px;
+    border-radius: 26px 23px 26px 23px;
+    -webkit-backdrop-filter: blur(10px) saturate(135%);
+    backdrop-filter: blur(10px) saturate(135%);
+  }
+  .liquidLogin::after { border-radius: 21px 18px 21px 18px; }
+  .loginGlassReflection { border-radius: 17px; }
+  .loginRimTrack { padding: 2.5px; filter: none; }
+  .loginHeading h1 { font-size: 27px; }
+  .loginSymbol, .loginSymbol svg { width: 68px; height: 66px; }
+  .loginAmbient i { width: 220vw; left: -80%; height: 150px; }
+  .loginAmbient i:nth-child(2) { left: -30%; height: 110px; }
+  .loginEdgeFrame::before { animation: none; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquidLogin { background: linear-gradient(145deg, #29434dec, #102531f5); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loginAmbient i, .loginEdgeFrame::before, .liquidLogin::before,
+  .loginRimTrack::before, .loginGlassReflection { animation: none; }
+  .loginSubmit { transition: none; }
+}
+
+/* Final mobile authentication layout: scrollable, width-contained and safe for
+   narrow phones. The form must be allowed to grow below the viewport rather
+   than being clipped by the decorative scene. */
+.loginScene{overflow-x:clip;overflow-y:auto;overscroll-behavior-y:contain}
+.liquidLogin{width:min(480px,100%);max-width:100%;min-width:0}
+.loginForm input{min-width:0;font-size:16px}
+.loginForm input,.loginSubmit{max-width:100%}
+.loginRecovery,.appCopyright a{touch-action:manipulation}
+.liquidLogin .appCopyright{border-top:1px solid #ceeae41c;color:#aac1c9}
+@media(max-width:520px){
+  .loginScene{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100svh;height:auto;padding:82px max(14px,env(safe-area-inset-left)) calc(24px + env(safe-area-inset-bottom));overflow-y:auto}
+  .loginBrand{position:relative;top:auto;right:auto;left:auto;width:100%;max-width:430px;margin:0 auto 13px;min-height:35px;justify-content:center}
+  .loginEdgeFrame{inset:6px;border-radius:14px}
+  .liquidLogin{flex:0 0 auto;width:100%;padding:24px 17px 17px;border-radius:22px;backdrop-filter:blur(9px) saturate(125%);-webkit-backdrop-filter:blur(9px) saturate(125%)}
+  .liquidLogin::after{inset:6px;border-radius:17px}
+  .loginRimTrack{display:none}
+  .loginGlassReflection{display:none}
+  .loginSymbol,.loginSymbol svg{width:60px;height:58px}
+  .loginSymbol{margin-bottom:13px}
+  .loginHeading h1{font-size:23px;line-height:1.45}
+  .loginAccessWarning{margin-top:13px;padding:10px 9px}
+  .loginAccessWarning h2{font-size:12px;line-height:1.7}
+  .loginHeading .loginAccessWarning p{font-size:10px;line-height:1.85}
+  .loginGoldDivider{margin-top:17px}
+  .loginForm{margin-top:18px}
+  .loginForm>label{font-size:11px;margin:12px 0 6px}
+  .loginForm input{height:50px;padding-right:12px;padding-left:44px}
+  .loginPassword input{padding-right:54px}
+  .loginFieldIcon{left:12px;top:15px;width:19px;height:19px}
+  .loginPassword button{top:4px;height:42px;width:47px}
+  .loginMessage{min-height:25px;font-size:10px;line-height:1.7}
+  .loginSubmit{height:50px;font-size:15px!important}
+  .loginRecovery{margin:12px auto 0;font-size:11px!important}
+  .loginRecoveryInfo{font-size:10px;line-height:1.8;padding:9px}
+  .liquidLogin .appCopyright{margin-top:12px!important;padding-top:10px!important}
+  .loginBottom{position:relative;bottom:auto;left:auto;right:auto;margin:10px 16px 0;font-size:9px;line-height:1.7}
+}
+@media(max-width:360px){
+  .loginScene{padding-inline:10px}
+  .liquidLogin{padding-inline:13px}
+  .loginHeading h1{font-size:21px}
+  .loginAccessWarning{padding-inline:7px}
+}

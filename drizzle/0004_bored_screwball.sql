@@ -1,0 +1,1 @@
+CREATE INDEX `expert_contract_records_month_idx` ON `expert_contract_records` (`month`,`expert`);

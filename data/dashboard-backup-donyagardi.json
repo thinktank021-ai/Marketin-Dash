@@ -1,0 +1,1611 @@
+{
+  "format": "marketing-dashboard-backup",
+  "schemaVersion": 3,
+  "exportedAt": "2026-09-23T17:15:12.679Z",
+  "brand": {
+    "id": "donyagardi",
+    "name": "دفتر دنیاگردی",
+    "shortName": "دنیاگردی"
+  },
+  "rules": {
+    "rules": {
+      "schemaVersion": 1,
+      "rulesVersion": "1.0.0",
+      "channels": [
+        {
+          "id": "sms",
+          "name": "پیامک",
+          "aliases": [
+            "پیامک",
+            "اس ام اس",
+            "اس‌ام‌اس",
+            "SMS"
+          ],
+          "costMode": "daily_budget",
+          "contractorEnabled": false,
+          "color": "gold",
+          "icon": "✉",
+          "enabled": true
+        },
+        {
+          "id": "google_ads",
+          "name": "گوگل ادز",
+          "aliases": [
+            "گوگل ادز",
+            "تبلیغات گوگل",
+            "گوگل‌ادز"
+          ],
+          "costMode": "google_ads",
+          "contractorEnabled": true,
+          "color": "teal",
+          "icon": "G",
+          "enabled": true
+        },
+        {
+          "id": "instagram",
+          "name": "اینستاگرام",
+          "aliases": [
+            "اینستاگرام"
+          ],
+          "costMode": "daily_budget",
+          "contractorEnabled": true,
+          "color": "coral",
+          "icon": "◎",
+          "enabled": true
+        },
+        {
+          "id": "whatsapp",
+          "name": "واتساپ",
+          "aliases": [
+            "واتساپ",
+            "واتس اپ",
+            "واتس‌آپ"
+          ],
+          "costMode": "google_ads",
+          "contractorEnabled": false,
+          "color": "green",
+          "icon": "◉",
+          "enabled": true
+        },
+        {
+          "id": "site_form",
+          "name": "فرم سایت",
+          "aliases": [
+            "فرم سایت"
+          ],
+          "costMode": "google_ads",
+          "contractorEnabled": false,
+          "color": "blue",
+          "icon": "▤",
+          "enabled": true
+        },
+        {
+          "id": "loyal",
+          "name": "مسافر ثابت",
+          "aliases": [
+            "مسافر ثابت",
+            "مسافر قدیمی",
+            "آژانسی",
+            "همکار",
+            "حضوری"
+          ],
+          "costMode": "none",
+          "contractorEnabled": false,
+          "color": "sand",
+          "icon": "♙",
+          "enabled": true
+        },
+        {
+          "id": "novavaran",
+          "name": "نوآوران",
+          "aliases": [
+            "نوآوران",
+            "تواوران"
+          ],
+          "costMode": "none",
+          "contractorEnabled": false,
+          "color": "indigo",
+          "icon": "⌁",
+          "enabled": true
+        },
+        {
+          "id": "other",
+          "name": "سایر",
+          "aliases": [
+            "سایر",
+            "معرفی"
+          ],
+          "costMode": "none",
+          "contractorEnabled": false,
+          "color": "warning",
+          "icon": "…",
+          "enabled": true
+        }
+      ],
+      "routes": [
+        {
+          "target": "گرجستان",
+          "aliases": [
+            "گرجستان",
+            "باتومی",
+            "تفلیس"
+          ]
+        }
+      ],
+      "experts": [],
+      "sheetColumns": {
+        "date": "تاریخ",
+        "weekday": "روز هفته",
+        "source": "منبع فایل",
+        "route": "مسیر",
+        "expert": "کارشناس",
+        "outcome": "نتیجه",
+        "notes": "توضیحات"
+      },
+      "contractOutcomes": [
+        "قرارداد شد"
+      ],
+      "formulas": {
+        "cpl": "cost_per_paid_lead",
+        "cac": "cost_per_attributed_contract",
+        "expertAllocation": "channel_lead_share",
+        "includeContractorFees": true
+      }
+    },
+    "version": 5
+  },
+  "summary": {
+    "budgets": 80,
+    "contractorFees": 3,
+    "channelDailyCosts": 160,
+    "channelMonthlyCosts": 5,
+    "smsPrices": 3,
+    "rates": 3,
+    "contracts": 0
+  },
+  "data": {
+    "budgets": [
+      {
+        "date": "1405/04/01",
+        "weekStart": "1405/03/30",
+        "weekday": "دوشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/02",
+        "weekStart": "1405/03/30",
+        "weekday": "سه‌شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/03",
+        "weekStart": "1405/03/30",
+        "weekday": "چهارشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/04",
+        "weekStart": "1405/03/30",
+        "weekday": "پنجشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/06",
+        "weekStart": "1405/04/06",
+        "weekday": "شنبه",
+        "smsToman": 6000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/07",
+        "weekStart": "1405/04/06",
+        "weekday": "یکشنبه",
+        "smsToman": 6000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/08",
+        "weekStart": "1405/04/06",
+        "weekday": "دوشنبه",
+        "smsToman": 6000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/09",
+        "weekStart": "1405/04/06",
+        "weekday": "سه‌شنبه",
+        "smsToman": 6000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/10",
+        "weekStart": "1405/04/06",
+        "weekday": "چهارشنبه",
+        "smsToman": 6000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/11",
+        "weekStart": "1405/04/06",
+        "weekday": "پنجشنبه",
+        "smsToman": 3500000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/13",
+        "weekStart": "1405/04/13",
+        "weekday": "شنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/14",
+        "weekStart": "1405/04/13",
+        "weekday": "یکشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/15",
+        "weekStart": "1405/04/13",
+        "weekday": "دوشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/16",
+        "weekStart": "1405/04/13",
+        "weekday": "سه‌شنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/17",
+        "weekStart": "1405/04/13",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/18",
+        "weekStart": "1405/04/13",
+        "weekday": "پنجشنبه",
+        "smsToman": 3500000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/20",
+        "weekStart": "1405/04/20",
+        "weekday": "شنبه",
+        "smsToman": 4000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/21",
+        "weekStart": "1405/04/20",
+        "weekday": "یکشنبه",
+        "smsToman": 8000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/22",
+        "weekStart": "1405/04/20",
+        "weekday": "دوشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/23",
+        "weekStart": "1405/04/20",
+        "weekday": "سه‌شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/24",
+        "weekStart": "1405/04/20",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/25",
+        "weekStart": "1405/04/20",
+        "weekday": "پنجشنبه",
+        "smsToman": 4000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/27",
+        "weekStart": "1405/04/27",
+        "weekday": "شنبه",
+        "smsToman": 8000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/28",
+        "weekStart": "1405/04/27",
+        "weekday": "یکشنبه",
+        "smsToman": 8000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/29",
+        "weekStart": "1405/04/27",
+        "weekday": "دوشنبه",
+        "smsToman": 8000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/30",
+        "weekStart": "1405/04/27",
+        "weekday": "سه‌شنبه",
+        "smsToman": 8000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/04/31",
+        "weekStart": "1405/04/27",
+        "weekday": "چهارشنبه",
+        "smsToman": 8000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/01",
+        "weekStart": "1405/04/27",
+        "weekday": "پنجشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/03",
+        "weekStart": "1405/05/03",
+        "weekday": "شنبه",
+        "smsToman": 12500000,
+        "instagramToman": 2600000
+      },
+      {
+        "date": "1405/05/04",
+        "weekStart": "1405/05/03",
+        "weekday": "یکشنبه",
+        "smsToman": 6500000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/05",
+        "weekStart": "1405/05/03",
+        "weekday": "دوشنبه",
+        "smsToman": 6500000,
+        "instagramToman": 2800000
+      },
+      {
+        "date": "1405/05/06",
+        "weekStart": "1405/05/03",
+        "weekday": "سه‌شنبه",
+        "smsToman": 6500000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/07",
+        "weekStart": "1405/05/03",
+        "weekday": "چهارشنبه",
+        "smsToman": 6500000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/08",
+        "weekStart": "1405/05/03",
+        "weekday": "پنجشنبه",
+        "smsToman": 4500000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/10",
+        "weekStart": "1405/05/10",
+        "weekday": "شنبه",
+        "smsToman": 10000000,
+        "instagramToman": 2400000
+      },
+      {
+        "date": "1405/05/11",
+        "weekStart": "1405/05/10",
+        "weekday": "یکشنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/12",
+        "weekStart": "1405/05/10",
+        "weekday": "دوشنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/13",
+        "weekStart": "1405/05/10",
+        "weekday": "سه‌شنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/14",
+        "weekStart": "1405/05/10",
+        "weekday": "چهارشنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/15",
+        "weekStart": "1405/05/10",
+        "weekday": "پنجشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/17",
+        "weekStart": "1405/05/17",
+        "weekday": "شنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/18",
+        "weekStart": "1405/05/17",
+        "weekday": "یکشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/19",
+        "weekStart": "1405/05/17",
+        "weekday": "دوشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/20",
+        "weekStart": "1405/05/17",
+        "weekday": "سه‌شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/21",
+        "weekStart": "1405/05/17",
+        "weekday": "چهارشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/22",
+        "weekStart": "1405/05/17",
+        "weekday": "پنجشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/24",
+        "weekStart": "1405/05/24",
+        "weekday": "شنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/25",
+        "weekStart": "1405/05/24",
+        "weekday": "یکشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/26",
+        "weekStart": "1405/05/24",
+        "weekday": "دوشنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/27",
+        "weekStart": "1405/05/24",
+        "weekday": "سه‌شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/28",
+        "weekStart": "1405/05/24",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/29",
+        "weekStart": "1405/05/24",
+        "weekday": "پنجشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/05/31",
+        "weekStart": "1405/05/31",
+        "weekday": "شنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/01",
+        "weekStart": "1405/05/31",
+        "weekday": "یکشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/02",
+        "weekStart": "1405/05/31",
+        "weekday": "دوشنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/03",
+        "weekStart": "1405/05/31",
+        "weekday": "سه‌شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/04",
+        "weekStart": "1405/05/31",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/05",
+        "weekStart": "1405/05/31",
+        "weekday": "پنجشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/07",
+        "weekStart": "1405/06/07",
+        "weekday": "شنبه",
+        "smsToman": 6000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/08",
+        "weekStart": "1405/06/07",
+        "weekday": "یکشنبه",
+        "smsToman": 0,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/09",
+        "weekStart": "1405/06/07",
+        "weekday": "دوشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/10",
+        "weekStart": "1405/06/07",
+        "weekday": "سه‌شنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/11",
+        "weekStart": "1405/06/07",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/12",
+        "weekStart": "1405/06/07",
+        "weekday": "پنجشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/14",
+        "weekStart": "1405/06/14",
+        "weekday": "شنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/15",
+        "weekStart": "1405/06/14",
+        "weekday": "یکشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/16",
+        "weekStart": "1405/06/14",
+        "weekday": "دوشنبه",
+        "smsToman": 10000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/17",
+        "weekStart": "1405/06/14",
+        "weekday": "سه‌شنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/18",
+        "weekStart": "1405/06/14",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/19",
+        "weekStart": "1405/06/14",
+        "weekday": "پنجشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/21",
+        "weekStart": "1405/06/21",
+        "weekday": "شنبه",
+        "smsToman": 15000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/22",
+        "weekStart": "1405/06/21",
+        "weekday": "یکشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/23",
+        "weekStart": "1405/06/21",
+        "weekday": "دوشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/24",
+        "weekStart": "1405/06/21",
+        "weekday": "سه‌شنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/25",
+        "weekStart": "1405/06/21",
+        "weekday": "چهارشنبه",
+        "smsToman": 7000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/26",
+        "weekStart": "1405/06/21",
+        "weekday": "پنجشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/28",
+        "weekStart": "1405/06/28",
+        "weekday": "شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/29",
+        "weekStart": "1405/06/28",
+        "weekday": "یکشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/30",
+        "weekStart": "1405/06/28",
+        "weekday": "دوشنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      },
+      {
+        "date": "1405/06/31",
+        "weekStart": "1405/06/28",
+        "weekday": "سه‌شنبه",
+        "smsToman": 5000000,
+        "instagramToman": 0
+      }
+    ],
+    "contractorFees": [
+      {
+        "month": "1405/04",
+        "instagramToman": 0,
+        "googleAdsToman": null
+      },
+      {
+        "month": "1405/05",
+        "instagramToman": 40000000,
+        "googleAdsToman": 0
+      },
+      {
+        "month": "1405/06",
+        "instagramToman": 40000000,
+        "googleAdsToman": 0
+      }
+    ],
+    "channelDailyCosts": [
+      {
+        "date": "1405/04/01",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/01",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/04/02",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/02",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/04/03",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/03",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/04",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/04",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/06",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/06",
+        "channelId": "sms",
+        "amountToman": 6000000
+      },
+      {
+        "date": "1405/04/07",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/07",
+        "channelId": "sms",
+        "amountToman": 6000000
+      },
+      {
+        "date": "1405/04/08",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/08",
+        "channelId": "sms",
+        "amountToman": 6000000
+      },
+      {
+        "date": "1405/04/09",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/09",
+        "channelId": "sms",
+        "amountToman": 6000000
+      },
+      {
+        "date": "1405/04/10",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/10",
+        "channelId": "sms",
+        "amountToman": 6000000
+      },
+      {
+        "date": "1405/04/11",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/11",
+        "channelId": "sms",
+        "amountToman": 3500000
+      },
+      {
+        "date": "1405/04/13",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/13",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/14",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/14",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/15",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/15",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/16",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/16",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/17",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/17",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/04/18",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/18",
+        "channelId": "sms",
+        "amountToman": 3500000
+      },
+      {
+        "date": "1405/04/20",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/20",
+        "channelId": "sms",
+        "amountToman": 4000000
+      },
+      {
+        "date": "1405/04/21",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/21",
+        "channelId": "sms",
+        "amountToman": 8000000
+      },
+      {
+        "date": "1405/04/22",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/22",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/04/23",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/23",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/04/24",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/24",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/04/25",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/25",
+        "channelId": "sms",
+        "amountToman": 4000000
+      },
+      {
+        "date": "1405/04/27",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/27",
+        "channelId": "sms",
+        "amountToman": 8000000
+      },
+      {
+        "date": "1405/04/28",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/28",
+        "channelId": "sms",
+        "amountToman": 8000000
+      },
+      {
+        "date": "1405/04/29",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/29",
+        "channelId": "sms",
+        "amountToman": 8000000
+      },
+      {
+        "date": "1405/04/30",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/30",
+        "channelId": "sms",
+        "amountToman": 8000000
+      },
+      {
+        "date": "1405/04/31",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/04/31",
+        "channelId": "sms",
+        "amountToman": 8000000
+      },
+      {
+        "date": "1405/05/01",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/01",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/05/03",
+        "channelId": "instagram",
+        "amountToman": 2600000
+      },
+      {
+        "date": "1405/05/03",
+        "channelId": "sms",
+        "amountToman": 12500000
+      },
+      {
+        "date": "1405/05/04",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/04",
+        "channelId": "sms",
+        "amountToman": 6500000
+      },
+      {
+        "date": "1405/05/05",
+        "channelId": "instagram",
+        "amountToman": 2800000
+      },
+      {
+        "date": "1405/05/05",
+        "channelId": "sms",
+        "amountToman": 6500000
+      },
+      {
+        "date": "1405/05/06",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/06",
+        "channelId": "sms",
+        "amountToman": 6500000
+      },
+      {
+        "date": "1405/05/07",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/07",
+        "channelId": "sms",
+        "amountToman": 6500000
+      },
+      {
+        "date": "1405/05/08",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/08",
+        "channelId": "sms",
+        "amountToman": 4500000
+      },
+      {
+        "date": "1405/05/10",
+        "channelId": "instagram",
+        "amountToman": 2400000
+      },
+      {
+        "date": "1405/05/10",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/11",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/11",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/12",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/12",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/13",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/13",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/14",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/14",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/15",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/15",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/05/17",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/17",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/18",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/18",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/05/19",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/19",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/05/20",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/20",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/05/21",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/21",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/22",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/22",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/24",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/24",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/25",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/25",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/05/26",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/26",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/05/27",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/27",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/05/28",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/28",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/05/29",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/29",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/05/31",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/05/31",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/06/01",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/01",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/02",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/02",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/06/03",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/03",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/04",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/04",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/05",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/05",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/07",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/07",
+        "channelId": "sms",
+        "amountToman": 6000000
+      },
+      {
+        "date": "1405/06/08",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/08",
+        "channelId": "sms",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/09",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/09",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/10",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/10",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/11",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/11",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/12",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/12",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/14",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/14",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/06/15",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/15",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/16",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/16",
+        "channelId": "sms",
+        "amountToman": 10000000
+      },
+      {
+        "date": "1405/06/17",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/17",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/18",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/18",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/19",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/19",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/21",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/21",
+        "channelId": "sms",
+        "amountToman": 15000000
+      },
+      {
+        "date": "1405/06/22",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/22",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/23",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/23",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/24",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/24",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/25",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/25",
+        "channelId": "sms",
+        "amountToman": 7000000
+      },
+      {
+        "date": "1405/06/26",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/26",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/28",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/28",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/29",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/29",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/30",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/30",
+        "channelId": "sms",
+        "amountToman": 5000000
+      },
+      {
+        "date": "1405/06/31",
+        "channelId": "instagram",
+        "amountToman": 0
+      },
+      {
+        "date": "1405/06/31",
+        "channelId": "sms",
+        "amountToman": 5000000
+      }
+    ],
+    "channelMonthlyCosts": [
+      {
+        "month": "1405/04",
+        "channelId": "instagram",
+        "mediaToman": null,
+        "contractorToman": 0
+      },
+      {
+        "month": "1405/05",
+        "channelId": "google_ads",
+        "mediaToman": null,
+        "contractorToman": 0
+      },
+      {
+        "month": "1405/05",
+        "channelId": "instagram",
+        "mediaToman": null,
+        "contractorToman": 40000000
+      },
+      {
+        "month": "1405/06",
+        "channelId": "google_ads",
+        "mediaToman": null,
+        "contractorToman": 0
+      },
+      {
+        "month": "1405/06",
+        "channelId": "instagram",
+        "mediaToman": null,
+        "contractorToman": 40000000
+      }
+    ],
+    "smsPrices": [
+      {
+        "month": "1405/04",
+        "priceToman": 156
+      },
+      {
+        "month": "1405/05",
+        "priceToman": 156
+      },
+      {
+        "month": "1405/06",
+        "priceToman": 156
+      }
+    ],
+    "rates": [
+      {
+        "month": "1405/04",
+        "tryToToman": 3900
+      },
+      {
+        "month": "1405/05",
+        "tryToToman": 4000
+      },
+      {
+        "month": "1405/06",
+        "tryToToman": 4330
+      }
+    ],
+    "contracts": [],
+    "contractRecords": []
+  }
+}

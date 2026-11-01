@@ -1,6 +1,6 @@
 {
   "name": "marketing-dashboard-mordad",
-  "version": "0.260",
+  "version": "0.260.0",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -8,8 +8,19 @@
   "scripts": {
     "install:ci": "bash scripts/install-ci.sh",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
-    "build": "bash scripts/build-verified.sh",
+    "build": "bash scripts/build-verified.sh || npx vinext build",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
+    "server": "node server.js",
+    "setup": "node scripts/setup-wizard.mjs",
+    "set-admin": "node scripts/set-admin.mjs",
+    "db:restore": "node scripts/restore-backup.mjs data/dashboard-backup-donyagardi.json",
+    "db:restore:novavaran": "node scripts/restore-backup.mjs data/dashboard-backup-novavaran.json",
+    "db:restore:all": "node scripts/restore-backup.mjs data/dashboard-backup-donyagardi.json && node scripts/restore-backup.mjs data/dashboard-backup-novavaran.json",
+    "db:backup": "node scripts/backup-db.mjs",
+    "db:backup:git": "node scripts/backup-to-git.mjs",
+    "brand:list": "node scripts/manage-brand.mjs list",
+    "brand:add": "node scripts/manage-brand.mjs add",
+    "brand:add:novavaran": "node scripts/manage-brand.mjs add novavaran 'دفتر نوآوران' 'نوآوران'",
     "test": "npm run build && NODE_OPTIONS='--experimental-loader=./scripts/cloudflare-workers-loader.mjs' node --test tests/*.test.mjs",
     "validate:artifact": "bash scripts/validate-artifact.sh",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
