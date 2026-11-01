@@ -34,7 +34,7 @@
       padding: 35px 20px;
     }
     .container {
-      max-width: 860px;
+      max-width: 880px;
       margin: 0 auto;
     }
     header {
@@ -70,7 +70,7 @@
       margin-top: 18px;
       flex-wrap: wrap;
     }
-    .site-link, .repo-link {
+    .site-link, .repo-link, .pr-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -88,6 +88,15 @@
     }
     .site-link:hover {
       background: #047857;
+      transform: translateY(-2px);
+    }
+    .pr-link {
+      background: #1e3a8a;
+      border: 1px solid #3b82f6;
+      color: #bfdbfe;
+    }
+    .pr-link:hover {
+      background: #1d4ed8;
       transform: translateY(-2px);
     }
     .repo-link {
@@ -137,7 +146,7 @@
     strong {
       color: var(--text-main);
     }
-    ul {
+    ul, ol {
       padding-right: 22px;
       margin-bottom: 12px;
     }
@@ -175,40 +184,50 @@
     .copy-btn:hover {
       background: #1d4ed8;
     }
-    .flow-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 16px 0;
+    .merge-guide-box {
+      background: #0f231c;
+      border: 2px solid #10b981;
+      border-radius: 16px;
+      padding: 22px;
+      margin: 20px 0;
     }
-    .flow-step {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 15px 18px;
-    }
-    .flow-step .step-badge {
-      background: #0284c7;
+    .green-btn-mock {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #238636;
       color: white;
-      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      white-space: nowrap;
-      margin-top: 2px;
-    }
-    .highlight-box {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 14px;
-      color: #6ee7b7;
       font-size: 14px;
-      line-height: 1.8;
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin: 6px 0;
+    }
+    .steps-list {
+      list-style: none;
+      padding-right: 0;
+      margin-top: 15px;
+    }
+    .steps-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+    .steps-list .num-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #042f2e;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 13px;
+      flex: none;
+      margin-top: 2px;
     }
     .red-lines {
       background: rgba(239, 68, 68, 0.08);
@@ -238,41 +257,15 @@
       
       <div class="links-row">
         <a href="https://dash.donyagardi.com" target="_blank" class="site-link">
-          <span>🌐 مشاهده سایت لایو: dash.donyagardi.com</span>
+          <span>🌐 ورود به داشبورد: dash.donyagardi.com</span>
         </a>
-        <a href="https://github.com/thinktank021-ai/Marketin-Dash" target="_blank" class="repo-link">
-          <span>📦 گیت‌هاب: thinktank021-ai/Marketin-Dash</span>
+        <a href="https://github.com/thinktank021-ai/Marketin-Dash/pulls" target="_blank" class="pr-link">
+          <span>🔀 صفحه تایید و ادغام (Pull Requests)</span>
         </a>
       </div>
     </header>
 
-    <!-- کارت ۱: فرآیند خودکار -->
-    <div class="card">
-      <div class="card-title">
-        <span class="number">⚡</span>
-        <span>تغییرات شما چگونه خودکار روی سایت می‌نشیند؟</span>
-      </div>
-      <p>هیچ نیازی به ورود به سی‌پنل، نوشتن دستور، آپلود فایل یا کپی‌پیست ندارید! چرخه به این شکل کار می‌کند:</p>
-      <div class="flow-steps">
-        <div class="flow-step">
-          <span class="step-badge">مرحله ۱</span>
-          <div>در چت‌جی‌پی‌تی کار را می‌گویید و او کد را اصلاح می‌کند.</div>
-        </div>
-        <div class="flow-step">
-          <span class="step-badge">مرحله ۲</span>
-          <div>به چت‌جی‌پی‌تی می‌گویید تغییرات را روی گیت‌هاب کامیت کند و <strong>Pull Request (PR)</strong> بسازد.</div>
-        </div>
-        <div class="flow-step">
-          <span class="step-badge">مرحله ۳</span>
-          <div>در گیت‌هاب دکمه سبز رنگ <strong>Merge</strong> را می‌زنید. تمام! 🎯</div>
-        </div>
-      </div>
-      <div class="highlight-box">
-        💡 <strong>پشت صحنه چه می‌شود؟</strong> به محض اینکه دکمه Merge را در گیت‌هاب بزنید، سیستم خودکار گیت‌هاب ظرف ۱۸ ثانیه به سرور سی‌پنل وصل می‌شود، کدها را بیلد می‌کند و تغییرات فوراً روی <strong>dash.donyagardi.com</strong> لایو می‌شود!
-      </div>
-    </div>
-
-    <!-- کارت ۲: قانون چت نو -->
+    <!-- کارت ۱: قانون چت نو -->
     <div class="card">
       <div class="card-title">
         <span class="number">۱</span>
@@ -281,16 +274,16 @@
       <p><strong>چرا چت‌های قبلی بعد از چند روز قاطی می‌کردند؟</strong></p>
       <p>هوش مصنوعی در چت‌های طولانی دچار سرریز حافظه می‌شود و حرف‌های روزهای قبل را فراموش می‌کند یا اشتباه می‌فهمد.</p>
       <ul>
-        <li>برای هر کار جدید (مثلاً: اصلاح کانال آژانسی، تغییر استایل یک جدول، افزودن فیلتر)، <strong>حتماً یک چت کاملاً جدید باز کن</strong>.</li>
+        <li>برای هر کار جدید (مثلاً: اصلاح کانال آژانسی، تغییر ظاهر یک جدول، افزودن فیلتر)، <strong>حتماً یک چت کاملاً جدید در ChatGPT باز کن</strong>.</li>
         <li>وقتی کار تمام شد و ثبت گردید، آن چت را ببند و برای تسک بعدی دوباره چت نو باز کن.</li>
       </ul>
     </div>
 
-    <!-- کارت ۳: پیام شروع -->
+    <!-- کارت ۲: پیام شروع -->
     <div class="card">
       <div class="card-title">
         <span class="number">۲</span>
-        <span>پیام شروع در هر چت جدید (Starter Prompt)</span>
+        <span>گام اول: پیام شروع در چت جدید (Starter Prompt)</span>
       </div>
       <p>در چت جدید، اولین پیامت به چت‌جی‌پی‌تی این باشد (فقط بخش داخل براکت را متناسب با کار روز بنویس):</p>
 
@@ -306,28 +299,75 @@
       </div>
     </div>
 
-    <!-- کارت ۴: پیام ساخت PR -->
+    <!-- کارت ۳: پیام ساخت PR -->
     <div class="card">
       <div class="card-title">
         <span class="number">۳</span>
-        <span>پیام ثبت و انتشار لایو (وقتی کار چت‌جی‌پی‌تی تمام شد)</span>
+        <span>گام دوم: پیام ثبت در گیت‌هاب (وقتی کار چت‌جی‌پی‌تی تمام شد)</span>
       </div>
-      <p>وقتی چت‌جی‌پی‌تی تغییرات را نشان داد و راضی بودی، فقط همین یک جمله را به او بگو:</p>
+      <p>وقتی چت‌جی‌پی‌تی تغییرات را نشان داد و از نتیجه راضی بودی، فقط همین یک جمله را به او بگو:</p>
 
       <div class="prompt-box">
         <button class="copy-btn" onclick="copyPrompt('p2', this)">کپی پیام</button>
         <div id="p2" class="prompt-text">عالیه! لطفاً این تغییرات را مستقیماً روی یک برنچ جدید در ریپازیتوری thinktank021-ai/Marketin-Dash ذخیره (Commit) کن و یک Pull Request برای شاخه main ایجاد کن.</div>
       </div>
+    </div>
 
-      <p style="margin-top: 10px;">
-        سپس به لینک Pull Request که چت‌جی‌پی‌تی به تو می‌دهد برو و دکمه سبز رنگ <strong>Merge pull request</strong> را بزن. ظرف ۲۰ ثانیه تغییرات روی سایت اصلی لایو خواهد شد.
-      </p>
+    <!-- کارت ۴: راهنمای دقیق دکمه سبز گیت‌هاب -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">۴</span>
+        <span>گام سوم: دکمه سبز رنگ کجاست و دقیقاً چه‌کار باید کرد؟</span>
+      </div>
+      
+      <div class="merge-guide-box">
+        <h3 style="color: #34d399; font-size: 17px; margin-bottom: 8px;">📍 آدرس مستقیم صفحه تایید تغییرات در گیت‌هاب:</h3>
+        <p style="margin-bottom: 14px;">
+          مستقیماً وارد این صفحه در مرورگر شوید: <br>
+          👉 <a href="https://github.com/thinktank021-ai/Marketin-Dash/pulls" target="_blank" style="color: #60a5fa; font-weight: 700; direction: ltr; display: inline-block;">https://github.com/thinktank021-ai/Marketin-Dash/pulls</a>
+        </p>
+
+        <ul class="steps-list">
+          <li>
+            <span class="num-circle">۱</span>
+            <div>
+              <strong>روی درخواست جدید کلیک کن:</strong> در صفحه بالا، یک ردیف می‌بینی که عنوان کاری که کردی روی آن نوشته شده است (مثلاً: <code>feat: isolate agency channel</code>)؛ روی آن کلیک کن.
+            </div>
+          </li>
+          <li>
+            <span class="num-circle">۲</span>
+            <div>
+              <strong>به پایین صفحه اسکرول کن:</strong> صفحه باز شده را تا پایین‌ترین نقطه اسکرول کن.
+            </div>
+          </li>
+          <li>
+            <span class="num-circle">۳</span>
+            <div>
+              <strong>دکمه اول:</strong> یک دکمه سبز رنگ بزرگ می‌بینی به نام: <br>
+              <span class="green-btn-mock">Merge pull request</span>
+              <br>روی آن کلیک کن.
+            </div>
+          </li>
+          <li>
+            <span class="num-circle">۴</span>
+            <div>
+              <strong>دکمه تایید نهایی:</strong> بلافاصله یک دکمه سبز رنگ دوم ظاهر می‌شود به نام: <br>
+              <span class="green-btn-mock">Confirm merge</span>
+              <br>روی آن کلیک کن. تمام! 🎉
+            </div>
+          </li>
+        </ul>
+
+        <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 12px; margin-top: 14px; font-size: 13.5px; color: #a7f3d0;">
+          ⚡ <strong>معجزه انتشار خودکار:</strong> به محض زدن این دکمه، گیت‌هاب در عرض ۱۸ ثانیه سرور سی‌پنل را به صورت زنده آپدیت می‌کند و سایت <a href="https://dash.donyagardi.com" target="_blank" style="color: #38bdf8;">dash.donyagardi.com</a> با کدهای جدید لود خواهد شد!
+        </div>
+      </div>
     </div>
 
     <!-- کارت ۵: خط قرمزها -->
     <div class="card">
       <div class="card-title">
-        <span class="number">۴</span>
+        <span class="number">۵</span>
         <span>خط قرمزهایی که اگر ChatGPT پیشنهاد داد، بگو «نه!»</span>
       </div>
       <div class="red-lines">
