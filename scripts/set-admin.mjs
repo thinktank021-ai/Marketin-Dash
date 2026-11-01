@@ -24,8 +24,7 @@ function derivePassword(password, salt) {
 }
 
 function updateEnvFile(filePath, user, hash) {
-  if (!fs.existsSync(filePath)) return;
-  let content = fs.readFileSync(filePath, "utf-8");
+  let content = fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
 
   if (content.includes("DASHBOARD_ADMIN_USER=")) {
     content = content.replace(/DASHBOARD_ADMIN_USER=.*/g, `DASHBOARD_ADMIN_USER="${user}"`);
@@ -39,7 +38,7 @@ function updateEnvFile(filePath, user, hash) {
     content += `\nDASHBOARD_ADMIN_PASSWORD_HASH="${hash}"\n`;
   }
 
-  fs.writeFileSync(filePath, content, "utf-8");
+  fs.writeFileSync(filePath, content.trim() + "\n", "utf-8");
 }
 
 async function main() {

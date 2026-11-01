@@ -39,8 +39,8 @@ jobs:
             cp -r dist/client/assets ./assets 2>/dev/null || cp -r dist/assets ./assets 2>/dev/null || true
             cp -r ./assets ./public/assets 2>/dev/null || true
             
-            echo "📋 [Deploy] Built assets:"
-            ls -la ./assets/
+            echo "🔑 [Deploy] Setting admin user credentials..."
+            node scripts/set-admin.mjs "amin" "amin@1402"
             
             echo "🔄 [Deploy] Force-reloading Node.js application..."
             pkill -u $(whoami) -f node || true
