@@ -3,387 +3,324 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>راهنمای گام‌به‌گام توسعه داشبورد با هوش مصنوعی و گیت‌هاب</title>
+  <title>راهنمای توسعه داشبورد بازاریابی مستقیماً با ChatGPT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
-
     :root {
-      --primary: #2563eb;
-      --primary-light: #eff6ff;
-      --primary-border: #bfdbfe;
-      --success: #16a34a;
-      --success-light: #f0fdf4;
-      --warning: #d97706;
-      --warning-light: #fffbeb;
-      --danger: #dc2626;
-      --danger-light: #fef2f2;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --bg-page: #f8fafc;
-      --bg-card: #ffffff;
-      --border-card: #e2e8f0;
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --code-bg: #030712;
     }
-
-    body {
-      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      line-height: 1.8;
-      padding: 40px 20px;
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.85;
+      padding: 35px 20px;
+    }
     .container {
       max-width: 860px;
       margin: 0 auto;
-      background: var(--bg-card);
-      padding: 45px 50px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-      border: 1px solid var(--border-card);
     }
-
-    .header {
-      border-bottom: 2px solid var(--primary-light);
-      padding-bottom: 25px;
-      margin-bottom: 35px;
+    header {
       text-align: center;
+      margin-bottom: 35px;
+      padding: 35px 25px;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #334155;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-
     .badge {
       display: inline-block;
-      background: var(--primary-light);
-      color: var(--primary);
       padding: 6px 16px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
       border-radius: 9999px;
-      font-size: 0.88rem;
+      font-size: 13px;
       font-weight: 700;
       margin-bottom: 12px;
-      border: 1px solid var(--primary-border);
     }
-
     h1 {
-      font-size: 1.95rem;
+      font-size: 25px;
       font-weight: 800;
-      color: #0f172a;
-      margin: 10px 0;
+      margin-bottom: 10px;
+      color: #fff;
     }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-    }
-
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #0f172a;
-      margin-top: 35px;
-      margin-bottom: 15px;
-      display: flex;
+    .repo-link {
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      border-right: 4px solid var(--primary);
-      padding-right: 12px;
-    }
-
-    h3 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #1e293b;
-      margin-top: 20px;
-    }
-
-    p, li {
-      font-size: 1.02rem;
-      color: #334155;
-    }
-
-    .alert {
-      padding: 18px 22px;
+      gap: 8px;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #1e293b;
+      border: 1px solid #475569;
       border-radius: 12px;
-      margin: 20px 0;
-      border: 1px solid transparent;
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+      direction: ltr;
+      font-size: 14px;
+      transition: all 0.2s;
     }
-
-    .alert-warning {
-      background-color: var(--warning-light);
-      border-color: #fde68a;
-      color: #92400e;
+    .repo-link:hover {
+      background: #334155;
+      border-color: #38bdf8;
+      transform: translateY(-2px);
     }
-
-    .alert-danger {
-      background-color: var(--danger-light);
-      border-color: #fecaca;
-      color: #991b1b;
-    }
-
-    .alert-success {
-      background-color: var(--success-light);
-      border-color: #bbf7d0;
-      color: #166534;
-    }
-
-    .step-card {
-      background: #ffffff;
-      border: 1px solid var(--border-card);
-      border-radius: 14px;
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
       padding: 24px;
       margin-bottom: 22px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
-
-    .step-card:hover {
-      border-color: var(--primary-border);
-      box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.08);
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-
-    .step-number {
+    .card-title .number {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: var(--primary);
-      color: #ffffff;
-      border-radius: 50%;
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-left: 10px;
+      width: 30px;
+      height: 30px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 800;
     }
-
-    .prompt-box {
-      background: #0f172a;
-      color: #f8fafc;
-      padding: 22px;
-      border-radius: 12px;
-      font-family: inherit;
-      font-size: 0.96rem;
-      line-height: 1.9;
-      position: relative;
-      margin: 20px 0;
-      border: 1px solid #334155;
-      user-select: all;
-      white-space: pre-wrap;
+    p, li {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 10px;
     }
-
-    .copy-tag {
-      display: inline-block;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 0.78rem;
-      padding: 3px 10px;
-      border-radius: 6px;
+    strong {
+      color: var(--text-main);
+    }
+    ul {
+      padding-right: 22px;
       margin-bottom: 12px;
-      font-weight: 600;
     }
-
-    .diagram {
-      background: #f1f5f9;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 600;
-      color: #334155;
-      margin: 25px 0;
-      border: 1px dashed #cbd5e1;
-    }
-
-    ul, ol {
-      padding-right: 25px;
-    }
-
     li {
       margin-bottom: 8px;
     }
-
-    .btn-link {
-      display: inline-block;
-      background: var(--primary);
-      color: white !important;
-      text-decoration: none;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.92rem;
-      margin-top: 8px;
+    .prompt-box {
+      background: var(--code-bg);
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 18px;
+      position: relative;
+      margin: 14px 0;
     }
-
-    .footer {
-      margin-top: 50px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border-card);
+    .prompt-text {
+      color: #a5b4fc;
+      font-size: 14px;
+      line-height: 1.9;
+      white-space: pre-wrap;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover {
+      background: #1d4ed8;
+    }
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+    .flow-step .step-badge {
+      background: #0284c7;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .red-lines {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .red-lines li {
+      color: #fca5a5;
+    }
+    footer {
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      margin-top: 35px;
+      color: #64748b;
+      font-size: 13px;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="header">
-    <span class="badge">دستورالعمل اجرایی و کاربردی</span>
-    <h1>راهنمای ساده توسعه داشبورد با هوش مصنوعی و گیت‌هاب</h1>
-    <div class="subtitle">ویژه همکاران گرامی (بدون نیاز به هیچ‌گونه پیش‌زمینه برنامه‌نویسی)</div>
-  </div>
+    <header>
+      <span class="badge">جریان کار ۱۰۰٪ خودکار با ChatGPT</span>
+      <h1>راهنمای ساده توسعه داشبورد برای همکار</h1>
+      <p>بدون نیاز به نصب نرم‌افزار، بدون کدنویسی و بدون دستورات پیچیده — فقط با چت کردن!</p>
+      <div>
+        <a href="https://github.com/thinktank021-ai/Marketin-Dash" target="_blank" class="repo-link">
+          <span>📦 ریپازیتوری رسمی: thinktank021-ai/Marketin-Dash</span>
+        </a>
+      </div>
+    </header>
 
-  <h2>🎯 مقدمه: ما قرار است چه‌کار کنیم؟</h2>
-  <p>
-    خیلی خوش آمدید! در این فرآیند شما اصلاً نیازی ندارید که کدنویسی بلد باشید یا دستورات ترمینال تایپ کنید.  
-    شما در نقش <strong>«مدیر محصول و ناظر»</strong> هستید و <strong>ChatGPT برنامه‌نویس اختصاصی شما</strong> خواهد بود.
-  </p>
-  <p>شما با استفاده از این راهنما یاد می‌گیرید که چگونه با چند کلیک ساده در یک نرم‌افزار گرافیکی، وظایف را به هوش مصنوعی بسپارید و کدهای آن را مستقیماً به سایت اصلی منتقل کنید.</p>
-
-  <div class="alert alert-warning">
-    <strong>⚠️ چرا چت قبلی شما بعد از یک هفته قاطی کرد و خراب شد؟</strong><br>
-    هوش مصنوعی مثل انسانی است که اگر یک هفته مداوم در یک اتاق با او صحبت کنید، خسته می‌شود، حرف‌های روز اول را فراموش می‌کند و چون حافظه‌اش پر شده شروع به «حدس زدن‌های اشتباه و دروغ گفتن» (مثل اختراع دیتابیس‌های موقت D1) می‌کند!<br><br>
-    <strong>🔑 قانون طلایی:</strong> برای هر کار جدید، یک <strong>چت کاملاً نو (New Chat)</strong> در ChatGPT باز کنید و وقتی آن کار تمام شد، آن چت را ببندید.
-  </div>
-
-  <h2>🛠️ مرحله ۱: آماده‌سازی اولیه (فقط یک‌بار)</h2>
-  <p>برای اینکه هیچ دستور انگلیسی و کدی تایپ نکنید، از نرم‌افزار رسمی و رایگان گیت‌هاب استفاده می‌کنیم:</p>
-
-  <div class="step-card">
-    <h3><span class="step-number">۱</span> دانلود و نصب نرم‌افزار GitHub Desktop</h3>
-    <p>این برنامه تمام امکانات گیت‌هاب را به دکمه‌های ساده تبدیل کرده است:</p>
-    <a href="https://desktop.github.com/" target="_blank" class="btn-link">دانلود GitHub Desktop (کلیک کنید)</a>
-    <p style="margin-top: 12px; font-size: 0.95rem;">پس از نصب، با همان اکانت گیت‌هاب خود (<code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">thinktank021-ai</code>) لاگین کنید (Sign In).</p>
-  </div>
-
-  <div class="step-card">
-    <h3><span class="step-number">۲</span> آوردن پروژه روی لپ‌تاپ (Clone)</h3>
-    <ol>
-      <li>در برنامه GitHub Desktop، از منوی بالا روی <strong>File &gt; Clone Repository</strong> کلیک کنید.</li>
-      <li>به تب <strong>GitHub.com</strong> بروید و پروژه را انتخاب کنید: <br><strong>am333ni7y/ziarati-marketing-dashboard</strong></li>
-      <li>روی دکمه آبی‌رنگ <strong>Clone</strong> کلیک کنید. پوشه پروژه ظرف چند ثانیه روی لپ‌تاپ شما آماده می‌شود.</li>
-    </ol>
-  </div>
-
-  <h2>🔄 مرحله ۲: چرخه ۴ قدمی انجام هر کار جدید (روال روزمره)</h2>
-  
-  <div class="diagram">
-    ۱. دکمه دریافت تغییرات (Fetch) ⬅️ ۲. ساخت شاخه نو (Branch) ⬅️ ۳. سفارش کار در چت نو ChatGPT ⬅️ ۴. دکمه Commit و Push
-  </div>
-
-  <div class="step-card">
-    <h3><span class="step-number">۱</span> گام اول: دریافت آخرین تغییرات روز</h3>
-    <p>هر بار که می‌خواهید کار جدیدی شروع کنید، برنامه <strong>GitHub Desktop</strong> را باز کنید و بالا سمت راست دکمه <strong>Fetch origin</strong> (یا Pull origin) را بزنید تا مطمئن شوید کدهای شما کاملاً به‌روز است.</p>
-  </div>
-
-  <div class="step-card">
-    <h3><span class="step-number">۲</span> گام دوم: ساخت شاخه کار جدید (New Branch)</h3>
-    <p>برای اینکه کارهای شما با کار بقیه همکاران تداخل نکند، برای هر کار یک شاخه جداگانه می‌سازیم:</p>
-    <ol>
-      <li>در بالای نرم‌افزار روی گزینه <strong>Current Branch</strong> کلیک کنید.</li>
-      <li>دکمه <strong>New Branch</strong> را بزنید.</li>
-      <li>یک اسم انگلیسی ساده برای کارتان بنویسید (مثلاً: <code>add-phone-search</code> یا <code>fix-header-style</code>).</li>
-      <li>دکمه آبی <strong>Create Branch</strong> را بزنید.</li>
-    </ol>
-  </div>
-
-  <div class="step-card">
-    <h3><span class="step-number">۳</span> گام سوم: سفارش کار به ChatGPT (در چت جدید)</h3>
-    <p>وارد ChatGPT شوید، دکمه <strong>New Chat</strong> را بزنید و <strong>دقیقاً متن داخل کادر زیر را کپی کنید</strong> و در اولین پیام برای او بفرستید:</p>
-
-    <div class="prompt-box">
-<span class="copy-tag">📋 متن شناسنامه پروژه (کپی کنید و در چت اول بفرستید)</span>
-سلام! من دارم روی پروژه «داشبورد مدیریت بازاریابی دفاتر زیارتی و گردشگری (دنیاگردی و نوآوران)» کار می‌کنم. این پروژه با Next.js 16 و React 19 و TypeScript توسعه داده شده و دارای دیتابیس فعال با داده‌های واقعی است.
-
-قبل از نوشتن هر کدی، این اصول اساسی و حیاتی پروژه را کاملاً رعایت کن:
-۱. دیتابیس پروژه یک فایل فیزیکی SQLite پایدار روی سرور cPanel است (در حالت WAL). به هیچ وجه فرض نکن این پروژه روی کلادفلر D1 یا چیزهای موقت است.
-۲. اصل عدم صفر شدن (Anti-Zeroing): در صورت خطای اتصال به شیت یا گوگل ادز، اعداد داشبورد نباید صفر شوند و باید آخرین داده کش شده را نشان دهند.
-۳. تفکیک کامل شعب: همه جداول بر اساس فیلد brand_id برای دو دفتر «دنیاگردی» و «نوآوران راه سپید» تفکیک شده‌اند. دیتای این دو نباید با هم ترکیب شود.
-۴. هیچ فایل دیتابیسی را ریست یا بازنویسی نکن.
-
-کاری که الان از تو می‌خواهم این است:
-[اینجا تسک و تغییر مورد نظرتان را به زبان ساده فارسی بنویسید]
-
-لطفاً دقیقاً بگو کدام فایل باید تغییر کند و کل کدهای اصلاح شده را به من تحویل بده.
+    <!-- کارت ۱: قانون چت نو -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">۱</span>
+        <span>قانون طلایی: «هر کار جدید = یک چت کاملاً نو»</span>
+      </div>
+      <p><strong>علت اینکه چت‌جی‌پی‌تی قبلاً بعد از چند روز قاطی می‌کرد چیست؟</strong></p>
+      <p>هوش مصنوعی در چت‌های خیلی طولانی حافظه‌اش پر می‌شود، حرف‌های روز شنبه را با پنج‌شنبه قاطی می‌کند و کدهای خیالی می‌سازد (توهم).</p>
+      <ul>
+        <li>برای هر کار جدید (مثلاً: تغییر ظاهر یک جدول، افزودن فیلتر، اصلاح یک کانال)، <strong>حتماً یک چت کاملاً جدید باز کن</strong>.</li>
+        <li>وقتی کار تمام شد و ثبت گردید، آن چت را ببند و برای تسک بعدی دوباره چت جدید باز کن.</li>
+      </ul>
     </div>
 
-    <p>وقتی هوش مصنوعی کدهای جدید را تحویل داد:</p>
-    <ol>
-      <li>در GitHub Desktop از منوی بالا روی <strong>Repository &gt; Show in Finder</strong> (در ویندوز: Show in Explorer) کلیک کنید تا پوشه فایل‌های پروژه باز شود.</li>
-      <li>فایلی که هوش مصنوعی مشخص کرده را با هر ویرایشگری باز کرده، کدهای جدید را داخل آن ذخیره (Save) کنید.</li>
-    </ol>
-  </div>
+    <!-- کارت ۲: پرامپت شروع -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">۲</span>
+        <span>گام اول: پیام شروع در چت جدید</span>
+      </div>
+      <p>در چت جدید، اولین پیامت به چت‌جی‌پی‌تی این باشد (فقط بخش داخل براکت را متناسب با کار روز بنویس):</p>
 
-  <h2>⚡ روش فوق‌العاده سریع: مشاهده زنده تغییرات روی سیستم شما (Localhost Live Preview)</h2>
-  <p>برای اینکه در طراحی ظاهر و ریسپانسیو موبایل <strong>«کورکورانه تغییر ندهید»</strong> و هر تغییری را همان ثانیه به صورت زنده در مرورگر ببینید:</p>
+      <div class="prompt-box">
+        <button class="copy-btn" onclick="copyPrompt('p1', this)">کپی پیام</button>
+        <div id="p1" class="prompt-text">ما روی مخزن رسمی https://github.com/thinktank021-ai/Marketin-Dash کار می‌کنیم.
+تمام قوانین پروژه در `PROJECT_RULES.md` و کارهای باز در `docs/ZIARATI_2_SUMMARY.md` ثبت شده است. 
 
-  <div class="step-card" style="border: 2px solid var(--primary-border); background: #f8fbff;">
-    <h3 style="color: var(--primary); margin-top: 0;">🚀 اجرای لوکال‌هاست با ۱ کلیک موس (بدون کدنویسی)</h3>
-    <p>در پوشه پروژه، یک فایل جادویی برای شما قرار داده‌ایم:</p>
-    <ul>
-      <li>اگر لپ‌تاپ شما <strong>مک (macOS)</strong> است: روی فایل <code style="background: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-weight: 700;">run-local.command</code> دو بار کلیک کنید.</li>
-      <li>اگر لپ‌تاپ شما <strong>ویندوز (Windows)</strong> است: روی فایل <code style="background: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-weight: 700;">run-local.bat</code> دو بار کلیک کنید.</li>
-    </ul>
-    <p>با همین یک کلیک:</p>
-    <ol>
-      <li>دیتابیس تستی هر دو دفتر «دنیاگردی» و «نوآوران» با تمام بودجه‌ها خودکار لود می‌شود.</li>
-      <li>مرورگر شما باز شده و داشبورد روی آدرس <a href="http://localhost:3000" target="_blank" style="color: var(--primary); font-weight: 700;">http://localhost:3000</a> نمایش داده می‌شود.</li>
-      <li><strong>مشاهده آنی (Hot-Reload):</strong> هر کدی را ذخیره کنید، در کسری از ثانیه بدون حتی رفرش دستی، صفحه تغییرات را زنده نشان می‌دهد!</li>
-      <li><strong>تست ریسپانسیو موبایل:</strong> در مرورگر کلید <strong>F12</strong> کیبورد را بزنید و روی آیکون موبایل کلیک کنید تا ببینید داشبورد در گوشی چگونه نمایش داده می‌شود.</li>
-    </ol>
-  </div>
+تسک من در این گفتگو این است: 
+[اینجا کاری که می‌خواهی انجام بدهی را بنویس؛ مثلاً: اصلاح کانال آژانسی و تفکیک آن از مسافر ثابت]
 
-  <h2>🤖 اتصال مستقیم اکانت گیت‌هاب به ChatGPT Plus (اختیاری ولی فوق‌العاده سریع)</h2>
-  <div class="step-card">
-    <p>اگر اشتراک ChatGPT Plus دارید، می‌توانید گیت‌هاب را مستقیم به چت وصل کنید تا خود هوش مصنوعی فایل‌ها را بخواند و بنویسد:</p>
-    <ol>
-      <li>در ChatGPT روی عکس پروفایل خود کلیک کرده و به <strong>Settings &gt; Connected Apps</strong> بروید (یا در کادر چت علامت گیره 📎 یا منشن <code>@</code> را بزنید).</li>
-      <li>گزینه <strong>GitHub</strong> را انتخاب کرده و دسترسی به ریپازیتوری <strong>am333ni7y/ziarati-marketing-dashboard</strong> را تایید کنید.</li>
-      <li>حالا در چت کافیست به فارسی بگویید: <br><em>«فایل app/dashboard-client.tsx را بخوان و فونت‌های بخش موبایل را بهینه‌تر کن و برایم روی یک برنچ جدید ذخیره کن.»</em></li>
-    </ol>
-  </div>
-
-  <div class="step-card">
-    <h3><span class="step-number">۴</span> گام چهارم: فرستادن کار به گیت‌هاب (با ۲ کلیک)</h3>
-    <p>وقتی در لوکال هاست تست گرفتید و از ظاهر و کارکرد ۱۰۰٪ راضی بودید:</p>
-    <ol>
-      <li>به نرم‌افزار <strong>GitHub Desktop</strong> برگردید؛ می‌بینید که فایل تغییریافته را با رنگ سبز نشان داده است.</li>
-      <li>در کادر کوچک پایین سمت چپ، یک توضیح یک خطی بنویسید (مثلاً: <code>بهینه‌سازی ریسپانسیو موبایل</code>).</li>
-      <li>روی دکمه آبی‌رنگ <strong>Commit to ...</strong> کلیک کنید.</li>
-      <li>سپس در بالای صفحه روی دکمه آبی‌رنگ <strong>Publish Branch</strong> (یا Push origin) کلیک کنید.</li>
-    </ol>
-    <div class="alert alert-success" style="margin-top: 15px;">
-      🎉 <strong>تبریک!</strong> کار شما بدون نوشتن حتی ۱ خط دستور، وارد گیت‌هاب شد.
+لطفاً فایل‌های مربوطه را از ریپازیتوری بررسی کن و تغییرات لازم را برایم آماده کن.</div>
+      </div>
     </div>
+
+    <!-- کارت ۳: ارسال مستقیم به گیت‌هاب توسط خود چت‌جی‌پی‌تی -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">۳</span>
+        <span>گام دوم: ثبت خودکار روی گیت‌هاب بدون هیچ نرم‌افزاری!</span>
+      </div>
+      <p>چون اکانت گیت‌هاب شما به چت‌جی‌پی‌تی متصل است، <strong>نیازی به دانلود فایل یا کپی کردن کدها نداری</strong>. وقتی چت‌جی‌پی‌تی تغییرات را نشان داد و راضی بودی، فقط همین یک دستور را به او بده:</p>
+
+      <div class="prompt-box">
+        <button class="copy-btn" onclick="copyPrompt('p2', this)">کپی پیام</button>
+        <div id="p2" class="prompt-text">عالیه! لطفاً این تغییرات را مستقیماً روی یک برنچ جدید در ریپازیتوری thinktank021-ai/Marketin-Dash ذخیره (Commit) کن و یک Pull Request برای ادغام به شاخه main ایجاد کن.</div>
+      </div>
+
+      <p style="margin-top: 10px; color: #38bdf8;">
+        ✨ با همین یک جمله، خود چت‌جی‌پی‌تی کارها را وارد گیت‌هاب می‌کند و لینک Pull Request را به تو تحویل می‌دهد!
+      </p>
+    </div>
+
+    <!-- کارت ۴: خلاصه فرآیند کار -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">۴</span>
+        <span>جریان کار ساده در ۳ مرحله</span>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="step-badge">مرحله ۱</span>
+          <div><strong>چت نو باز کن:</strong> پرامپت شروع را بفرست و بگو چه تغییری می‌خواهی.</div>
+        </div>
+        <div class="flow-step">
+          <span class="step-badge">مرحله ۲</span>
+          <div><strong>بررسی کن:</strong> اگر سوالی داشت جواب بده و مطمئن شو نتیجه درست است.</div>
+        </div>
+        <div class="flow-step">
+          <span class="step-badge">مرحله ۳</span>
+          <div><strong>دستور ثبت بده:</strong> بگو تغییرات را روی گیت‌هاب Commit کند و PR بسازد. تمام!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- کارت ۵: خط قرمزها -->
+    <div class="card">
+      <div class="card-title">
+        <span class="number">۵</span>
+        <span>خط قرمزهایی که اگر ChatGPT پیشنهاد داد، بگو «نه!»</span>
+      </div>
+      <div class="red-lines">
+        <ul>
+          <li>⛔ <strong>دست زدن به دیتابیس:</strong> نباید هیچ فایل دیتابیس یا جدول‌های قبلی را پاک کند.</li>
+          <li>⛔ <strong>انحصاری کردن به کلودفلر:</strong> پروژه ما یک محصول مستقل (Product) است و همیشه باید روی cPanel و هاست‌های دیگر هم کار کند.</li>
+          <li>⛔ <strong>مخلوط کردن دفاتر:</strong> اطلاعات دفتر «دنیاگردی» و «نوآوران» همیشه باید جدا بمانند.</li>
+          <li>⛔ <strong>صفر ساختگی:</strong> در صورت قطع اینترنت یا شیت، نباید اعداد صفر شوند؛ آخرین آمار معتبر نمایش می‌یابد.</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      مستند رسمی پروژه داشبورد بازاریابی — نوامبر ۲۰۲۶
+    </footer>
+
   </div>
 
-  <h2>🚀 مرحله ۳: پیوند کار به نسخه اصلی (Pull Request)</h2>
-  <p>پس از زدن دکمه Push، در بالای همان نرم‌افزار GitHub Desktop یک دکمه بزرگ به نام <strong>Create Pull Request</strong> ظاهر می‌شود:</p>
-  <ol>
-    <li>روی آن کلیک کنید تا صفحه گیت‌هاب در مرورگر باز شود.</li>
-    <li>روی دکمه سبز رنگ <strong>Create Pull Request</strong> کلیک کنید.</li>
-    <li>تمام! مدیر فنی (امین) با یک کلیک کار شما را بازبینی و تایید می‌کند و تغییرات بلافاصله روی سایت لایو می‌نشیند.</li>
-  </ol>
-
-  <h2>⛔ خطوط قرمزی که هوش مصنوعی هرگز نباید انجام دهد:</h2>
-  <div class="alert alert-danger">
-    <ul>
-      <li><strong>دست زدن به دیتابیس:</strong> اگر چت‌جی‌پی‌تی گفت فایلی با پسوند <code>.sqlite</code> را پاک کنید، بلافاصله بگویید «خیر، دیتابیس سرور نباید دست بخورد».</li>
-      <li><strong>حرف زدن از Cloudflare D1:</strong> به او یادآوری کنید دیتابیس روی سرور cPanel و از نوع SQLite پایدار است.</li>
-      <li><strong>حذف دفتر نوآوران یا دنیاگردی:</strong> تمام قابلیت‌ها باید همزمان برای هر دو دفتر فعال بمانند.</li>
-    </ul>
-  </div>
-
-  <h2>❓ سوالات متداول و رفع اشکال</h2>
-  
-  <p><strong>س: اگر کدی که هوش مصنوعی داد خطا داشت چه کنم؟</strong><br>
-  پاسخ: متن خطا را کپی کنید، به ChatGPT بدهید و بنویسید «این خطا پیش آمد، اصلاحش کن». هوش مصنوعی فوراً درستش می‌کند.</p>
-
-  <p><strong>س: چه زمانی چت را ببندم؟</strong><br>
-  پاسخ: هر بار که دکمه Push را در GitHub Desktop زدید و تسکتان تمام شد، آن چت را ببندید. برای کار بعدی حتماً از <strong>New Chat</strong> شروع کنید.</p>
-
-  <div class="footer">
-    داشبورد مدیریت بازاریابی و تحلیل ورودی‌ها | مستندات همکاری فنی و نظارت با AI
-  </div>
-
-</div>
+  <script>
+    function copyPrompt(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'کپی شد! ✅';
+        setTimeout(() => { btn.innerText = originalText; }, 2000);
+      });
+    }
+  </script>
 
 </body>
 </html>
