@@ -1,4 +1,4 @@
-name: CI / CD Production Deploy
+name: Auto Deploy to cPanel (SSH)
 
 on:
   push:
@@ -6,57 +6,39 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
-    name: Build & Validate
+  deploy:
+    name: Deploy to cPanel Server
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci || npm install
-
-      - name: Build production bundle
-        run: npx vinext build
-
-  deploy-to-server:
-    name: Deploy to Production Host / Server
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Webhook Deployment (cPanel or Custom Webhook)
-        if: env.DEPLOY_WEBHOOK_URL != ''
-        env:
-          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
-        run: |
-          echo "Triggering deployment webhook..."
-          curl -s -X POST "${DEPLOY_WEBHOOK_URL}"
-          echo "Webhook triggered successfully."
-
-      - name: SSH Deployment (Linux Server / VPS)
-        if: env.SSH_HOST != ''
+      - name: Execute Remote SSH Commands
         uses: appleboy/ssh-action@v1.2.0
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT || 20105 }}
+          username: ${{ secrets.SSH_USER || 'donyagar' }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script_stop: true
           script: |
-            cd ${{ secrets.APP_PATH || '~/marketing-dashboard' }}
-            git pull origin main
-            npm install --prefer-offline || npm install
-            npm run build
-            if command -v pm2 &> /dev/null; then
-              pm2 reload marketing-dashboard || pm2 start server.js --name "marketing-dashboard"
-            fi
-            mkdir -p tmp && touch tmp/restart.txt
-            echo "Production server updated successfully!"
+            echo "🚀 [Deploy] Starting deployment on cPanel..."
+            cd /home/donyagar/mashboard
+            
+            echo "📥 [Deploy] Fetching latest commits from GitHub..."
+            git fetch origin main
+            git reset --hard origin/main
+            
+            echo "⚡ [Deploy] Activating Node.js 22 Virtualenv..."
+            source /home/donyagar/nodevenv/mashboard/22/bin/activate
+            
+            echo "📦 [Deploy] Building project..."
+            ./node_modules/.bin/vinext build || npx vite build
+            
+            echo "🎨 [Deploy] Syncing static assets to public/..."
+            mkdir -p public/assets
+            cp -r dist/client/assets/* public/assets/ 2>/dev/null || cp -r dist/assets/* public/assets/ 2>/dev/null || true
+            
+            echo "🔄 [Deploy] Reloading Node.js application (Phusion Passenger)..."
+            mkdir -p tmp
+            touch tmp/restart.txt
+            
+            echo "✅ [Deploy] Deployment completed successfully! Site is live."
