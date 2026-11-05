@@ -93,3 +93,12 @@
 - در `worker/app-auth.ts` عبور بدون نشست صرفاً با داشتن هدر Scheduler ممکن بود، حتی برای actionهای مدیریتی دیگر. اکنون تنها بدنه JSON دارای `action: "scheduler"` می‌تواند به بررسی Secret در endpoint برسد؛ تست رگرسیون در `tests/app-auth.test.mjs` ثبت شده است.
 - در `app/telegram-report.ts` خرابی `getUpdates` (از جمله تداخل polling/webhook) می‌توانست کل ارسال خودکار را متوقف کند؛ اکنون دریافت دستور اختیاری است و خطای آن مانع ارسال زمان‌بندی‌شده نیست. هیچ توکن یا محتوای خطای upstream در log چاپ نمی‌شود.
 - همچنان نیازمند تأیید استقرار واقعی cPanel، موجود بودن همان کلید رمزنگاری، موفقیت پیام آزمایشی، گزارش واقعی و سپس Trigger؛ هیچ موفقیت Production ادعا نشده است.
+
+### صحت‌سنجی پس از Merge موفق ولی مشاهده خطای قدیمی — 2026-11-05
+- گزارش جدید مدیر: روی cPanel پس از PR #2 و اجرای موفق Workflow استقرار، **ذخیره تنظیمات تلگرام همچنان ناموفق**، **پیام آزمایشی دریافت نشده** و متن خطا هنوز «اتصال Telegram برقرار نشد؛ توکن را بررسی کنید» است.
+- شواهد کد: رشته خطای بالا در `main:app/api/telegram-bot/route.ts` وجود ندارد؛ نسخه جدید خطاهای PUT را با `telegramOperationError` کدگذاری می‌کند. بنابراین احتمال مهم **عدم هماهنگی نسخه API زنده با کد main**، مسیر اشتباه Passenger یا پروسه/Build قدیمی است؛ علت نهایی بدون بررسی نسخه زنده اثبات نمی‌شود.
+- شواهد Deploy: PR #2 در `2026-11-05T09:36:41Z` به SHA `cbfb6a3f96e45027e140a674d335171805db4d58` Merge شد و [run 42003804680](https://github.com/thinktank021-ai/Marketin-Dash/actions/runs/42003804680) با موفقیت تمام شد. موفقیت SSH/Build الزاماً اجرای همان نسخه روی دامنه فعال را اثبات نمی‌کند.
+- راهکار مستند/کدنویسی‌شده در PR جداگانه `fix/telegram-cpanel-release-diagnostics-2026-11-05`: یک release marker غیرمحرمانه با نام `telegram-cpanel-diagnostic-2026-11-05` در پاسخ GET تنظیمات، حتی در خطای SQLite، و نمایش مقدار در کارت تلگرام. تست `tests/telegram-release.test.mjs` و CI مرتبط نیز ثبت شدند.
+- مسیر بررسی کاربر بعد از Merge/Deploy این PR: بخش Telegram را Refresh کند و مقدار `Telegram API:` پایین کارت را بررسی کند. نبود marker یا نمایش `legacy / unknown` نشان می‌دهد نسخه قابل مشاهده هنوز جدید نشده یا API به مسیر دیگری می‌رود؛ حضور marker ولی شکست ذخیره تنظیمات نشان می‌دهد خطای جدید باید بر اساس `code` عیب‌یابی شود.
+- اگر دسترسی Terminal cPanel وجود دارد، بررسی صرفاً خواندنی `cd /home/donyagar/mashboard && git rev-parse HEAD`، تطبیق مسیر Application root با `/home/donyagar/mashboard` و بررسی مجدد Passenger restart مطرح است؛ هیچ رمز/توکن/DB در PR یا چت قرار نگیرد.
+- **تست موفق ارسال Telegram و سلامت runtime هنوز تأیید نشده است**؛ فعال‌سازی Scheduler تا بعد از تست پیام و گزارش واقعی متوقف بماند.

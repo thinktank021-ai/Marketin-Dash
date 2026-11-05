@@ -1,4 +1,7 @@
 import { getD1 } from "../../../db";
+
+// A non-secret build identity to distinguish an outdated cPanel API process.
+export const TELEGRAM_API_RELEASE = "telegram-cpanel-diagnostic-2026-11-05";
 import { repairTelegramSchema } from "../../telegram-schema";
 import { decryptSecret, encryptSecret } from "../google-ads/service-account";
 import { dispatchTelegramReports } from "../../telegram-report";
@@ -196,8 +199,13 @@ function formatTehranTimestamp(value: string | null) {
 }
 
 export async function GET() {
-  try { return Response.json(await publicPayload(await readRow()), { headers: { "cache-control": "no-store" } }); }
-  catch { return Response.json({ error: "تنظیمات Telegram دریافت نشد." }, { status: 500 }); }
+  try {
+    return Response.json({ ...(await publicPayload(await readRow())), apiRelease: TELEGRAM_API_RELEASE }, { headers: { "cache-control": "no-store, private" } });
+  } catch {
+    // Even if SQLite is unavailable, return the release identity so the operator
+    // can tell a broken new process apart from a stale, pre-fix deployment.
+    return Response.json({ error: "تنظیمات Telegram دریافت نشد.", code: "telegram_settings_unavailable", apiRelease: TELEGRAM_API_RELEASE }, { status: 500, headers: { "cache-control": "no-store, private" } });
+  }
 }
 
 export async function PUT(request: Request) {
