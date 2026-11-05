@@ -28,3 +28,14 @@ export function dispatchResponseStatus(result: { sent: boolean; reason?: string 
     : result.reason === "no_enabled_brands" || result.reason === "no_recipients" || result.reason === "disabled" ? 409
     : 200;
 }
+
+/** Safe operator-facing reason; never include upstream response bodies or credentials. */
+export function dispatchFailureMessage(reason?: string) {
+  switch (reason) {
+    case "source_unavailable": return "داده معتبر یکی از دفترهای فعال دریافت نشد؛ علت را در آخرین خطای گزارش بررسی کنید.";
+    case "no_enabled_brands": return "هیچ دفتر فعال دارای منبع Google Sheets برای گزارش تلگرام انتخاب نشده است.";
+    case "no_recipients": return "حداقل یک کاربر تلگرام را شناسایی و تأیید کنید.";
+    case "disabled": return "ارسال خودکار بات غیرفعال است یا توکن آن تنظیم نشده است.";
+    default: return undefined;
+  }
+}
