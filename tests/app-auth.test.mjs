@@ -70,3 +70,18 @@ test('twenty-minute idle sessions renew only on explicit activity, never backgro
   } finally { Date.now = originalNow; }
   db.close();
 });
+
+test('Telegram scheduler credential header cannot bypass dashboard authentication for unrelated actions', async () => {
+  const env = { DASHBOARD_ADMIN_PASSWORD_HASH: 'not-a-real-hash', DB: { prepare() { throw new Error('should not query DB for unauthenticated requests'); } } };
+  const request = (action, headers = {}) => new Request('https://example.test/api/telegram-bot', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-telegram-scheduler-secret': 'unverified-secret', ...headers },
+    body: JSON.stringify({ action }),
+  });
+  assert.equal(await guardAppRequest(request('scheduler'), env), null, 'the scheduler secret must be checked by the API route');
+  for (const action of ['test', 'dispatch', 'approve', 'reject', 'discover', 'rotate_scheduler_secret']) {
+    const response = await guardAppRequest(request(action), env);
+    assert.equal(response?.status, 401, action);
+  }
+  assert.equal((await guardAppRequest(request('scheduler', { 'content-type': 'text/plain' }), env))?.status, 401);
+});

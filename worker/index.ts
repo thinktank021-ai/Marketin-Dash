@@ -71,7 +71,15 @@ const worker = {
   // Keep scheduled work outside the request path so a dashboard visitor is
   // never responsible for keeping automatic Telegram delivery alive.
   async scheduled(_controller: ScheduledController, _env: Env, ctx: ExecutionContext) {
-    ctx.waitUntil(dispatchTelegramReports().catch(() => undefined));
+    ctx.waitUntil(dispatchTelegramReports().then(result => {
+      const reason = "reason" in result ? result.reason : undefined;
+      if (["source_unavailable", "no_enabled_brands", "no_recipients", "disabled"].includes(reason || "")) {
+        throw new Error(`telegram_scheduled_${reason}`);
+      }
+    }).catch(() => {
+      // Avoid leaking upstream payloads or stored credentials in production logs.
+      throw new Error("telegram_scheduled_dispatch_failed");
+    }));
   },
 };
 

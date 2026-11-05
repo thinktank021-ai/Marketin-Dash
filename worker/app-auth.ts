@@ -119,7 +119,22 @@ export async function guardAppRequest(request: Request, env: AppAuthEnv): Promis
     }
     // The external Apps Script scheduler has no dashboard session cookie. The
     // route performs its own encrypted-secret check before dispatching data.
-    if (path === "/api/telegram-bot" && request.method === "POST" && request.headers.has("x-telegram-scheduler-secret")) return null;
+    if (path === "/api/telegram-bot" && request.method === "POST" && request.headers.has("x-telegram-scheduler-secret")) {
+      // Only the authenticated scheduler action can bypass dashboard login.
+      // The API verifies the secret; every other action still requires a session.
+      if (request.headers.get("content-type")?.includes("application/json")) {
+        const declaredSize = Number(request.headers.get("content-length") || 0);
+        if (declaredSize <= 2048) {
+          const raw = await request.clone().text();
+          if (raw.length <= 2048) {
+            let payload: unknown = null;
+            try { payload = JSON.parse(raw); } catch { /* Invalid input is not a scheduler request. */ }
+            if (payload && typeof payload === "object" && !Array.isArray(payload) &&
+              (payload as { action?: unknown }).action === "scheduler") return null;
+          }
+        }
+      }
+    }
     const authenticated = await isAppAuthenticated(request, env);
     if (path === "/api/auth/session") {
       const token = cookieToken(request);

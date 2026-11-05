@@ -306,17 +306,27 @@ export async function dispatchTelegramReports(force = false) {
   try { await d1.prepare("ALTER TABLE telegram_bot_settings ADD COLUMN automatic_suppressed_day TEXT").run(); } catch { /* Column already exists. */ }
   try { await d1.prepare("ALTER TABLE telegram_bot_settings ADD COLUMN telegram_update_offset INTEGER NOT NULL DEFAULT 0").run(); } catch { /* Column already exists. */ }
   try { await d1.prepare("ALTER TABLE telegram_report_brand_state ADD COLUMN last_report_day TEXT").run(); } catch { /* Column already exists. */ }
+  const leaseUntil = Date.now() + 120_000;
   const lock = await d1.prepare(`INSERT INTO telegram_report_dispatch_lock (id, locked_until) VALUES (1, ?)
     ON CONFLICT(id) DO UPDATE SET locked_until = excluded.locked_until
-    WHERE telegram_report_dispatch_lock.locked_until <= ? RETURNING id`).bind(Date.now() + 120_000, Date.now()).first<{ id: number }>();
+    WHERE telegram_report_dispatch_lock.locked_until <= ? RETURNING id`).bind(leaseUntil, Date.now()).first<{ id: number }>();
   if (!lock) return { sent: false, reason: "already_running" };
+  try {
   const settings = await d1.prepare(`SELECT bot_token_encrypted AS botTokenEncrypted, enabled, interval_minutes AS intervalMinutes,
     end_of_day_enabled AS endOfDayEnabled, normal_report_time AS normalReportTime, thursday_report_time AS thursdayReportTime,
     suppress_empty_morning AS suppressEmptyMorning, last_report_at AS lastReportAt,
     automatic_suppressed_day AS automaticSuppressedDay FROM telegram_bot_settings WHERE id = 1`).first<TelegramSettingsRow>();
   if (!settings?.botTokenEncrypted || settings.enabled !== 1) return { sent: false, reason: "disabled" };
   const token = await decryptSecret(settings.botTokenEncrypted);
-  const commandRequested = !force ? await consumeManualReportCommand(token, d1) : false;
+  // Reading /report commands is optional for timed delivery. A Telegram webhook,
+  // update-polling conflict, or temporary getUpdates error must not block scheduled sends.
+  let commandRequested = false;
+  if (!force) {
+    try { commandRequested = await consumeManualReportCommand(token, d1); }
+    catch {
+      console.warn("[Telegram] Command polling unavailable; timed delivery will continue.");
+    }
+  }
   const now = tehranNow();
   const manual = force || commandRequested;
   if (!manual && await isIranNonWorkingDay(d1, now)) return { sent: false, reason: "iran_non_working_day" };
@@ -327,11 +337,30 @@ export async function dispatchTelegramReports(force = false) {
     FROM dashboard_brands b LEFT JOIN telegram_brand_settings t ON t.brand_id = b.id
     WHERE b.config_status = 'active' AND b.sheet_csv_url != '' AND COALESCE(t.enabled, 0) = 1
     ORDER BY b.is_default DESC, b.name`).all<ReportBrand>();
+  const sourceFailures: string[] = [];
   const summaries = (await Promise.all((brands.results || []).map(async brand => {
     try { return { brand, summary: await summarizeBrand(brand, now) }; }
-    catch { return null; }
+    catch (error) {
+      // Never print a source URL, token or passenger data in report diagnostics.
+      const code = error instanceof Error ? error.message : "";
+      const safeCode = /^(sheet_[a-z0-9_]+|sheet_current_month_not_found_\d{4}\/\d{2})$/.test(code)
+        ? code : "source_fetch_failed";
+      sourceFailures.push(`${brand.id}: ${safeCode}`);
+      return null;
+    }
   }))).filter(Boolean) as Array<{ brand: ReportBrand; summary: ReportSummary }>;
-  if (!summaries.length) return { sent: false, reason: "no_data" };
+  if (!summaries.length) {
+    const reason = (brands.results || []).length ? "source_unavailable" : "no_enabled_brands";
+    await d1.prepare("UPDATE telegram_bot_settings SET last_report_status = 'error', last_report_error = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1")
+      .bind(sourceFailures.length ? sourceFailures.join("; ").slice(0, 500) : reason).run();
+    return { sent: false, reason };
+  }
+  if (sourceFailures.length) {
+    // A partially successful brand load must never look like a complete multi-brand report.
+    await d1.prepare("UPDATE telegram_bot_settings SET last_report_status = 'error', last_report_error = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1")
+      .bind(sourceFailures.join("; ").slice(0, 500)).run();
+    return { sent: false, reason: "source_unavailable" };
+  }
   if (!manual && settings.automaticSuppressedDay === now.date) return { sent: false, reason: "empty_workday_window" };
   if (!manual && settings.suppressEmptyMorning !== 0 && now.time < "11:00" && summaries.every(item => item.summary.totalToday === 0)) return { sent: false, reason: "empty_morning" };
   if (!manual && settings.suppressEmptyMorning !== 0 && now.time >= "11:00" && summaries.every(item => item.summary.totalToday === 0)) {
@@ -358,5 +387,14 @@ export async function dispatchTelegramReports(force = false) {
     const message = error instanceof Error ? error.message.slice(0, 500) : "telegram_send_failed";
     await d1.prepare("UPDATE telegram_bot_settings SET last_report_status = 'error', last_report_error = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1").bind(message).run();
     throw error;
+  }
+  } finally {
+    // Release only our own lease: a slow execution must not unlock a newer scheduler run.
+    try {
+      await d1.prepare("DELETE FROM telegram_report_dispatch_lock WHERE id = 1 AND locked_until = ?")
+        .bind(leaseUntil).run();
+    } catch {
+      // Keep the original dispatch result; the lease will expire by itself.
+    }
   }
 }

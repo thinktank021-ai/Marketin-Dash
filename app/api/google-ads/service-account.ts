@@ -1,5 +1,6 @@
 import { env } from "cloudflare:workers";
 import { getD1 } from "../../../db";
+import { decodeEncryptionKey } from "../../encryption-key-format";
 
 type RuntimeEnv = { GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY?: string };
 type ServiceAccountRow = {
@@ -16,7 +17,7 @@ function base64ToBytes(value: string) { const binary = atob(value); return Uint8
 async function encryptionKey() {
   const raw = (env as unknown as RuntimeEnv).GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY;
   if (!raw) throw new Error("google_ads_encryption_not_configured");
-  return crypto.subtle.importKey("raw", base64ToBytes(raw), { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+  return crypto.subtle.importKey("raw", decodeEncryptionKey(raw), { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
 }
 
 export async function encryptSecret(value: string) {

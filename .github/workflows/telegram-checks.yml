@@ -1,0 +1,38 @@
+name: Telegram recovery checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/telegram-*.ts"
+      - "app/api/telegram-bot/**"
+      - "app/api/google-ads/service-account.ts"
+      - "worker/index.ts"
+      - "worker/app-auth.ts"
+      - "tests/app-auth.test.mjs"
+      - "tests/telegram-*.test.mjs"
+      - "tests/encryption-key-format.test.mjs"
+      - "app/encryption-key-format.ts"
+      - ".github/workflows/telegram-checks.yml"
+      - ".github/workflows/deploy.yml"
+      - "tests/cpanel-deploy-safety.test.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  telegram-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.23.4"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run Telegram and encryption regression tests
+        run: node --test tests/telegram-schema.test.mjs tests/telegram-scheduler.test.mjs tests/telegram-report.test.mjs tests/encryption-key-format.test.mjs tests/cpanel-deploy-safety.test.mjs tests/app-auth.test.mjs
+      - name: Build application
+        run: npm run build

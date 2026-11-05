@@ -1,7 +1,8 @@
 import { getD1 } from "../../../db";
+import { repairTelegramSchema } from "../../telegram-schema";
 import { decryptSecret, encryptSecret } from "../google-ads/service-account";
 import { dispatchTelegramReports } from "../../telegram-report";
-import { schedulerHealthError, schedulerSecretMatches } from "../../telegram-scheduler";
+import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, telegramOperationError, schedulerSecretMatches } from "../../telegram-scheduler";
 
 const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS telegram_bot_settings (
   id INTEGER PRIMARY KEY NOT NULL,
@@ -78,25 +79,9 @@ async function db() {
   await d1.prepare(CREATE_TABLE).run();
   await d1.prepare(CREATE_USERS).run();
   await d1.prepare(CREATE_BRAND_SETTINGS).run();
-  // Keep the endpoint self-healing when an older dashboard already created the singleton table.
-  for (const statement of [
-    "ALTER TABLE telegram_bot_settings ADD COLUMN end_of_day_enabled INTEGER NOT NULL DEFAULT 1",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN activation_requested INTEGER NOT NULL DEFAULT 0",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN normal_report_time TEXT NOT NULL DEFAULT '18:30'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN thursday_report_time TEXT NOT NULL DEFAULT '14:40'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN iran_holiday_calendar TEXT NOT NULL DEFAULT 'fixed'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN suppress_empty_morning INTEGER NOT NULL DEFAULT 1",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_report_status TEXT NOT NULL DEFAULT 'never'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_report_at TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_report_error TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN scheduler_secret_encrypted TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN scheduler_secret_previous_encrypted TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN scheduler_secret_previous_expires_at TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_scheduler_at TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_scheduler_status TEXT NOT NULL DEFAULT 'never'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_scheduler_error TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN automatic_suppressed_day TEXT",
-  ]) { try { await d1.prepare(statement).run(); } catch { /* column already exists */ } }
+  // Do not discard a legacy recipient table or encrypted credentials.
+  // Older scheduled dispatch created a minimal users table before admin settings loaded.
+  await repairTelegramSchema(d1);
   return d1;
 }
 
@@ -261,11 +246,10 @@ export async function PUT(request: Request) {
     }
     return Response.json({ saved: true, settings: await publicPayload(await readRow()) }, { headers: { "cache-control": "no-store" } });
   } catch (error) {
-    const code = error instanceof Error ? error.message : "";
-    const message = code === "telegram_token_invalid" ? "توکن Telegram معتبر نیست؛ توکن کامل را از BotFather وارد کنید."
-      : code === "telegram_token_missing" ? "ابتدا توکن Telegram را وارد و اتصال بات را آزمایش کنید."
-      : "اتصال Telegram برقرار نشد؛ توکن را بررسی کنید.";
-    return Response.json({ error: message, field: code.includes("token") ? "botToken" : undefined }, { status: 400 });
+    const diagnostic = telegramOperationError(error);
+    return Response.json({ error: diagnostic.error, code: diagnostic.code }, {
+      status: diagnostic.status, headers: { "cache-control": "no-store" },
+    });
   }
 }
 
@@ -287,7 +271,10 @@ export async function POST(request: Request) {
       await recordSchedulerHealth("ok", authMode === "grace" ? "کلید قبلی Scheduler در مهلت گذار استفاده شد؛ Code.gs را با کلید جدید جایگزین کنید." : null);
       try {
         const result = await dispatchTelegramReports(false);
-        return Response.json({ ...result, schedulerAuth: authMode }, { headers: { "cache-control": "no-store" } });
+        const reason = "reason" in result ? result.reason : undefined;
+        const status = dispatchResponseStatus(result);
+        if (status !== 200) await recordSchedulerHealth("error", `telegram_dispatch_${reason || "failed"}`);
+        return Response.json({ ...result, error: dispatchFailureMessage(reason), schedulerAuth: authMode }, { status, headers: { "cache-control": "no-store" } });
       } catch (error) {
         const message = schedulerHealthError("dispatch_failed", error instanceof Error ? error.message.slice(0, 300) : undefined);
         await recordSchedulerHealth("error", message);
@@ -371,7 +358,7 @@ export async function POST(request: Request) {
     // making the button a real end-to-end verification instead of a fake toast.
     if (action === "dispatch") {
       const result = await dispatchTelegramReports(true);
-      return Response.json({ ...result, settings: await publicPayload(await readRow()) }, { headers: { "cache-control": "no-store" } });
+      return Response.json({ ...result, error: dispatchFailureMessage("reason" in result ? result.reason : undefined), settings: await publicPayload(await readRow()) }, { status: dispatchResponseStatus(result), headers: { "cache-control": "no-store" } });
     }
     const row = stored.row;
     if (!row.chatId) return Response.json({ error: "ابتدا چت مقصد را با دکمهٔ شناسایی خودکار متصل کنید." }, { status: 409 });
@@ -380,7 +367,10 @@ export async function POST(request: Request) {
     await Promise.all(approvedUsers.map(user => telegramRequest(stored.token, "sendMessage", { chat_id: user.chatId, text: "🤖 اتصال بات داشبورد موفق است. این گفت‌وگو برای دریافت گزارش‌های همهٔ دفترهای فعال تأیید شده است." })));
     await (await db()).prepare(`UPDATE telegram_bot_settings SET last_checked_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = 1`).run();
     return Response.json({ sent: true, settings: await publicPayload(await readRow()) });
-  } catch {
-    return Response.json({ error: "ارتباط با Telegram برقرار نشد؛ اتصال بات و چت مقصد را بررسی کنید." }, { status: 400 });
+  } catch (error) {
+    const diagnostic = telegramOperationError(error);
+    return Response.json({ error: diagnostic.error, code: diagnostic.code }, {
+      status: diagnostic.status, headers: { "cache-control": "no-store" },
+    });
   }
 }
