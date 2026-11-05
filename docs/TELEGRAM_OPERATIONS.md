@@ -69,3 +69,18 @@ This guide describes configuration and verification. A code PR does **not** acti
 - `.cpanel.yml` installs/builds/restarts the web application; it does not create an Apps Script trigger, cPanel cron, or guarantee background execution.
 - The Node.js app must be able to write to the persistent SQLite directory and its WAL/SHM files. Do not store production secrets or the persistent database in a deployment directory that will be overwritten.
 - The dashboard is standalone: Cloudflare's `scheduled()` is **never invoked by Passenger**.
+
+## Failed test-message triage — confirmed 2026-11-05 on cPanel
+
+**Observed:** cPanel Node application `Started (v22.23.4)`, Telegram **test message fails**, and manual real report also fails. This means diagnosing Apps Script cron or Sheet aggregation first would be premature; the test message does not use Google Sheets.
+
+Do these read-only checks in order, without sending any secrets or chat IDs:
+1. In the dashboard Telegram card, record whether **Bot recognized** shows an @username, whether a token is saved, whether at least one recipient shows **Approved**, and the **exact displayed error text** after **Send test message**. If these metadata fields do not load, investigate the cPanel API and SQLite schema first.
+2. If the test button returns **APP_LOGIN_REQUIRED** or HTTP **401** from the dashboard, reauthenticate in the dashboard (not BotFather). If it returns a Telegram-token-related code such as `telegram_token_rejected`, validate/reenter the token **only in the authenticated dashboard**.
+3. If it returns `encryption_configuration` or `credential_decryption_failed`, verify that `GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY` has **exactly the same value as when this SQLite database was populated**. The database contains encrypted tokens; do not generate a replacement key, share its value, or run `npm run setup` again.
+4. If it returns `database_unavailable`, verify `DATABASE_FILE` and SQLite write permissions in the same deployed Passenger application. Back up first; avoid deleting/overwriting any database file.
+5. If it returns `telegram_recipient_forbidden`, have the intended recipient open the bot and send `/start`, then retry. If no one is approved, run discovery, approve an intended user and retry. Never add Telegram IDs to issue/PR logs.
+6. If it returns `upstream_unavailable`, ask the hosting operator to verify **outbound HTTPS to api.telegram.org** and DNS from the running Node environment. Avoid public curl commands containing the bot token.
+7. If the dashboard still shows the older generic error message, check whether **PR #2 has actually been merged and deployed**, and whether cPanel Passenger restarted the new build. A GitHub PR does not update cPanel on its own.
+
+**Checkpoint:** a delivered Telegram test message is required before testing **Send real report now**; an actual delivered real report is required before enabling Google Apps Script automation. The code and document changes do not by themselves prove production activation.
