@@ -87,3 +87,9 @@
 - اصلاح در PR #2: حذف کشتن فراگیر پروسه‌ها؛ استفاده از `tmp/restart.txt` برای Restart اپ Passenger. حذف گام بازنویسی خودکار رمز مدیر در هر Deploy (حاوی اطلاعات ورود ثابت داخل Workflow).
 - تست محافظ انتشار در `tests/cpanel-deploy-safety.test.mjs` و Workflow جدید `.github/workflows/telegram-checks.yml` افزوده شد. توکن‌های قبلاً درج‌شده در تاریخچه Git، بدون ذکر مقدار در سند، باید به‌صورت خصوصی توسط اپراتور تعویض شوند.
 - **Build/تست‌های PR در GitHub Actions اجرا می‌شوند**؛ تأیید انتشار واقعی به اجرای موفق `Auto Deploy to cPanel` پس از Merge و تست دریافت پیام تلگرام وابسته است. تا آن زمان وضعیت بات Production همچنان `not verified` باقی می‌ماند.
+
+### ادامه بررسی PR #2 — امنیت و پایداری Cron در 2026-11-05
+- GitHub Actions [41990618623](https://github.com/thinktank021-ai/Marketin-Dash/actions/runs/41990618623) روی Commit قبلی موفق شده است؛ این شواهد **تست زنده cPanel نیست**. بعد از اصلاحات تازه، CI باید دوباره اجرا شود.
+- در `worker/app-auth.ts` عبور بدون نشست صرفاً با داشتن هدر Scheduler ممکن بود، حتی برای actionهای مدیریتی دیگر. اکنون تنها بدنه JSON دارای `action: "scheduler"` می‌تواند به بررسی Secret در endpoint برسد؛ تست رگرسیون در `tests/app-auth.test.mjs` ثبت شده است.
+- در `app/telegram-report.ts` خرابی `getUpdates` (از جمله تداخل polling/webhook) می‌توانست کل ارسال خودکار را متوقف کند؛ اکنون دریافت دستور اختیاری است و خطای آن مانع ارسال زمان‌بندی‌شده نیست. هیچ توکن یا محتوای خطای upstream در log چاپ نمی‌شود.
+- همچنان نیازمند تأیید استقرار واقعی cPanel، موجود بودن همان کلید رمزنگاری، موفقیت پیام آزمایشی، گزارش واقعی و سپس Trigger؛ هیچ موفقیت Production ادعا نشده است.
