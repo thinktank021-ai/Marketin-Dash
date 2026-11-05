@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, schedulerSecretMatches } from "../app/telegram-scheduler.ts";
+import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, telegramOperationError, schedulerSecretMatches } from "../app/telegram-scheduler.ts";
 
 test("scheduler accepts the current secret and a short rotation grace secret", () => {
   const now = Date.parse("2026-09-22T10:00:00.000Z");
@@ -30,4 +30,14 @@ test("Telegram errors are actionable without leaking upstream secrets", () => {
   assert.match(dispatchFailureMessage("source_unavailable"), /داده معتبر/);
   assert.match(dispatchFailureMessage("no_enabled_brands"), /دفتر فعال/);
   assert.equal(dispatchFailureMessage("not_due"), undefined);
+});
+
+test("manual Telegram errors expose safe diagnostic codes only", () => {
+  assert.equal(telegramOperationError(new Error("telegram_token_missing")).code, "telegram_token_missing");
+  assert.equal(telegramOperationError(new Error("google_ads_encryption_not_configured")).code, "encryption_configuration");
+  assert.equal(telegramOperationError(new Error("SQLITE_ERROR: no such table: telegram_bot_settings")).code, "database_unavailable");
+  assert.equal(telegramOperationError(new Error("telegram_403")).code, "telegram_recipient_forbidden");
+  const sensitive = telegramOperationError(new Error("https://private-source.example/bot123:SECRET"));
+  assert.equal(sensitive.code, "telegram_dispatch_failed");
+  assert.doesNotMatch(JSON.stringify(sensitive), /private-source|SECRET/);
 });
