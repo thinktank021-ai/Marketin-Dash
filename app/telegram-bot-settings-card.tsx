@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 type TelegramSettings = {
   hasToken: boolean;
+  apiRelease?: string;
   chatId: string;
   enabled: boolean;
   activationRequested: boolean;
@@ -40,11 +41,13 @@ export function TelegramBotSettingsCard() {
   const [status, setStatus] = useState<"loading" | "ready" | "saving" | "testing" | "error">("loading");
   const [message, setMessage] = useState("در حال دریافت تنظیمات بات…");
   const [schedulerSecret, setSchedulerSecret] = useState("");
+  const [apiRelease, setApiRelease] = useState<string | null>(null);
 
   const load = async () => {
     try {
       const response = await fetch("/api/telegram-bot", { cache: "no-store" });
       const payload = await response.json() as TelegramSettings & { error?: string };
+      setApiRelease(payload.apiRelease || "legacy");
       if (!response.ok || payload.error) throw new Error(payload.error || "تنظیمات بات دریافت نشد.");
       setSettings(payload); setStatus("ready"); setMessage(payload.hasToken ? "توکن بات ذخیره و آمادهٔ آزمایش است." : "برای شروع، بات Telegram را بسازید و توکن آن را وارد کنید.");
     } catch (error) { setStatus("error"); setMessage(error instanceof Error ? error.message : "تنظیمات بات دریافت نشد."); }
@@ -159,6 +162,7 @@ function runDashboardTelegramScheduler() {
     <div className={`settingsMessage ${status === "error" ? "error" : status === "ready" ? "success" : "testing"}`}><i/><span>{message}</span></div>
     <div className="telegramActions"><button type="button" className="primarySetupAction" onClick={() => void save()} disabled={!canSave}>{status === "saving" ? "در حال ذخیره…" : "ذخیره تنظیمات تلگرام"}</button><button type="button" className="secondarySetupAction" onClick={() => void discover()} disabled={!settings.hasToken || status === "saving" || status === "testing"}>شناسایی کاربران</button><button type="button" className="secondarySetupAction" onClick={() => void test()} disabled={!settings.approvedUserCount || status === "saving" || status === "testing"}>ارسال پیام آزمایشی به کاربران تأییدشده</button><button type="button" className="secondarySetupAction" onClick={() => void dispatch()} disabled={!settings.enabled || !settings.approvedUserCount || status === "saving" || status === "testing"}>ارسال گزارش واقعی الآن</button></div>
     <div className="telegramReportStatus" role="status"><span>آخرین ارسال خودکار</span><strong>{settings.lastReportStatus === "success" ? "موفق" : settings.lastReportStatus === "error" ? "ناموفق" : "هنوز ارسال نشده"}</strong>{settings.lastReportAt && <small dir="ltr">{settings.lastReportAt}</small>}{settings.lastReportError && <small className="telegramStatusError">{settings.lastReportError}</small>}<span>آخرین اتصال Scheduler</span><strong className={settings.schedulerStatus === "ok" ? "schedulerOk" : settings.schedulerStatus === "error" ? "schedulerError" : "schedulerPending"}>{settings.schedulerStatus === "ok" ? "متصل" : settings.schedulerStatus === "error" ? "خطا در اتصال" : "هنوز بررسی نشده"}</strong>{settings.lastSchedulerAt && <small dir="ltr">{settings.lastSchedulerAt}</small>}{settings.schedulerError && <small className="telegramStatusError">{settings.schedulerError}</small>}</div>
+    <small dir="ltr" className="telegramReleaseStatus">Telegram API: {apiRelease === null ? "not checked" : apiRelease === "legacy" ? "legacy / unknown" : apiRelease}</small>
     <div className="telegramReportPreview"><strong>قالب گزارش</strong><span>کلیک Google Ads · کل لید · SMS · Ads (با تجمیع فرم سایت و WhatsApp) · Instagram · مسافر ثابت (با تجمیع آژانسی و حضوری) · معرفی · قرارداد · بودجه مصرف‌شده</span><small>همهٔ دفترهای فعال در یک پیام بخش‌بندی‌شده، راست‌به‌چپ و با اعداد انگلیسی ارسال می‌شوند.</small></div>
   </article>;
 }
