@@ -39,11 +39,9 @@ jobs:
             cp -r dist/client/assets ./assets 2>/dev/null || cp -r dist/assets ./assets 2>/dev/null || true
             cp -r ./assets ./public/assets 2>/dev/null || true
             
-            echo "🔑 [Deploy] Setting admin user credentials..."
-            node scripts/set-admin.mjs "amin" "amin@1402"
-            
-            echo "🔄 [Deploy] Force-reloading Node.js application..."
-            pkill -u $(whoami) -f node || true
+            # Preserve existing admin credentials and active Node applications.
+            # Passenger restart is performed using its per-application restart marker.
+            echo "🔄 [Deploy] Restarting only the Passenger application..."
             mkdir -p tmp
             touch tmp/restart.txt
             
