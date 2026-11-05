@@ -43,6 +43,7 @@ export function dispatchFailureMessage(reason?: string) {
 /** Sanitized, actionable errors for manual Telegram actions. Never echo secrets or upstream bodies. */
 export function telegramOperationError(error: unknown) {
   const message = error instanceof Error ? error.message : "";
+  if (message === "telegram_token_invalid") return { status: 400, code: "telegram_token_invalid", error: "ساختار توکن معتبر نیست؛ توکن کامل BotFather را فقط در داشبورد وارد کنید." };
   if (message === "telegram_token_missing") return { status: 409, code: "telegram_token_missing", error: "توکن بات در تنظیمات ذخیره نشده است." };
   if (message === "google_ads_encryption_not_configured" || message.startsWith("encryption_key_invalid_"))
     return { status: 503, code: "encryption_configuration", error: "کلید رمزنگاری سرور موجود نیست یا قالب آن نامعتبر است؛ تنظیمات cPanel را بدون تعویض کلید قبلی بررسی کنید." };
@@ -52,7 +53,7 @@ export function telegramOperationError(error: unknown) {
     return { status: 502, code: "telegram_token_rejected", error: "Telegram توکن بات را نپذیرفت؛ اعتبار آن را در تنظیمات بررسی کنید." };
   if (message === "telegram_403" || /bot was blocked|forbidden/i.test(message))
     return { status: 502, code: "telegram_recipient_forbidden", error: "Telegram ارسال را رد کرد؛ کاربر باید گفت‌وگو با بات را شروع کند و بات را مسدود نکرده باشد." };
-  if (/SQLITE|no such (table|column)|database binding/i.test(message))
+  if (message === "telegram_schema_missing_table" || /SQLITE|no such (table|column)|database binding/i.test(message))
     return { status: 503, code: "database_unavailable", error: "پایگاه داده یا جدول‌های تلگرام آماده نیستند؛ مسیر SQLite و ساختار دیتابیس cPanel را بررسی کنید." };
   if (/fetch failed|timeout|abort/i.test(message))
     return { status: 503, code: "upstream_unavailable", error: "ارتباط سرور با Google Sheets یا Telegram برقرار نشد؛ دسترسی خروجی HTTPS سرور را بررسی کنید." };
