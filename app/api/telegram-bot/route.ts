@@ -1,7 +1,7 @@
 import { getD1 } from "../../../db";
 import { decryptSecret, encryptSecret } from "../google-ads/service-account";
 import { dispatchTelegramReports } from "../../telegram-report";
-import { dispatchResponseStatus, schedulerHealthError, schedulerSecretMatches } from "../../telegram-scheduler";
+import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, schedulerSecretMatches } from "../../telegram-scheduler";
 
 const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS telegram_bot_settings (
   id INTEGER PRIMARY KEY NOT NULL,
@@ -289,7 +289,7 @@ export async function POST(request: Request) {
         const result = await dispatchTelegramReports(false);
         const status = dispatchResponseStatus(result);
         if (status !== 200) await recordSchedulerHealth("error", `telegram_dispatch_${result.reason || "failed"}`);
-        return Response.json({ ...result, schedulerAuth: authMode }, { status, headers: { "cache-control": "no-store" } });
+        return Response.json({ ...result, error: dispatchFailureMessage(result.reason), schedulerAuth: authMode }, { status, headers: { "cache-control": "no-store" } });
       } catch (error) {
         const message = schedulerHealthError("dispatch_failed", error instanceof Error ? error.message.slice(0, 300) : undefined);
         await recordSchedulerHealth("error", message);
@@ -373,7 +373,7 @@ export async function POST(request: Request) {
     // making the button a real end-to-end verification instead of a fake toast.
     if (action === "dispatch") {
       const result = await dispatchTelegramReports(true);
-      return Response.json({ ...result, settings: await publicPayload(await readRow()) }, { status: dispatchResponseStatus(result), headers: { "cache-control": "no-store" } });
+      return Response.json({ ...result, error: dispatchFailureMessage(result.reason), settings: await publicPayload(await readRow()) }, { status: dispatchResponseStatus(result), headers: { "cache-control": "no-store" } });
     }
     const row = stored.row;
     if (!row.chatId) return Response.json({ error: "ابتدا چت مقصد را با دکمهٔ شناسایی خودکار متصل کنید." }, { status: 409 });
