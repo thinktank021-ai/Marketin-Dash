@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { dispatchResponseStatus, schedulerHealthError, schedulerSecretMatches } from "../app/telegram-scheduler.ts";
+import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, schedulerSecretMatches } from "../app/telegram-scheduler.ts";
 
 test("scheduler accepts the current secret and a short rotation grace secret", () => {
   const now = Date.parse("2026-09-22T10:00:00.000Z");
@@ -24,4 +24,10 @@ test("scheduler differentiates expected skips from missing sources and configura
   assert.equal(dispatchResponseStatus({ sent: false, reason: "no_recipients" }), 409);
   assert.equal(dispatchResponseStatus({ sent: false, reason: "disabled" }), 409);
   assert.equal(dispatchResponseStatus({ sent: true }), 200);
+});
+
+test("Telegram errors are actionable without leaking upstream secrets", () => {
+  assert.match(dispatchFailureMessage("source_unavailable"), /داده معتبر/);
+  assert.match(dispatchFailureMessage("no_enabled_brands"), /دفتر فعال/);
+  assert.equal(dispatchFailureMessage("not_due"), undefined);
 });
