@@ -318,7 +318,15 @@ export async function dispatchTelegramReports(force = false) {
     automatic_suppressed_day AS automaticSuppressedDay FROM telegram_bot_settings WHERE id = 1`).first<TelegramSettingsRow>();
   if (!settings?.botTokenEncrypted || settings.enabled !== 1) return { sent: false, reason: "disabled" };
   const token = await decryptSecret(settings.botTokenEncrypted);
-  const commandRequested = !force ? await consumeManualReportCommand(token, d1) : false;
+  // Reading /report commands is optional for timed delivery. A Telegram webhook,
+  // update-polling conflict, or temporary getUpdates error must not block scheduled sends.
+  let commandRequested = false;
+  if (!force) {
+    try { commandRequested = await consumeManualReportCommand(token, d1); }
+    catch {
+      console.warn("[Telegram] Command polling unavailable; timed delivery will continue.");
+    }
+  }
   const now = tehranNow();
   const manual = force || commandRequested;
   if (!manual && await isIranNonWorkingDay(d1, now)) return { sent: false, reason: "iran_non_working_day" };
