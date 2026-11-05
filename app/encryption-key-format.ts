@@ -8,10 +8,10 @@ export function decodeEncryptionKey(value: string): Uint8Array {
   if (/^[a-f\d]{64}$/i.test(raw)) {
     return Uint8Array.from(raw.match(/../g) || [], pair => Number.parseInt(pair, 16));
   }
-  if (!/^(?:[A-Za-z0-9+/]{4}){10}[A-Za-z0-9+/]{2}==$/.test(raw)) {
+  if (!/^[A-Za-z0-9+/]{43}=?$/.test(raw)) {
     throw new Error("encryption_key_invalid_format");
   }
-  const bytes = Uint8Array.from(atob(raw), character => character.charCodeAt(0));
+  const bytes = Uint8Array.from(atob(raw.padEnd(44, "=")), character => character.charCodeAt(0));
   if (bytes.length !== 32) throw new Error("encryption_key_invalid_length");
   return bytes;
 }
