@@ -98,3 +98,12 @@ On an existing cPanel SQLite install, the scheduled report module may have creat
 4. Deploy new `main` to the existing cPanel application root, run normal build and restart Passenger. Confirm the live release actually includes the new code; a merged PR alone does not restart cPanel.
 5. In Telegram settings, try **Save settings** with an existing token (no need to re-enter). If it fails, capture only returned error code/text (not headers, payloads or secrets).
 6. If save succeeds, perform **Send test message**. Only after it arrives, try **Send real report now**; then enable Apps Script trigger and verify a scheduled real delivery.
+
+## cPanel deployment blocker found in actual GitHub Actions logs — 2026-11-05
+
+- Historical failed run: [cPanel deploy run 41342418455](https://github.com/thinktank021-ai/Marketin-Dash/actions/runs/41342418455).
+- Source-backed finding: the server-side `vinext build` completed successfully, then the workflow's broad `pkill -u ... -f node` terminated the SSH action itself; the job finished with SIGTERM/exit 143.
+- Remediation committed in this Telegram recovery PR: `.github/workflows/deploy.yml` **no longer executes broad process termination**, and uses Passenger's per-app `tmp/restart.txt` marker only.
+- The same workflow previously reset administrator credentials on every deploy using a hard-coded command. That step was removed so deploy preserves current credentials. **Previously exposed credentials require secure out-of-band rotation by the operator**; removing the step does not erase Git history. No credentials are reproduced in this runbook.
+- Guardrail: `tests/cpanel-deploy-safety.test.mjs` and Telegram CI validate those two workflow invariants.
+- PR checks are not the live cPanel deployment. The first fresh `main` deploy run after approved merge must have **success** status, followed by manual verification of the running app and test Telegram message. If SSH still fails, inspect that run's *sanitized* log before retrying.
