@@ -261,11 +261,10 @@ export async function PUT(request: Request) {
     }
     return Response.json({ saved: true, settings: await publicPayload(await readRow()) }, { headers: { "cache-control": "no-store" } });
   } catch (error) {
-    const code = error instanceof Error ? error.message : "";
-    const message = code === "telegram_token_invalid" ? "توکن Telegram معتبر نیست؛ توکن کامل را از BotFather وارد کنید."
-      : code === "telegram_token_missing" ? "ابتدا توکن Telegram را وارد و اتصال بات را آزمایش کنید."
-      : "اتصال Telegram برقرار نشد؛ توکن را بررسی کنید.";
-    return Response.json({ error: message, field: code.includes("token") ? "botToken" : undefined }, { status: 400 });
+    const diagnostic = telegramOperationError(error);
+    return Response.json({ error: diagnostic.error, code: diagnostic.code }, {
+      status: diagnostic.status, headers: { "cache-control": "no-store" },
+    });
   }
 }
 
