@@ -84,3 +84,17 @@ Do these read-only checks in order, without sending any secrets or chat IDs:
 7. If the dashboard still shows the older generic error message, check whether **PR #2 has actually been merged and deployed**, and whether cPanel Passenger restarted the new build. A GitHub PR does not update cPanel on its own.
 
 **Checkpoint:** a delivered Telegram test message is required before testing **Send real report now**; an actual delivered real report is required before enabling Google Apps Script automation. The code and document changes do not by themselves prove production activation.
+
+## Specific save-settings error identified — 2026-11-05
+
+If the dashboard displays **«اتصال Telegram برقرار نشد؛ توکن را بررسی کنید»**, this exact text originates from the **PUT /api/telegram-bot** legacy save-settings catch block, not from the manual test-message POST path. Do not conclude that BotFather token is invalid from this message alone.
+
+On an existing cPanel SQLite install, the scheduled report module may have created a legacy 3-column `telegram_bot_users` table, while the admin API requires additional user metadata columns. This version of the PR adds non-destructive `repairTelegramSchema()`, preserving recipient approvals and encrypted settings; other causes (wrong encryption key, Telegram API failure, old build, inaccessible database) remain possible.
+
+**Safe pre-deploy checklist**
+1. Back up the *current persistent SQLite database* with a consistent backup mechanism, including any WAL state. Record a secret-free release identifier and a rollback path. Never share the backup.
+2. Preserve the current `GOOGLE_ADS_CREDENTIALS_ENCRYPTION_KEY` value **unchanged**. Do not invoke `npm run setup` on an existing installation.
+3. Review and merge PR #2 only after `tests/telegram-schema.test.mjs`, `tests/encryption-key-format.test.mjs` and `tests/telegram-scheduler.test.mjs` plus build/tests pass.
+4. Deploy new `main` to the existing cPanel application root, run normal build and restart Passenger. Confirm the live release actually includes the new code; a merged PR alone does not restart cPanel.
+5. In Telegram settings, try **Save settings** with an existing token (no need to re-enter). If it fails, capture only returned error code/text (not headers, payloads or secrets).
+6. If save succeeds, perform **Send test message**. Only after it arrives, try **Send real report now**; then enable Apps Script trigger and verify a scheduled real delivery.
