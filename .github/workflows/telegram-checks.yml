@@ -12,6 +12,8 @@ on:
       - "tests/encryption-key-format.test.mjs"
       - "app/encryption-key-format.ts"
       - ".github/workflows/telegram-checks.yml"
+      - ".github/workflows/deploy.yml"
+      - "tests/cpanel-deploy-safety.test.mjs"
   workflow_dispatch:
 
 permissions:
@@ -29,6 +31,6 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
       - name: Run Telegram and encryption regression tests
-        run: node --test tests/telegram-schema.test.mjs tests/telegram-scheduler.test.mjs tests/telegram-report.test.mjs tests/encryption-key-format.test.mjs
+        run: node --test tests/telegram-schema.test.mjs tests/telegram-scheduler.test.mjs tests/telegram-report.test.mjs tests/encryption-key-format.test.mjs tests/cpanel-deploy-safety.test.mjs
       - name: Build application
         run: npm run build
