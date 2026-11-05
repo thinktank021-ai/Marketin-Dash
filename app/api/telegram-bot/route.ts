@@ -1,7 +1,7 @@
 import { getD1 } from "../../../db";
 import { decryptSecret, encryptSecret } from "../google-ads/service-account";
 import { dispatchTelegramReports } from "../../telegram-report";
-import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, schedulerSecretMatches } from "../../telegram-scheduler";
+import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, telegramOperationError, schedulerSecretMatches } from "../../telegram-scheduler";
 
 const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS telegram_bot_settings (
   id INTEGER PRIMARY KEY NOT NULL,
@@ -383,7 +383,10 @@ export async function POST(request: Request) {
     await Promise.all(approvedUsers.map(user => telegramRequest(stored.token, "sendMessage", { chat_id: user.chatId, text: "🤖 اتصال بات داشبورد موفق است. این گفت‌وگو برای دریافت گزارش‌های همهٔ دفترهای فعال تأیید شده است." })));
     await (await db()).prepare(`UPDATE telegram_bot_settings SET last_checked_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = 1`).run();
     return Response.json({ sent: true, settings: await publicPayload(await readRow()) });
-  } catch {
-    return Response.json({ error: "ارتباط با Telegram برقرار نشد؛ اتصال بات و چت مقصد را بررسی کنید." }, { status: 400 });
+  } catch (error) {
+    const diagnostic = telegramOperationError(error);
+    return Response.json({ error: diagnostic.error, code: diagnostic.code }, {
+      status: diagnostic.status, headers: { "cache-control": "no-store" },
+    });
   }
 }
