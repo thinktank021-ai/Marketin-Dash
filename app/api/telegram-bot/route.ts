@@ -1,4 +1,5 @@
 import { getD1 } from "../../../db";
+import { repairTelegramSchema } from "../../telegram-schema";
 import { decryptSecret, encryptSecret } from "../google-ads/service-account";
 import { dispatchTelegramReports } from "../../telegram-report";
 import { dispatchFailureMessage, dispatchResponseStatus, schedulerHealthError, telegramOperationError, schedulerSecretMatches } from "../../telegram-scheduler";
@@ -78,25 +79,9 @@ async function db() {
   await d1.prepare(CREATE_TABLE).run();
   await d1.prepare(CREATE_USERS).run();
   await d1.prepare(CREATE_BRAND_SETTINGS).run();
-  // Keep the endpoint self-healing when an older dashboard already created the singleton table.
-  for (const statement of [
-    "ALTER TABLE telegram_bot_settings ADD COLUMN end_of_day_enabled INTEGER NOT NULL DEFAULT 1",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN activation_requested INTEGER NOT NULL DEFAULT 0",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN normal_report_time TEXT NOT NULL DEFAULT '18:30'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN thursday_report_time TEXT NOT NULL DEFAULT '14:40'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN iran_holiday_calendar TEXT NOT NULL DEFAULT 'fixed'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN suppress_empty_morning INTEGER NOT NULL DEFAULT 1",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_report_status TEXT NOT NULL DEFAULT 'never'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_report_at TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_report_error TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN scheduler_secret_encrypted TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN scheduler_secret_previous_encrypted TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN scheduler_secret_previous_expires_at TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_scheduler_at TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_scheduler_status TEXT NOT NULL DEFAULT 'never'",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN last_scheduler_error TEXT",
-    "ALTER TABLE telegram_bot_settings ADD COLUMN automatic_suppressed_day TEXT",
-  ]) { try { await d1.prepare(statement).run(); } catch { /* column already exists */ } }
+  // Do not discard a legacy recipient table or encrypted credentials.
+  // Older scheduled dispatch created a minimal users table before admin settings loaded.
+  await repairTelegramSchema(d1);
   return d1;
 }
 
