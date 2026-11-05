@@ -8,6 +8,8 @@ on:
       - "app/api/telegram-bot/**"
       - "app/api/google-ads/service-account.ts"
       - "worker/index.ts"
+      - "worker/app-auth.ts"
+      - "tests/app-auth.test.mjs"
       - "tests/telegram-*.test.mjs"
       - "tests/encryption-key-format.test.mjs"
       - "app/encryption-key-format.ts"
@@ -31,6 +33,6 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
       - name: Run Telegram and encryption regression tests
-        run: node --test tests/telegram-schema.test.mjs tests/telegram-scheduler.test.mjs tests/telegram-report.test.mjs tests/encryption-key-format.test.mjs tests/cpanel-deploy-safety.test.mjs
+        run: node --test tests/telegram-schema.test.mjs tests/telegram-scheduler.test.mjs tests/telegram-report.test.mjs tests/encryption-key-format.test.mjs tests/cpanel-deploy-safety.test.mjs tests/app-auth.test.mjs
       - name: Build application
         run: npm run build
